@@ -17,7 +17,7 @@ import javax.persistence.ManyToOne;
  * @author Valerie
  */
 @Entity
-public class Arbeitszeit implements Serializable {
+public class Arbeitszeit extends Einsatz implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -25,7 +25,7 @@ public class Arbeitszeit implements Serializable {
     private long zeitId;
     
     @ManyToOne
-    private Benutzer helfer;
+    private Benutzer helfer = new Benutzer();
     
     //Konstruktoren
     public Arbeitszeit() {

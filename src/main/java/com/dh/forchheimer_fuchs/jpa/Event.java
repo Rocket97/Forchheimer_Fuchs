@@ -14,7 +14,7 @@ import javax.persistence.*;
  * @author Valerie
  */
 @Entity
-public class Event implements Serializable {
+public class Event extends Einsatz implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -26,10 +26,10 @@ public class Event implements Serializable {
     private String abteilung;
     
     @OneToMany
-    private ArrayList<Protokoll> protokoll;
+    private ArrayList<Protokoll> protokoll = new ArrayList<>();
     
     @ManyToMany
-    private ArrayList<Benutzer> helfer;
+    private ArrayList<Benutzer> helfer = new ArrayList<>();
     
     //Konstruktor
     public Event() {

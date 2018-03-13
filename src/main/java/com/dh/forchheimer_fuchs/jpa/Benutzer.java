@@ -29,6 +29,9 @@ public class Benutzer extends Person implements Serializable {
     @NotNull(message = "Die Mitgliedsnummer darf nicht leer sein.")
     private long mitgliedsnr;
     
+    @Column(name = "BENUTZERNAME")
+    private String benutzername;
+    
     public class Passwort {
         @Size(min = 6, max = 64, message = "Das Passwort muss zwischen sechs und 64 Zeichen lang sein.")
         public String passwort = "";
@@ -67,23 +70,27 @@ public class Benutzer extends Person implements Serializable {
     private Boolean admin;
     
     @OneToMany
-    private ArrayList<Arbeitszeit> arbeitszeit;
+    private ArrayList<Arbeitszeit> arbeitszeit = new ArrayList<>();
     
     //<editor-fold defaultstate="collapsed" desc="Konstruktoren">
     public Benutzer() {    
         
     }
-
-    public Benutzer(long mitgliedsnr, String passwortHash, String email, String telefonnr, String abteilung, Boolean admin, ArrayList<Arbeitszeit> arbeitszeit) {
+    
+    public Benutzer(long mitgliedsnr, String benutzername, String nachname, String vorname, String strasse, String hausnr, String plz, String ort, String passwort, String email, String telefonnr, String abteilung, Boolean admin) {
+        // vllt speichert super(); nicht die Werte in Person-Variablen 
+        super(nachname, vorname, strasse, hausnr, plz, ort);
         this.mitgliedsnr = mitgliedsnr;
-        this.passwortHash = passwortHash;
+        this.benutzername = benutzername;
+        this.passwort.passwort = passwort;
+        this.passwortHash = this.hashPasswort(passwort);
         this.email = email;
         this.telefonnr = telefonnr;
         this.abteilung = abteilung;
         this.admin = admin;
-        this.arbeitszeit = arbeitszeit;
     }
     //</editor-fold>
+    
     //<editor-fold defaultstate="collapsed" desc="Getter und Setter">
     public long getMitgliedsnr() {
         return mitgliedsnr;
@@ -91,6 +98,14 @@ public class Benutzer extends Person implements Serializable {
 
     public void setMitgliedsnr(long mitgliedsnr) {
         this.mitgliedsnr = mitgliedsnr;
+    }
+
+    public String getBenutzername() {
+        return benutzername;
+    }
+
+    public void setBenutzername(String benutzername) {
+        this.benutzername = benutzername;
     }
     
     public String getEmail() {
@@ -123,6 +138,14 @@ public class Benutzer extends Person implements Serializable {
 
     public void setAdmin(Boolean admin) {
         this.admin = admin;
+    }
+    
+    public ArrayList<Arbeitszeit> getArbeitszeit() {
+        return arbeitszeit;
+    }
+
+    public void setArbeitszeit(ArrayList<Arbeitszeit> arbeitszeit) {
+        this.arbeitszeit = arbeitszeit;
     }
     //</editor-fold>
     

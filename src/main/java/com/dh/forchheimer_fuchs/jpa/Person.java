@@ -13,6 +13,7 @@ import javax.validation.constraints.*;
  *
  * @author Valerie
  */
+@MappedSuperclass
 public class Person implements Serializable {
 
     private static final long serialVersionUID = 1L;

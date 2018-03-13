@@ -6,6 +6,7 @@
 package com.dh.forchheimer_fuchs.jpa;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import javax.persistence.*;
 import javax.validation.constraints.*;
@@ -36,22 +37,26 @@ public class Protokoll implements Serializable {
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date datum;
     
-    @ManyToOne
-    private Patient patient;
+    @Column(name = "ORT")
+    private String ort;
+    
+    @OneToMany
+    private ArrayList<Patient> patient = new ArrayList<>();
     
     @ManyToOne
-    private Event event;
+    private Event event = new Event();
     
     //<editor-fold defaultstate="collapsed" desc="Konstruktoren">
     public Protokoll (){
         
     }
 
-    public Protokoll(long protokollId, String art, String titel, Date datum, Patient patient, Event event) {
+    public Protokoll(long protokollId, String art, String titel, Date datum, String ort, ArrayList<Patient> patient, Event event) {
         this.protokollId = protokollId;
         this.art = art;
         this.titel = titel;
         this.datum = datum;
+        this.ort = ort;
         this.patient = patient;
         this.event = event;
     }
@@ -89,5 +94,13 @@ public class Protokoll implements Serializable {
     public void setDatum(Date datum) {
         this.datum = datum;
     }
-    //</editor-fold>  
+    
+    public String getOrt() {
+        return ort;
+    }
+
+    public void setOrt(String ort) {
+        this.ort = ort;
+    }
+    //</editor-fold> 
 }

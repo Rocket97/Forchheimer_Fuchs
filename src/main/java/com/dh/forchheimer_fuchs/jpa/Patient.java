@@ -7,6 +7,7 @@ package com.dh.forchheimer_fuchs.jpa;
 
 import java.io.Serializable;
 import java.sql.Time;
+import java.util.ArrayList;
 import javax.persistence.*;
 import javax.validation.constraints.*;
 
@@ -24,32 +25,41 @@ public class Patient extends Person implements Serializable {
     @NotNull(message = "Die Patientennummer darf nicht leer sein.")
     private long patientennr;
     
+    @Column(name = "GESCHLECHT")
+    private boolean geschlecht;
+    
     @Column(name = "BEHANDLUNG_VON")
     private Time behandlungVon;
     
     @Column(name = "BEHANDLUNG_BIS")
     private Time behandlungBis;
     
+    @Column(name = "BESCHREIBUNG")
+    private String beschreibung;
+    
     @ManyToMany
     @NotNull(message = "Der Patient muss mindestens einen Helfer haben.")
-    private Benutzer helfer;
+    private ArrayList<Benutzer> helfer = new ArrayList<>();
     
-    @OneToMany
-    private Protokoll protokoll;
+    @ManyToOne
+    private Protokoll protokoll = new Protokoll();
     
     //<editor-fold defaultstate="collapsed" desc="Konstruktoren">
     public Patient() { 
         
     }
 
-    public Patient(long patientennr, Time behandlungVon, Time behandlungBis, Benutzer helfer, Protokoll protokoll) {
+    public Patient(long patientennr, boolean geschlecht, Time behandlungVon, Time behandlungBis, String beschreibung, ArrayList<Benutzer> helfer, Protokoll protokoll) {
         this.patientennr = patientennr;
+        this.geschlecht = geschlecht;
         this.behandlungVon = behandlungVon;
         this.behandlungBis = behandlungBis;
+        this.beschreibung = beschreibung;
         this.helfer = helfer;
         this.protokoll = protokoll;
     }
     //</editor-fold>
+    
     //<editor-fold defaultstate="collapsed" desc="Getter und Setter">
     public long getPatientennr() {
         return patientennr;
@@ -74,6 +84,24 @@ public class Patient extends Person implements Serializable {
     public void setBehandlungBis(Time behandlungBis) {
         this.behandlungBis = behandlungBis;
     }
+    
+     public boolean getGeschlecht() {
+        return geschlecht;
+    }
+
+    public void setGeschlecht(boolean geschlecht) {
+        this.geschlecht = geschlecht;
+    }
+
+    public String getBeschreibung() {
+        return beschreibung;
+    }
+
+    public void setBeschreibung(String beschreibung) {
+        this.beschreibung = beschreibung;
+    }
     //</editor-fold>
+
+   
     
 }
