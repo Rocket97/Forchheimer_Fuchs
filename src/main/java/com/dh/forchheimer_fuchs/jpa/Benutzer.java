@@ -176,14 +176,7 @@ public class Benutzer extends Person implements Serializable {
     public List<String> getGruppen() {
         List<String> gruppenListe = new ArrayList<>();
         
-        /*
-        // für diese Annotation ist JDK 1.8 notwendig!!!
-        this.gruppen.forEach((gruppenname) -> {
-            gruppenListe.add(gruppenname);
-        });
-        */
-        
-        for (String gruppenname : gruppen){
+        for (String gruppenname : this.gruppen){
             gruppenListe.add(gruppenname);
         }
 
