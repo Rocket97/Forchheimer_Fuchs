@@ -27,7 +27,7 @@ public class Benutzer extends Person implements Serializable {
     @Column(name = "MITGLIEDSNUMMER", length = 64)
     @Size(min = 5, max = 64, message = "Die Mitgliedsnummer muss zwischen fünf und 64 Zeichen lang sein.")
     @NotNull(message = "Die Mitgliedsnummer darf nicht leer sein.")
-    private Long mitgliedsnr;
+    private long mitgliedsnr;
     
     public class Passwort {
         @Size(min = 6, max = 64, message = "Das Passwort muss zwischen sechs und 64 Zeichen lang sein.")
@@ -66,13 +66,30 @@ public class Benutzer extends Person implements Serializable {
     @NotNull (message = "Die Auswahlmöglichkeit für Administrator-Rechte darf nicht leer sein.")
     private Boolean admin;
     
-     
-    //<editor-fold defaultstate="collapsed" desc="Getter uns Setter">
-    public Long getMitgliedsnr() {
+    @OneToMany
+    private ArrayList<Arbeitszeit> arbeitszeit;
+    
+    //<editor-fold defaultstate="collapsed" desc="Konstruktoren">
+    public Benutzer() {    
+        
+    }
+
+    public Benutzer(long mitgliedsnr, String passwortHash, String email, String telefonnr, String abteilung, Boolean admin, ArrayList<Arbeitszeit> arbeitszeit) {
+        this.mitgliedsnr = mitgliedsnr;
+        this.passwortHash = passwortHash;
+        this.email = email;
+        this.telefonnr = telefonnr;
+        this.abteilung = abteilung;
+        this.admin = admin;
+        this.arbeitszeit = arbeitszeit;
+    }
+    //</editor-fold>
+    //<editor-fold defaultstate="collapsed" desc="Getter und Setter">
+    public long getMitgliedsnr() {
         return mitgliedsnr;
     }
 
-    public void setMitgliedsnr(Long mitgliedsnr) {
+    public void setMitgliedsnr(long mitgliedsnr) {
         this.mitgliedsnr = mitgliedsnr;
     }
     
@@ -201,34 +218,6 @@ public class Benutzer extends Person implements Serializable {
      */
     public void removeFromGroup(String gruppenname) {
         this.gruppen.remove(gruppenname);
-    }
-    //</editor-fold>
-    
-    
-    //<editor-fold defaultstate="collapsed" desc="sonstiger Kruscht, den man wahrscheinlich löschen kann">
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (mitgliedsnr != null ? mitgliedsnr.hashCode() : 0);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Benutzer)) {
-            return false;
-        }
-        Benutzer other = (Benutzer) object;
-        if (this.mitgliedsnr.equals(other.mitgliedsnr)) {
-            return false;
-        }
-        return true;
-    }
-
-    @Override
-    public String toString() {
-        return "com.dh.forchheimer_fuchs.jpa.Benutzer[ mitgliedsnr=" + mitgliedsnr + " ]";
     }
     //</editor-fold>
 }

@@ -21,24 +21,48 @@ public class Protokoll implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @NotNull(message = "Das Protokoll muss eine ID haben.")
-    private Long protokollId;
+    @Column(name = "PROTOKOLL_ID")
+    private long protokollId;
     
+    //welche Art von Hilfe (Notfallhilfe, SAN-Dienst,...) 
+    @Column(name = "ART")
     private String art;
     
+    //Titel von dem Protokoll/Name
+    @Column(name = "TITEL")
     private String titel;
     
+    @Column(name = "DATUM")
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date datum;
     
     @ManyToOne
     private Patient patient;
     
+    @ManyToOne
+    private Event event;
+    
+    //<editor-fold defaultstate="collapsed" desc="Konstruktoren">
+    public Protokoll (){
+        
+    }
+
+    public Protokoll(long protokollId, String art, String titel, Date datum, Patient patient, Event event) {
+        this.protokollId = protokollId;
+        this.art = art;
+        this.titel = titel;
+        this.datum = datum;
+        this.patient = patient;
+        this.event = event;
+    }
+    //</editor-fold>
+    
     //<editor-fold defaultstate="collapsed" desc="Getter uns Setter">
-    public Long getProtokollId() {
+    public long getProtokollId() {
         return protokollId;
     }
 
-    public void setProtokollId(Long protokollId) {
+    public void setProtokollId(long protokollId) {
         this.protokollId = protokollId;
     }
     
@@ -65,30 +89,5 @@ public class Protokoll implements Serializable {
     public void setDatum(Date datum) {
         this.datum = datum;
     }
-    //</editor-fold>
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (protokollId != null ? protokollId.hashCode() : 0);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Protokoll)) {
-            return false;
-        }
-        Protokoll other = (Protokoll) object;
-        if ((this.protokollId == null && other.protokollId != null) || (this.protokollId != null && !this.protokollId.equals(other.protokollId))) {
-            return false;
-        }
-        return true;
-    }
-
-    @Override
-    public String toString() {
-        return "com.dh.forchheimer_fuchs.jpa.Protokoll[ protokollId=" + protokollId + " ]";
-    }
-    
+    //</editor-fold>  
 }

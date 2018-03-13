@@ -36,7 +36,22 @@ public class Person implements Serializable {
     @Column(name = "ORT")
     private String ort;
 
+    //<editor-fold defaultstate="collapsed" desc="Konstruktoren">
+    public Person() {
+        
+    }
     
+    public Person(String nachname, String vorname, String strasse, String hausnr, String plz, String ort) {
+        this.nachname = nachname;
+        this.vorname = vorname;
+        this.strasse = strasse;
+        this.hausnr = hausnr;
+        this.plz = plz;
+        this.ort = ort;
+    }
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="Getter und Setter">
     public String getNachname() {
         return nachname;
     }
@@ -84,4 +99,6 @@ public class Person implements Serializable {
     public void setOrt(String ort) {
         this.ort = ort;
     }
+    //</editor-fold>
+    
 }

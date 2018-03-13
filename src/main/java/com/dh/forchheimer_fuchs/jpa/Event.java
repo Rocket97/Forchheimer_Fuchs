@@ -6,10 +6,8 @@
 package com.dh.forchheimer_fuchs.jpa;
 
 import java.io.Serializable;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import java.util.ArrayList;
+import javax.persistence.*;
 
 /**
  *
@@ -21,39 +19,43 @@ public class Event implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
-
-    public Long getId() {
-        return id;
+    @Column(name = "EVENT_ID")
+    private long eventId;
+    
+    @Column(name = "abteilung")
+    private String abteilung;
+    
+    @OneToMany
+    private ArrayList<Protokoll> protokoll;
+    
+    @ManyToMany
+    private ArrayList<Benutzer> helfer;
+    
+    //Konstruktor
+    public Event() {
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public Event(long eventId, String abteilung, ArrayList<Protokoll> protokoll, ArrayList<Benutzer> helfer) {
+        this.eventId = eventId;
+        this.abteilung = abteilung;
+        this.protokoll = protokoll;
+    }
+    
+    //Setter und Getter
+    public long getEventId() {
+        return eventId;
     }
 
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
-        return hash;
+    public void setEventId(long eventId) {
+        this.eventId = eventId;
+    }
+    
+    public String getAbteilung() {
+        return abteilung;
     }
 
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Event)) {
-            return false;
-        }
-        Event other = (Event) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-            return false;
-        }
-        return true;
-    }
-
-    @Override
-    public String toString() {
-        return "com.dh.forchheimer_fuchs.jpa.Event[ id=" + id + " ]";
+    public void setAbteilung(String abteilung) {
+        this.abteilung = abteilung;
     }
     
 }
