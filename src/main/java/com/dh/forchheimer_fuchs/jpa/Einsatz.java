@@ -21,26 +21,30 @@ public class Einsatz {
     
     @Column(name = "DATUM")
     @Past
-    @Temporal(javax.persistence.TemporalType.DATE)
+    @Temporal(TemporalType.DATE)
     private Date datum;
     
     @Column(name = "ANFAHRTSZEIT")
+    @Temporal(TemporalType.TIME)
     private Time anfahrtszeit;
     
     @Column(name = "ABFAHRTSZEIT")
+    @Temporal(TemporalType.TIME)
     private Time abfahrtszeit;
     
     @Column(name = "BEGINN")
+    @Temporal(TemporalType.TIME)
     private Time beginn;
     
     @Column(name = "ENDE")
+    @Temporal(TemporalType.TIME)
     private Time ende;
     
-    //Konstruktoren
+    
+    //<editor-fold defaultstate="collapsed" desc="Konstruktoren">
     public Einsatz() {
-        
     }
-
+    
     public Einsatz(Date datum, Time anfahrtszeit, Time abfahrtszeit, Time beginn, Time ende) {
         this.datum = datum;
         this.anfahrtszeit = anfahrtszeit;
@@ -48,5 +52,49 @@ public class Einsatz {
         this.beginn = beginn;
         this.ende = ende;
     }
+    //</editor-fold>
+
+    //<editor-fold defaultstate="collapsed" desc="Getter und Setter">
+    public Date getDatum() {
+        return datum;
+    }
+    
+    public void setDatum(Date datum) {
+        this.datum = datum;
+    }
+    
+    public Time getAnfahrtszeit() {
+        return anfahrtszeit;
+    }
+    
+    public void setAnfahrtszeit(Time anfahrtszeit) {
+        this.anfahrtszeit = anfahrtszeit;
+    }
+    
+    public Time getAbfahrtszeit() {
+        return abfahrtszeit;
+    }
+    
+    public void setAbfahrtszeit(Time abfahrtszeit) {
+        this.abfahrtszeit = abfahrtszeit;
+    }
+    
+    public Time getBeginn() {
+        return beginn;
+    }
+    
+    public void setBeginn(Time beginn) {
+        this.beginn = beginn;
+    }
+    
+    public Time getEnde() {
+        return ende;
+    }
+    
+    public void setEnde(Time ende) {
+        this.ende = ende;
+    }
+    //</editor-fold>
+    
     
 }

@@ -63,9 +63,9 @@ public class BenutzerBean{
         Benutzer user = new Benutzer(mitgliedsnr, benutzername, passwort, nachname, vorname, strasse, hausnr, plz, ort, email, telefonnr, abteilung, admin);
         if (user.getAdmin()){
             user.addToGroup("ff_admin");
-        } else {
-            user.addToGroup("ff_nutzer");
-        }
+        } 
+        user.addToGroup("ff_nutzer");
+   
         em.persist(user);
     }
 
