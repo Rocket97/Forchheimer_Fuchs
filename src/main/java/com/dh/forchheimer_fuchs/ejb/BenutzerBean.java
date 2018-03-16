@@ -113,6 +113,10 @@ public class BenutzerBean{
         return em.merge(benutzer);
     }
 
+    public void signup(String username, String password1) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
     /**
      * Fehler: Der Benutzername ist bereits vergeben
      */
