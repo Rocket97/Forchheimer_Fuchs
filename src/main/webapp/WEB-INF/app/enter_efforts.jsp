@@ -20,6 +20,19 @@
             <form method="post" class="stacked">
                 <div class="column">
                     <%-- Buttons zum Weiterleiten auf die verschiedenen Seiten als Admin --%>
+                    <label for="task_category">Kategorie:</label>
+                    <div class="side-by-side">
+                    <select name="task_category">
+                        <option value="">Keine Kategorie</option>
+
+                        <c:forEach items="${categories}" var="category">
+                            <option value="${category.id}" ${task_form.values["task_category"][0] == category.id ? 'selected' : ''}>
+                                <c:out value="${category.name}" />
+                            </option>
+                        </c:forEach>
+                    </select>
+                    </div>
+                    
                     <label for="geleistete_stunden_datum">
                         Datum:
                         <span class="required">*</span>
