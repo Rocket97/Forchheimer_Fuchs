@@ -17,7 +17,7 @@
 
 <template:base>
     <jsp:attribute name="title">
-        Registrierung
+        Mitglied anlegen
     </jsp:attribute>
 
     <jsp:attribute name="head">
@@ -38,28 +38,20 @@
                     <input type="hidden" name="csrf_token" value="${csrf_token}">
 
                     <%-- Eingabefelder --%>
-                    <label for="signup_username">
-                        Benutzername:
+                    <label for="signup_mitgliedsnummer">
+                        Mitgliedsnummer:
                         <span class="required">*</span>
                     </label>
                     <div class="side-by-side">
-                        <input type="text" name="signup_username" value="${signup_form.values["signup_username"][0]}">
+                        <input type="number" name="signup_mitlgiedsnummer" value="${signup_form.values["signup_mitgliedsnummer"][0]}">
                     </div>
-
-                    <label for="signup_password1">
-                        Passwort:
+                    
+                    <label for="signup_nachname">
+                        Nachname:
                         <span class="required">*</span>
                     </label>
                     <div class="side-by-side">
-                        <input type="password" name="signup_password1" value="${signup_form.values["signup_password1"][0]}">
-                    </div>
-
-                    <label for="signup_password2">
-                        Passwort (wdh.):
-                        <span class="required">*</span>
-                    </label>
-                    <div class="side-by-side">
-                        <input type="password" name="signup_password2" value="${signup_form.values["signup_password2"][0]}">
+                        <input type="text" name="signup_nachname" value="${signup_form.values["signup_nachname"][0]}">
                     </div>
                     
                     <label for="signup_vorname">
@@ -69,13 +61,29 @@
                     <div class="side-by-side">
                         <input type="text" name="signup_vorname" value="${signup_form.values["signup_vorname"][0]}">
                     </div>
-                    
-                    <label for="signup_nachname">
-                        Nachname:
+                   
+                    <label for="signup_geburtsdatum">
+                        Geburtsdatum:
                         <span class="required">*</span>
                     </label>
                     <div class="side-by-side">
-                        <input type="text" name="signup_nachname" value="${signup_form.values["signup_nachname"][0]}">
+                        <input type="date" name="signup_geburtsdatum" value="${signup_form.values["signup_geburtsdatum"][0]}">
+                    </div>
+                    
+                    <label for="signup_telefonnummer">
+                        Telefonnummer:
+                        <span class="required">*</span>
+                    </label>
+                    <div class="side-by-side">
+                        <input type="tel" name="signup_telefonnummer" value="${signup_form.values["signup_telefonnummer"][0]}">
+                    </div>
+                    
+                    <label for="signup_email">
+                        E-Mail:
+                        <span class="required">*</span>
+                    </label>
+                    <div class="side-by-side">
+                        <input type="email" name="signup_email" value="${signup_form.values["signup_email"][0]}">
                     </div>
                     
                     <label for="signup_strasse">
@@ -99,7 +107,7 @@
                         <span class="required">*</span>
                     </label>
                     <div class="side-by-side">
-                        <input type="text" name="signup_plz" value="${signup_form.values["signup_plz"][0]}">
+                        <input type="number" name="signup_plz" value="${signup_form.values["signup_plz"][0]}">
                     </div>
                     
                     <label for="signup_ort">
@@ -110,26 +118,42 @@
                         <input type="text" name="signup_ort" value="${signup_form.values["signup_ort"][0]}">
                     </div>
                     
-                    <label for="signup_email">
-                        E-mail:
+                    <label for="signup_abteilung">
+                        Abteilung:
                         <span class="required">*</span>
                     </label>
                     <div class="side-by-side">
-                        <input type="text" name="signup_email" value="${signup_form.values["signup_email"][0]}">
+                        <input type="checkbox" name="signup_abteilung_jugend" value="${signup_form.values["signup_abteilung_jugend"][0]}">Jugend<br />
+                        <input type="checkbox" name="signup_abteilung_bereitschaft" value="${signup_form.values["signup_abteilung_bereitschaft"][0]}">Bereitschaft<br />
                     </div>
                     
-                    <label for="signup_telefonnummer">
-                        Telefonnummer:
+                    <label for="signup_username">
+                        Nutzername:
                         <span class="required">*</span>
                     </label>
                     <div class="side-by-side">
-                        <input type="text" name="signup_telefonnummer" value="${signup_form.values["signup_telefonnummer"][0]}">
+                        <input type="text" name="signup_username" value="${signup_form.values["signup_username"][0]}">
                     </div>
 
-                    <%-- Button zum Abschicken --%>
+                    <label for="signup_password">
+                        Passwort:
+                        <span class="required">*</span>
+                    </label>
+                    <div class="side-by-side">
+                        <input type="password" name="signup_password" value="${signup_form.values["signup_password"][0]}">
+                    </div>
+                    
+                    <label for="signup_admin">
+                        Admin
+                    </label>
+                    <div class="side-by-side">
+                        <input type="checkbox" name="signup_admin" value="${signup_form.values["signup_admin"][0]}">
+                    </div>
+           
+                    <%-- Button zum Speichern --%>
                     <div class="side-by-side">
                         <button class="icon-pencil" type="submit">
-                            Registrieren
+                            Speichern
                         </button>
                     </div>
                 </div>
