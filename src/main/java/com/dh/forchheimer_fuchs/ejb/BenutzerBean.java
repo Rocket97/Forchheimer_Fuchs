@@ -98,7 +98,7 @@ public class BenutzerBean{
      * Benutzer löschen
      * @param benutzer Zu löschender Benutzer
      */
-    @RolesAllowed("ff_nutzer")
+    @RolesAllowed("ff_admin")
     public void löschen(Benutzer benutzer) {
         this.em.remove(benutzer);
     }
@@ -111,6 +111,10 @@ public class BenutzerBean{
     @RolesAllowed("ff_nutzer")
     public Benutzer aktualisieren(Benutzer benutzer) {
         return em.merge(benutzer);
+    }
+
+    public void signup(String username, String password1) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     /**
