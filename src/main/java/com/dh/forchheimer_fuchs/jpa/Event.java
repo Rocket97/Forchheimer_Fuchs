@@ -6,7 +6,9 @@
 package com.dh.forchheimer_fuchs.jpa;
 
 import java.io.Serializable;
+import java.sql.Time;
 import java.util.ArrayList;
+import java.util.Date;
 import javax.persistence.*;
 
 /**
@@ -22,6 +24,9 @@ public class Event extends Einsatz implements Serializable {
     @Column(name = "EVENT_ID")
     private long eventId;
     
+    @Column(name = "TITEL")
+    private String eTitel;
+    
     @Column(name = "abteilung")
     private String abteilung;
     
@@ -35,8 +40,10 @@ public class Event extends Einsatz implements Serializable {
     public Event() {
     }
 
-    public Event(long eventId, String abteilung, ArrayList<Protokoll> protokoll, ArrayList<Benutzer> helfer) {
+    public Event(Date datum, Time abfahrtszeit, Time anfahrtszeit, Time beginn, Time ende, long eventId, String eTitel, String abteilung, ArrayList<Protokoll> protokoll, ArrayList<Benutzer> helfer) {
+        super(datum, abfahrtszeit, anfahrtszeit, beginn, ende);
         this.eventId = eventId;
+        this.eTitel = eTitel;
         this.abteilung = abteilung;
         this.protokoll = protokoll;
     }
