@@ -163,7 +163,7 @@
                     <ul class="errors">
                         <c:forEach items="${signup_form.errors}" var="error">
                             <li>${error}</li>
-                            </c:forEach>
+                        </c:forEach>
                     </ul>
                 </c:if>
             </form>
