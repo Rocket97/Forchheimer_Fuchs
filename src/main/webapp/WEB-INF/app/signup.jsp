@@ -1,12 +1,3 @@
-<%-- 
-    Copyright © 2018 Dennis Schulmeister-Zimolong
-
-    E-Mail: dhbw@windows3.de
-    Webseite: https://www.wpvs.de/
-
-    Dieser Quellcode ist lizenziert unter einer
-    Creative Commons Namensnennung 4.0 International Lizenz.
---%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <%@taglib tagdir="/WEB-INF/tags/templates" prefix="template"%>
@@ -26,7 +17,7 @@
 
     <jsp:attribute name="menu">
         <div class="menuitem">
-            <a href="<c:url value="/logout/"/>">Einloggen</a>
+            <a href="<c:url value="/home/"/>" class="icon-home">Home</a>
         </div>
     </jsp:attribute>
 

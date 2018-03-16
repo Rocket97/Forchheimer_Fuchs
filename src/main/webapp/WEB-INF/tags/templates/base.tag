@@ -47,7 +47,6 @@
 
                 <c:if test="${not empty pageContext.request.userPrincipal}">
                     <div class="menuitem">
-                        <a href="<c:url value="/home/"/>" class="icon-home">Home</a>
                         <a href="<c:url value="/logout/"/>" class="icon-logout">Logout ${pageContext.request.userPrincipal}</a>
                     </div>
                 </c:if>
