@@ -98,7 +98,7 @@ public class BenutzerBean{
      * Benutzer löschen
      * @param benutzer Zu löschender Benutzer
      */
-    @RolesAllowed("ff_nutzer")
+    @RolesAllowed("ff_admin")
     public void löschen(Benutzer benutzer) {
         this.em.remove(benutzer);
     }
