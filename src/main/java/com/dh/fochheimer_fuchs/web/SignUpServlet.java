@@ -13,9 +13,6 @@ package com.dh.fochheimer_fuchs.web;
 import com.dh.forchheimer_fuchs.ejb.BenutzerBean;
 import com.dh.forchheimer_fuchs.ejb.ValidationBean;
 import com.dh.forchheimer_fuchs.jpa.Benutzer;
-import static com.dh.forchheimer_fuchs.jpa.Benutzer_.admin;
-import static com.dh.forchheimer_fuchs.jpa.Benutzer_.mitgliedsnr;
-import static com.dh.forchheimer_fuchs.jpa.Person_.hausnr;
 import java.io.IOException;
 import java.util.List;
 import javax.ejb.EJB;
@@ -31,7 +28,7 @@ import javax.servlet.http.HttpSession;
  * Servlet für die Registrierungsseite. Hier kann sich ein neuer Benutzer
  * registrieren. Anschließend wird der auf die Startseite weitergeleitet.
  */
-@WebServlet(urlPatterns = {"/signup/"})
+@WebServlet(urlPatterns = {"/signup_admin/"})
 public class SignUpServlet extends HttpServlet {
     
            
@@ -81,14 +78,11 @@ public class SignUpServlet extends HttpServlet {
         List<String> errors = this.validationBean.validate(benutzer);
         this.validationBean.validate(benutzer.getPasswort(), errors);
         
-        if (passwort1 != null && passwort2 != null && !passwort1.equals(passwort2)) {
-            errors.add("Die beiden Passwörter stimmen nicht überein.");
-        }
         
         // Neuen Benutzer anlegen
         if (errors.isEmpty()) {
             try {
-                this.benutzerBean.signup(benutzername, passwort1);
+                this.benutzerBean.registrieren(mitgliedsnr, benutzername, passwort1, vorname, nachname, strasse, hausnr, plz, ort, email, telefonnr, abteilung, admin);
             } catch (BenutzerBean.UserAlreadyExistsException ex) {
                 errors.add(ex.getMessage());
             }
