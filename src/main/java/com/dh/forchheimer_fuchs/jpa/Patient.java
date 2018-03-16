@@ -45,11 +45,11 @@ public class Patient extends Person implements Serializable {
     private Protokoll protokoll = new Protokoll();
     
     //<editor-fold defaultstate="collapsed" desc="Konstruktoren">
-    public Patient() { 
-        
+    public Patient() {   
     }
 
-    public Patient(long patientennr, boolean geschlecht, Time behandlungVon, Time behandlungBis, String beschreibung, ArrayList<Benutzer> helfer, Protokoll protokoll) {
+    public Patient(long patientennr, String vorname, String nachname, String strasse, String hausnr, String plz, String ort, boolean geschlecht, Time behandlungVon, Time behandlungBis, String beschreibung, ArrayList<Benutzer> helfer, Protokoll protokoll) {
+        super(vorname, nachname, strasse, hausnr, plz, ort);
         this.patientennr = patientennr;
         this.geschlecht = geschlecht;
         this.behandlungVon = behandlungVon;

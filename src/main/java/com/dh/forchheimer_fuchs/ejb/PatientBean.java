@@ -5,6 +5,7 @@
  */
 package com.dh.forchheimer_fuchs.ejb;
 
+import com.dh.forchheimer_fuchs.jpa.Patient;
 import javax.ejb.Stateless;
 
 /**
@@ -12,8 +13,12 @@ import javax.ejb.Stateless;
  * @author Valerie
  */
 @Stateless
-public class PatientBean {
-
+public class PatientBean extends EntityBean<Patient, Long>{
     // Add business logic below. (Right-click in editor and choose
     // "Insert Code > Add Business Method")
+
+    public PatientBean() {
+        super(Patient.class);
+    }
+    
 }
