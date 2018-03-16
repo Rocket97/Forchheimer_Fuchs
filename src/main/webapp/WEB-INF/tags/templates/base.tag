@@ -1,12 +1,3 @@
-<%-- 
-    Copyright © 2018 Dennis Schulmeister-Zimolong
-
-    E-Mail: dhbw@windows3.de
-    Webseite: https://www.wpvs.de/
-
-    Dieser Quellcode ist lizenziert unter einer
-    Creative Commons Namensnennung 4.0 International Lizenz.
---%>
 <%@tag pageEncoding="UTF-8"%>
 
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
@@ -23,6 +14,7 @@
         <meta charset="utf-8" />
 
         <title>Forchheimer Fuchs: ${title}</title>
+        <link rel="icon" type="image/png" href="FuchsIcon">
 
         <link rel="stylesheet" href="<c:url value="/fontello/css/fontello.css"/>" />
         <link rel="stylesheet" href="<c:url value="/css/main.css"/>" />
@@ -35,11 +27,17 @@
         <header>
             <%-- Titelzeile --%>
             <div id="titlebar">
+                <div class="drkLogo">
+                    <a href="/img/DRKlogo.png">DRK-Logo</a>
+                </div>
                 <div class="appname">
                     Forchheimer Fuchs
                 </div>
                 <div class="content">
                     ${title}
+                </div>
+                <div class="fuchsLogo">
+                    <a href="/img/FuchsLogo.jpg">Fuchs-Logo</a>
                 </div>
             </div>
 
@@ -49,6 +47,7 @@
 
                 <c:if test="${not empty pageContext.request.userPrincipal}">
                     <div class="menuitem">
+                        <a href="<c:url value="/home/"/>" class="icon-home">Home</a>
                         <a href="<c:url value="/logout/"/>" class="icon-logout">Logout ${pageContext.request.userPrincipal}</a>
                     </div>
                 </c:if>
