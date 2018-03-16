@@ -6,8 +6,10 @@
 package com.dh.forchheimer_fuchs.ejb;
 
 import com.dh.forchheimer_fuchs.jpa.Protokoll;
+import java.util.List;
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.Stateless;
+import javax.persistence.Entity;
 
 /**
  *
@@ -22,6 +24,13 @@ public class ProtokollBean extends EntityBean<Protokoll, Long>{
     }
     
     
-    // Add business logic below. (Right-click in editor and choose
-    // "Insert Code > Add Business Method")
+    public List<Entity> sucheNachTitel(String titel) {
+         String select = "SELECT x FROM Protokoll x WHERE Titel LIKE :titel";
+         return em.createQuery(select).setParameter("titel", titel).getResultList();
+    }
+    
+    public List<Entity> sucheNachArt(String art) {
+        String select = "SELECT x FROM Protokoll x WHERE Art LIKE :art";
+        return em.createQuery(art).setParameter("art", art).getResultList();        
+    }
 }
