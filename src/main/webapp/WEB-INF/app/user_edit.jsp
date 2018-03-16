@@ -8,9 +8,17 @@
 
 <template:base>
     <jsp:attribute name="title">
-        Mitglied bearbeiten
-    </jsp:attribute>
-
+        <c:if test="${user.admin}">
+            Mitglied bearbeiten
+        </c:if>
+    </jsp:attribute>       
+    
+    <jsp:attribute name="title">
+        <c:if test="${!user.admin}">
+            Profil bearbeiten
+        </c:if>
+    </jsp:attribute> 
+   
    <jsp:attribute name="head">
         <link rel="stylesheet" href="<c:url value="/css/task_list.css"/>" />
     </jsp:attribute>
@@ -30,16 +38,17 @@
 
                     <%-- Eingabefelder --%>    
                     
-                    <!--Todo: Allle Eingaben müssen sichtbar sein - nur Passwort nicht!-->
+                    <!--: Admin: Allle Eingaben müssen sichtbar sein - nur Passwort nicht!-->
                     
-                    
-                    <label for="signup_mitgliedsnummer">
-                        Mitgliedsnummer:
-                        <span class="required">*</span>
-                    </label>
-                    <div class="side-by-side">
-                        <input type="number" name="signup_mitlgiedsnummer" value="${signup_form.values["signup_mitgliedsnummer"][0]}">
-                    </div>
+                    <c:if test="${user.admin}">
+                        <label for="signup_mitgliedsnummer">
+                            Mitgliedsnummer:
+                            <span class="required">*</span>
+                        </label>
+                        <div class="side-by-side">
+                            <input type="number" name="signup_mitlgiedsnummer" value="${signup_form.values["signup_mitgliedsnummer"][0]}">
+                        </div>
+                    </c:if>
                     
                     <label for="signup_nachname">
                         Nachname:
@@ -113,14 +122,17 @@
                         <input type="text" name="signup_ort" value="${signup_form.values["signup_ort"][0]}">
                     </div>
                     
-                    <label for="signup_abteilung">
-                        Abteilung:
-                        <span class="required">*</span>
-                    </label>
-                    <div class="side-by-side">
-                        <input type="checkbox" name="signup_abteilung_jugend" value="${signup_form.values["signup_abteilung_jugend"][0]}">Jugend<br />
-                        <input type="checkbox" name="signup_abteilung_bereitschaft" value="${signup_form.values["signup_abteilung_bereitschaft"][0]}">Bereitschaft<br />
-                    </div>
+                    <c:if test="${user.admin}">
+                        <label for="signup_abteilung">
+                           Abteilung:
+                            <span class="required">*</span>
+                        </label>
+                        <div class="side-by-side">
+                            <input type="checkbox" name="signup_abteilung_jugend" value="${signup_form.values["signup_abteilung_jugend"][0]}">Jugend<br />
+                            <input type="checkbox" name="signup_abteilung_bereitschaft" value="${signup_form.values["signup_abteilung_bereitschaft"][0]}">Bereitschaft<br />
+                        </div>
+                    </c:if>
+                    
                     
                     <label for="signup_username">
                         Nutzername:
@@ -130,20 +142,25 @@
                         <input type="text" name="signup_username" value="${signup_form.values["signup_username"][0]}">
                     </div>
 
-                    <label for="signup_password">
-                        Passwort:
-                        <span class="required">*</span>
-                    </label>
-                    <div class="side-by-side">
-                        <input type="password" name="signup_password" value="${signup_form.values["signup_password"][0]}">
-                    </div>
+                    <c:if test="${!user.admin}">
+                        <label for="signup_password">
+                            Passwort:
+                            <span class="required">*</span>
+                        </label>
+                        <div class="side-by-side">
+                            <input type="password" name="signup_password" value="${signup_form.values["signup_password"][0]}">
+                        </div>
+                    </c:if>
                     
-                    <label for="signup_admin">
-                        Admin
-                    </label>
-                    <div class="side-by-side">
-                        <input type="checkbox" name="signup_admin" value="${signup_form.values["signup_admin"][0]}">
-                    </div>
+                    <c:if test="${user.admin}">
+                        <label for="signup_admin">
+                            Admin
+                        </label>
+                        <div class="side-by-side">
+                            <input type="checkbox" name="signup_admin" value="${signup_form.values["signup_admin"][0]}">
+                        </div>
+                    </c:if>
+                    
            
                     <%-- Button zum Speichern --%>
                     <div class="side-by-side">
