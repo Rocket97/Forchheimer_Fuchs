@@ -43,3 +43,6 @@ Gehe hierfür wie folgt vor:
     1. Webanwendung starten
     2. Neuen Benutzer registrieren
     3. Login und Logout mit dem neuen Benutzer
+
+    Wenn etwas nicht funktioniert, dann schaue nochmal https://get-the-solution.net/2014/02/07/glassfish-4-and-realm/
+    Das ist eine gute Seite, um die Konfiguration einer Benutzerverwaltung durchzuführen.
