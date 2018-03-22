@@ -139,13 +139,33 @@
                         <textarea name="protocol_behandlungsbeschreibung"><c:out value="${task_form.values['protocol_behandlungsbeschreibung'][0]}"/></textarea>
                     </div>
                     
-                    <label for="protocol_patient_helfer">
-                        Helfer:
-                    </label>
-                    <div class="side-by-side">
-                        <input type="text" name="protocol_patient_helfer" value="${task_form.values["protocol_patient_helfer"][0]}">
-                    </div>
+                    <%-- Helfer hinzufügen --%> <!--hilfeeeeeeeee********************************************-->
+                <c:choose>
+                    <c:when test="${empty helfer}">
+                        <p>
+                            Es sind noch keine Helfer hinterlegt. Bitte helfer hinterlegen!
+                        </p>
+                    </c:when>
+                    <c:otherwise>
+                        <div>
+                            <div class="margin">
+                                <c:forEach items="${helfer}" var="helfer">
+                                    <input type="checkbox" name="helfer" id="${'helfer-'.concat(helfer.id)}" value="${helfer.id}" />
+                                    <label for="${'helfer-'.concat(helfer.id)}">
+                                        <c:out value="${helfer.name}"/>
+                                    </label>
+                                    <br />
+                                </c:forEach>
+                            </div>
+
+                            <button type="submit" name="action" value="delete" class="icon-trash">
+                                Markierte Helfer löschen
+                            </button>
+                        </div>
+                    </c:otherwise>
+                </c:choose>
                     
+                   
                     
                     <%-- Button zum Speichern und weitere Patienten anlegen --%>
                     <div class="side-by-side">
@@ -155,7 +175,7 @@
                     </div>
                     
                     <div class="side-by-side">
-                        <button class="icon-homeuser-plus" type="submit">
+                        <button class="icon-user-plus" type="submit">
                             weiteren Patient hinzufügen
                         </button>
                     </div>
