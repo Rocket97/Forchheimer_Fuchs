@@ -20,13 +20,13 @@
             <form method="post" class="stacked">
                 <div class="column">
                     <%-- Buttons zum Weiterleiten auf die verschiedenen Seiten als Admin --%>
-                    <label for="task_category">Kategorie:</label>
+                    <label for="effort_category">Kategorie:</label>
                     <div class="side-by-side">
-                    <select name="task_category">
+                    <select name="effort_category">
                         <option value="">Keine Kategorie</option>
 
                         <c:forEach items="${categories}" var="category">
-                            <option value="${category.id}" ${task_form.values["task_category"][0] == category.id ? 'selected' : ''}>
+                            <option value="${category.id}" ${task_form.values["effort_category"][0] == category.id ? 'selected' : ''}>
                                 <c:out value="${category.name}" />
                             </option>
                         </c:forEach>
@@ -79,8 +79,56 @@
                             Speichern
                         </button>
                     </div>
+                    
+                    <%-- Gefundene Aufgaben --%>
+        <c:choose>
+            <c:when test="${empty efforts}">
+                <p>
+                    Keine eingetragenen Stunden.
+                </p>
+            </c:when>
+            <c:otherwise>
+                <jsp:useBean id="utils" class="com.dh.forchheimer_fuchs.web.WebUtils"/>
+                
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Datum</th>
+                            <th>Kategorie</th>
+                            <th>Abfahrtszeit</th>
+                            <th>Beginn</th>
+                            <th>Ende</th>
+                            <th>Ankunftszeit</th>
+                        </tr>
+                    </thead>
+                    <c:forEach items="${efforts}" var="effort">
+                        <tr>
+                            <td>
+                                <a href="<c:url value="/app/effort/${effort.id}/"/>">
+                                    <c:out value="${effort.date}"/>
+                                </a>
+                            </td>
+                            <td>
+                                <c:out value="${effort.category.name}"/>
+                            </td>
+                            <td>
+                                <c:out value="${utils.formatDate(effort.startTime)}"/>
+                            </td>
+                            <td>
+                                <c:out value="${utils.formatDate(effort.beginTime)}"/>
+                            </td>
+                            <td>
+                                <c:out value="${utils.formatDate(effort.endTime)}"/>
+                            </td>
+                            <td>
+                                <c:out value="${utils.formatDate(effort.returnTime)}"/>
+                            </td>
+                        </tr>
+                    </c:forEach>
+                </table>
+            </c:otherwise>
+        </c:choose>
             </form>
         </div>
     </jsp:attribute>
 </template:base>
-
