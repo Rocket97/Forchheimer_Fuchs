@@ -1,3 +1,9 @@
+<%-- 
+    Document   : enter_extra_efforts
+    Created on : 22.03.2018, 14:35:34
+    Author     : rocket
+--%>
+
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <%@taglib tagdir="/WEB-INF/tags/templates" prefix="template"%>
@@ -8,7 +14,7 @@
 
 <template:base>
     <jsp:attribute name="title">
-        Stunden eintragen
+        Zusätzliche Stunden eintragen
     </jsp:attribute>
 
     <jsp:attribute name="head">
@@ -73,6 +79,22 @@
                         <input type="date" name="geleistete_stunden_ankunftszeit" value="${signup_form.values["geleistete_stunden_ankunftszeit"][0]}">
                     </div>
                     
+                    <label for="geleistete_stunden_ankunftszeit">
+                        Helfer:
+                        <span class="required">*</span>
+                    </label>
+                    <div class="side-by-side">
+                        <input type="text" name="helfer" value="${signup_form.values["helfer"][0]}">
+                    </div>
+                    
+                    <label for="geleistete_stunden_ankunftszeit">
+                        Titel:
+                        <span class="required">*</span>
+                    </label>
+                    <div class="side-by-side">
+                        <input type="text" name="titel" value="${signup_form.values["titel"][0]}">
+                    </div>
+                    
                     <%-- Button zum Speichern --%>
                     <div class="side-by-side">
                         <button class="icon-pencil" type="submit">
@@ -99,6 +121,7 @@
                             <th>Beginn</th>
                             <th>Ende</th>
                             <th>Ankunftszeit</th>
+                            <th>Helfer</th>
                         </tr>
                     </thead>
                     <c:forEach items="${efforts}" var="effort">
@@ -122,6 +145,9 @@
                             </td>
                             <td>
                                 <c:out value="${utils.formatDate(effort.returnTime)}"/>
+                            </td>
+                            <td>
+                                <c:out value="${effort.helfer}"/>
                             </td>
                         </tr>
                     </c:forEach>

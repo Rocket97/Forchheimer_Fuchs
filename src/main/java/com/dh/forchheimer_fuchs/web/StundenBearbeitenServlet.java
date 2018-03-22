@@ -9,13 +9,12 @@
  */
 package com.dh.forchheimer_fuchs.web;
 
-import dhbwka.wwi.vertsys.javaee.minimarkt.ejb.CategoryBean;
-import dhbwka.wwi.vertsys.javaee.minimarkt.ejb.TaskBean;
-import dhbwka.wwi.vertsys.javaee.minimarkt.ejb.ValidationBean;
-import dhbwka.wwi.vertsys.javaee.minimarkt.jpa.Category;
-import dhbwka.wwi.vertsys.javaee.minimarkt.jpa.Task;
+import com.dh.forchheimer_fuchs.ejb.ArbeitszeitBean;
+import com.dh.forchheimer_fuchs.ejb.ValidationBean;
+import com.dh.forchheimer_fuchs.jpa.Arbeitszeit;
 import java.io.IOException;
 import java.util.List;
+import javafx.concurrent.Task;
 import javax.ejb.EJB;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -26,18 +25,15 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 /**
- * Seite zum Anzeigen und Bearbeiten der Kategorien. Die Seite besitzt ein
+ * Seite zum Anzeigen und Bearbeiten der Arbeitsstunden. Die Seite besitzt ein
  * Formular, mit dem ein neue Kategorie angelegt werden kann, sowie eine Liste,
  * die zum Löschen der Kategorien verwendet werden kann.
  */
 @WebServlet(urlPatterns = {"/app/categories/"})
-public class CategoryListServlet extends HttpServlet {
+public class StundenBearbeitenServlet extends HttpServlet {
 
     @EJB
-    CategoryBean categoryBean;
-    
-    @EJB
-    TaskBean taskBean;
+    ArbeitszeitBean arbeitszeitBean;
 
     @EJB
     ValidationBean validationBean;
@@ -46,16 +42,16 @@ public class CategoryListServlet extends HttpServlet {
     public void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        // Alle vorhandenen Kategorien ermitteln
-        request.setAttribute("categories", this.categoryBean.findAllSorted());
+        // Alle vorhandenen Arbeitszeiten ermitteln
+        request.setAttribute("arbeitszeiten", this.arbeitszeitBean.findAllSorted());
 
         // Anfrage an dazugerhörige JSP weiterleiten
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/app/category_list.jsp");
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/app/enter_efforts.jsp");
         dispatcher.forward(request, response);
 
         // Alte Formulardaten aus der Session entfernen
         HttpSession session = request.getSession();
-        session.removeAttribute("categories_form");
+        session.removeAttribute("arbeitszeit_form");
     }
 
     @Override
@@ -73,7 +69,7 @@ public class CategoryListServlet extends HttpServlet {
 
         switch (action) {
             case "create":
-                this.createCategory(request, response);
+                this.createArbeitszeit(request, response);
                 break;
             case "delete":
                 this.deleteCategories(request, response);
@@ -89,18 +85,18 @@ public class CategoryListServlet extends HttpServlet {
      * @throws ServletException
      * @throws IOException
      */
-    private void createCategory(HttpServletRequest request, HttpServletResponse response)
+    private void createArbeitszeit(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
         // Formulareingaben prüfen
         String name = request.getParameter("name");
 
-        Category category = new Category(name);
-        List<String> errors = this.validationBean.validate(category);
+        Arbeitszeit arbeitszeit = new Arbeitszeit();
+        List<String> errors = this.validationBean.validate(arbeitszeit);
 
-        // Neue Kategorie anlegen
+        // Neue Arbeitszeit anlegen
         if (errors.isEmpty()) {
-            this.categoryBean.saveNew(category);
+            this.arbeitszeitBean.saveNew(arbeitszeit);
         }
 
         // Browser auffordern, die Seite neuzuladen
@@ -117,7 +113,7 @@ public class CategoryListServlet extends HttpServlet {
     }
 
     /**
-     * Aufgerufen in doPost(): Markierte Kategorien löschen
+     * Aufgerufen in doPost(): Markierte Arbeitszeit löschen
      *
      * @param request
      * @param response
@@ -128,35 +124,28 @@ public class CategoryListServlet extends HttpServlet {
             throws ServletException, IOException {
 
         // Markierte Kategorie IDs auslesen
-        String[] categoryIds = request.getParameterValues("category");
+        String[] zeitIds = request.getParameterValues("arbeitszeit");
 
-        if (categoryIds == null) {
-            categoryIds = new String[0];
+        if (zeitIds == null) {
+            zeitIds = new String[0];
         }
 
         // Kategorien löschen
-        for (String categoryId : categoryIds) {
+        for (String zeitId : zeitIds) {
             // Zu löschende Kategorie ermitteln
-            Category category;
+            Arbeitszeit arbeitszeit;
 
             try {
-                category = this.categoryBean.findById(Long.parseLong(categoryId));
+                arbeitszeit = this.arbeitszeitBean.findById(Long.parseLong(zeitId));
             } catch (NumberFormatException ex) {
                 continue;
             }
             
-            if (category == null) {
+            if (arbeitszeit == null) {
                 continue;
             }
-            
-            // Bei allen betroffenen Aufgaben, den Bezug zur Kategorie aufheben
-            category.getTasks().forEach((Task task) -> {
-                task.setCategory(null);
-                this.taskBean.update(task);
-            });
-            
             // Und weg damit
-            this.categoryBean.delete(category);
+            this.arbeitszeitBean.delete(arbeitszeit);
         }
         
         // Browser auffordern, die Seite neuzuladen
