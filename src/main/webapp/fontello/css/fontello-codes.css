@@ -22,3 +22,5 @@
 .icon-user-o:before { content: '\f2c0'; } /* '' */
 .icon-id-card:before { content: '\f2c2'; } /* '' */
 .icon-id-card-o:before { content: '\f2c3'; } /* '' */
+.icon-home:before { content: '\e800'; } /* '' */
+.icon-homeuser-plus:before { content: '\f234'; } /* '' */
