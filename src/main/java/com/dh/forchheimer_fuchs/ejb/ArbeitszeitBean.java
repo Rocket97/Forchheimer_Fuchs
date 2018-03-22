@@ -6,15 +6,11 @@
 package com.dh.forchheimer_fuchs.ejb;
 
 import com.dh.forchheimer_fuchs.jpa.Arbeitszeit;
-import javafx.scene.chart.CategoryAxis;
+import com.dh.forchheimer_fuchs.jpa.Benutzer;
+import com.dh.forchheimer_fuchs.jpa.StundenKategorie;
+import java.util.List;
 import javax.ejb.Stateless;
-import org.jfree.chart.ChartFactory;
-import org.jfree.chart.ChartFrame;
 import org.jfree.chart.JFreeChart;
-import org.jfree.data.xy.*;
-import org.jfree.chart.renderer.xy.XYDotRenderer;
-import org.jfree.data.general.DefaultPieDataset;
-import org.jfree.ui.RefineryUtilities;
 
 
 /**
@@ -29,38 +25,20 @@ public class ArbeitszeitBean extends EntityBean<Arbeitszeit, Long> {
     }
     
     
-    public JFreeChart stundenAuswerten(){
+    public JFreeChart stundenAuswerten(List<Benutzer> helfer, StundenKategorie kategorie, Benutzer benutzer){
         
-
-        /*==================
-        *  TORTENDIAGRAMM
-        * ==================*/
-        DefaultPieDataset pieDataset = new DefaultPieDataset();
-        pieDataset.setValue("JavaWorld", 75);
-        pieDataset.setValue("Other", 25);
-        JFreeChart chart = ChartFactory.createPieChart
-        ("Pie Chart", // Title
-        pieDataset, // Dataset
-        true,// legend
-        false,// tooltips
-        false// URL
-        );
-
-        // create and display a frame...
-        ChartFrame frame = new ChartFrame("Example", chart);
-        frame.pack();
-        RefineryUtilities.centerFrameOnScreen(frame);
-        frame.setVisible(true);
-        
-        
-        /*==================
-        *   BALKENDIAGRAMM
-        * ==================*/
-        
-        CategoryAxis xax = new CategoryAxis();
-        CategoryAxis yax = new CategoryAxis();
-        
-        JFreeChart chart = new JFreeChart();
-        return chart;
+        // der Admin darf mehr Daten sehen
+        String select = "";
+        if (benutzer.getAdmin()){
+            select = "SELECT COUNT (zeitID) FROM arbeitszeit WHERE";
+            for (Benutzer nutzer : helfer){
+                select = select + " mitgliedsnr = " + nutzer.getMitgliedsnr() + ", ";
+            }
+            select = select + " AND kategorie = " + kategorie;
+        } else {
+            
+        }
+        em.createQuery(select);
+        return ;
     }
 }
