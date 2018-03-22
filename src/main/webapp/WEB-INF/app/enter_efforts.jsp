@@ -80,7 +80,7 @@
                         </button>
                     </div>
                     
-                    <%-- Gefundene Aufgaben --%>
+                    <%-- Gefundene einegtragene Aufwände --%>
         <c:choose>
             <c:when test="${empty efforts}">
                 <p>
