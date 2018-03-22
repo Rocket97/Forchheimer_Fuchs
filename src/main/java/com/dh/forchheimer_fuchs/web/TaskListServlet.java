@@ -9,13 +9,11 @@
  */
 package com.dh.forchheimer_fuchs.web;
 
-import dhbwka.wwi.vertsys.javaee.minimarkt.ejb.CategoryBean;
-import dhbwka.wwi.vertsys.javaee.minimarkt.ejb.TaskBean;
-import dhbwka.wwi.vertsys.javaee.minimarkt.jpa.Category;
-import dhbwka.wwi.vertsys.javaee.minimarkt.jpa.Task;
-import dhbwka.wwi.vertsys.javaee.minimarkt.jpa.TaskStatus;
+import com.dh.forchheimer_fuchs.ejb.ArbeitszeitBean;
+import com.dh.forchheimer_fuchs.jpa.Arbeitszeit;
 import java.io.IOException;
 import java.util.List;
+import javafx.concurrent.Task;
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -31,7 +29,7 @@ import javax.servlet.http.HttpServletResponse;
 public class TaskListServlet extends HttpServlet {
 
     @EJB
-    private CategoryBean categoryBean;
+    private ArbeitszeitBean arbeitszeitBean;
     
     @EJB
     private TaskBean taskBean;
@@ -40,24 +38,24 @@ public class TaskListServlet extends HttpServlet {
     public void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        // Verfügbare Kategorien und Stati für die Suchfelder ermitteln
-        request.setAttribute("categories", this.categoryBean.findAllSorted());
+        // Verfügbare Arbeitszeiten und Stati für die Suchfelder ermitteln
+        request.setAttribute("arbeitszeit", this.arbeitszeitBean.findAllSorted());
         request.setAttribute("statuses", TaskStatus.values());
 
         // Suchparameter aus der URL auslesen
         String searchText = request.getParameter("search_text");
-        String searchCategory = request.getParameter("search_category");
+        String searchArbeitszeit = request.getParameter("search_arbeitszeit");
         String searchStatus = request.getParameter("search_status");
 
-        // Anzuzeigende Aufgaben suchen
-        Category category = null;
+        // Anzuzeigende Arbeitszeiten suchen
+        Arbeitszeit arbeitszeit = null;
         TaskStatus status = null;
 
-        if (searchCategory != null) {
+        if (searchArbeitszeit != null) {
             try {
-                category = this.categoryBean.findById(Long.parseLong(searchCategory));
+                arbeitszeit = this.arbeitszeitBean.findById(Long.parseLong(searchArbeitszeit));
             } catch (NumberFormatException ex) {
-                category = null;
+                arbeitszeit = null;
             }
         }
 
@@ -70,7 +68,7 @@ public class TaskListServlet extends HttpServlet {
 
         }
 
-        List<Task> tasks = this.taskBean.search(searchText, category, status);
+        List<Task> tasks = this.taskBean.search(searchText, arbeitszeit, status);
         request.setAttribute("tasks", tasks);
 
         // Anfrage an die JSP weiterleiten

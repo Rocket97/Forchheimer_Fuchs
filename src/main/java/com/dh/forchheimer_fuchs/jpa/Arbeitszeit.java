@@ -23,26 +23,26 @@ public class Arbeitszeit extends Einsatz implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long zeitId;
-    
+
     @ManyToOne
     private Benutzer helfer = new Benutzer();
-    
+
     //Konstruktoren
     public Arbeitszeit() {
-        
+
     }
 
     public Arbeitszeit(long zeitId, Benutzer helfer) {
         this.zeitId = zeitId;
         this.helfer = helfer;
     }
-    
+
     // Setter und Getter
     public long getZeitId() {
         return zeitId;
     }
 
     public void setZeitId(long id) {
-        this.zeitId = zeitId;
+        this.zeitId = id;
     }
 }
