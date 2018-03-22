@@ -26,7 +26,7 @@
                         <option value="">Keine Kategorie</option>
 
                         <c:forEach items="${categories}" var="category">
-                            <option value="${category.id}" ${task_form.values["effort_category"][0] == category.id ? 'selected' : ''}>
+                            <option value="${category.id}" ${effort_form.values["effort_category"][0] == category.id ? 'selected' : ''}>
                                 <c:out value="${category.name}" />
                             </option>
                         </c:forEach>
