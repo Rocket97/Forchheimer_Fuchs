@@ -4,7 +4,11 @@ package com.dh.forchheimer_fuchs.jpa;
  * Statuswerte einer Aufgabe.
  */
 public enum StundenKategorie {
-    AUS_UND_WEITERBILDUNG, HAUSINSTANDHALTUNG, VERWALTUNGSARBEIT, MATERIALPFLEGE, FAHRZEUGWARTUNG, JRK_VERWALTUNGSARBEIT, NOTFALLDARSTELLUNG, SCHULSANITÄTSDIENST;
+    AUS_UND_WEITERBILDUNG, HAUSINSTANDHALTUNG, VERWALTUNGSARBEIT, MATERIALPFLEGE,
+    FAHRZEUGWARTUNG, JRK_VERWALTUNGSARBEIT, NOTFALLDARSTELLUNG, SCHULSANITÄTSDIENST,
+    BEREITSCHAFTSABEND, JAHRESHAUPTVERSAMMLUNG, VERWALTUNGSSITZUNG, KAMERADSCHAFTSPFLEGE,
+    JUGENDBEREITSCHAFTSABEND; 
+
 
     /**
      * Bezeichnung ermitteln
@@ -29,6 +33,16 @@ public enum StundenKategorie {
                 return "Notfalldarstellung";
             case SCHULSANITÄTSDIENST:
                 return "Schulsanitätsdienst";
+            case BEREITSCHAFTSABEND:
+                return "Bereitschaftsabend";
+            case JAHRESHAUPTVERSAMMLUNG:
+                return "Jahreshauptversammlung";
+            case VERWALTUNGSSITZUNG:
+                return "Verwaltungssitzung";
+            case KAMERADSCHAFTSPFLEGE:
+                return "Kameradschaftspflege";
+            case JUGENDBEREITSCHAFTSABEND:
+                return "Jugendbereitschaftsabend";
             default:
                 return this.toString();
         }

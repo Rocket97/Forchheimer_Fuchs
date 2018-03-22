@@ -11,6 +11,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 
 /**
  *
@@ -25,8 +26,12 @@ public class Arbeitszeit extends Einsatz implements Serializable {
     private long zeitId;
 
     @ManyToOne
-    private Benutzer helfer = new Benutzer();
+    private Benutzer helfer;
+    
+    @OneToOne
+    private StundenKategorie kategorie;
 
+    
     //Konstruktoren
     public Arbeitszeit() {
 
@@ -36,13 +41,30 @@ public class Arbeitszeit extends Einsatz implements Serializable {
         this.zeitId = zeitId;
         this.helfer = helfer;
     }
-
-    // Setter und Getter
+    
+    //<editor-fold defaultstate="collapsed" desc="Getter und Setter">
     public long getZeitId() {
         return zeitId;
     }
-
+    
     public void setZeitId(long id) {
         this.zeitId = id;
     }
+    
+    public Benutzer getHelfer() {
+        return helfer;
+    }
+    
+    public void setHelfer(Benutzer helfer) {
+        this.helfer = helfer;
+    }
+    
+    public StundenKategorie getKategorie() {
+        return kategorie;
+    }
+    
+    public void setKategorie(StundenKategorie kategorie) {
+        this.kategorie = kategorie;
+    }
+//</editor-fold>
 }
