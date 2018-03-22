@@ -7,7 +7,7 @@
  * Dieser Quellcode ist lizenziert unter einer
  * Creative Commons Namensnennung 4.0 International Lizenz.
  */
-package com.dh.fochheimer_fuchs.web;
+package com.dh.forchheimer_fuchs.web;
 
 import dhbwka.wwi.vertsys.javaee.minimarkt.ejb.CategoryBean;
 import dhbwka.wwi.vertsys.javaee.minimarkt.ejb.TaskBean;
