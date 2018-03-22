@@ -6,10 +6,12 @@
 package com.dh.forchheimer_fuchs.ejb;
 
 import com.dh.forchheimer_fuchs.jpa.Benutzer;
+import java.util.List;
 import javax.annotation.Resource;
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.EJBContext;
 import javax.ejb.Stateless;
+import javax.persistence.Entity;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
@@ -113,10 +115,13 @@ public class BenutzerBean{
         return em.merge(benutzer);
     }
 
-    public void signup(String username, String password1) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    @RolesAllowed("ff_nutzer")
+    public List<Entity> findByUsername(String benutzer) {
+        String select = "SELECT x FROM Benutzer x WHERE Benutzername LIKE :benutzer";
+        return em.createQuery(select).setParameter("benutzer", benutzer).getResultList();
+        
     }
-
+    
     /**
      * Fehler: Der Benutzername ist bereits vergeben
      */

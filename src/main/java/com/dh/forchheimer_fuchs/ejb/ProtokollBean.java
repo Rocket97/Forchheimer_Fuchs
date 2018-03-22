@@ -29,8 +29,8 @@ public class ProtokollBean extends EntityBean<Protokoll, Long>{
          return em.createQuery(select).setParameter("titel", titel).getResultList();
     }
     
-    public List<Entity> sucheNachArt(String art) {
-        String select = "SELECT x FROM Protokoll x WHERE Art LIKE :art";
-        return em.createQuery(art).setParameter("art", art).getResultList();        
+    public List<Entity> sucheNachKategorie(String kategorie) {
+        String select = "SELECT x FROM Protokoll x WHERE Kategorie LIKE :kategorie";
+        return em.createQuery(select).setParameter("kategorie", kategorie).getResultList();        
     }
 }
