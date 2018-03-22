@@ -30,7 +30,7 @@ import javax.servlet.http.HttpSession;
  * die zum Löschen der Kategorien verwendet werden kann.
  */
 @WebServlet(urlPatterns = {"/app/categories/"})
-public class StundenBearbeitenServlet extends HttpServlet {
+public class StundenAnlegenServlet extends HttpServlet {
 
     @EJB
     ArbeitszeitBean arbeitszeitBean;
@@ -78,7 +78,7 @@ public class StundenBearbeitenServlet extends HttpServlet {
     }
 
     /**
-     * Aufgerufen in doPost(): Neue Kategorie anlegen
+     * Aufgerufen in doPost(): Neue Arbeitszeit anlegen
      *
      * @param request
      * @param response
