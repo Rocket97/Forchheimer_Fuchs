@@ -9,14 +9,12 @@
  */
 package com.dh.forchheimer_fuchs.web;
 
-import dhbwka.wwi.vertsys.javaee.minimarkt.ejb.CategoryBean;
-import dhbwka.wwi.vertsys.javaee.minimarkt.ejb.TaskBean;
-import dhbwka.wwi.vertsys.javaee.minimarkt.ejb.UserBean;
-import dhbwka.wwi.vertsys.javaee.minimarkt.ejb.ValidationBean;
-import dhbwka.wwi.vertsys.javaee.minimarkt.jpa.Task;
-import dhbwka.wwi.vertsys.javaee.minimarkt.jpa.TaskStatus;
+import com.dh.forchheimer_fuchs.ejb.ArbeitszeitBean;
+import com.dh.forchheimer_fuchs.ejb.BenutzerBean;
+import com.dh.forchheimer_fuchs.ejb.ValidationBean;
+import com.dh.forchheimer_fuchs.jpa.Arbeitszeit;
+import com.dh.forchheimer_fuchs.jpa.StundenKategorie;
 import java.io.IOException;
-import java.sql.Date;
 import java.sql.Time;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -34,17 +32,14 @@ import javax.servlet.http.HttpSession;
  * Seite zum Anlegen oder Bearbeiten einer Aufgabe.
  */
 @WebServlet(urlPatterns = "/app/task/*")
-public class TaskEditServlet extends HttpServlet {
+public class SundenBearbeitenServlet extends HttpServlet {
 
     @EJB
-    TaskBean taskBean;
+    ArbeitszeitBean arbeitszeitBean;
 
     @EJB
-    CategoryBean categoryBean;
-
-    @EJB
-    UserBean userBean;
-
+    BenutzerBean benutzerBean;
+    
     @EJB
     ValidationBean validationBean;
 
@@ -52,20 +47,20 @@ public class TaskEditServlet extends HttpServlet {
     public void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        // Verfügbare Kategorien und Stati für die Suchfelder ermitteln
-        request.setAttribute("categories", this.categoryBean.findAllSorted());
-        request.setAttribute("statuses", TaskStatus.values());
+        // Verfügbare Arbeitszeiten und Stati für die Suchfelder ermitteln
+        request.setAttribute("arbeitszeit", this.arbeitszeitBean.findAllSorted());
+        request.setAttribute("kategorie", StundenKategorie.values());
 
-        // Zu bearbeitende Aufgabe einlesen
+        // Zu bearbeitende Arbeitszeit einlesen
         HttpSession session = request.getSession();
 
-        Task task = this.getRequestedTask(request);
-        request.setAttribute("edit", task.getId() != 0);
+        Arbeitszeit arbeitszeit = this.getRequestedTask(request);
+        request.setAttribute("edit", arbeitszeit.getZeitId() != 0);
                                 
         if (session.getAttribute("task_form") == null) {
             // Keine Formulardaten mit fehlerhaften Daten in der Session,
             // daher Formulardaten aus dem Datenbankobjekt übernehmen
-            request.setAttribute("task_form", this.createTaskForm(task));
+            request.setAttribute("task_form", this.createTaskForm(arbeitszeit));
         }
 
         // Anfrage an die JSP weiterleiten
@@ -111,52 +106,54 @@ public class TaskEditServlet extends HttpServlet {
         // Formulareingaben prüfen
         List<String> errors = new ArrayList<>();
 
-        String taskCategory = request.getParameter("task_category");
-        String taskDueDate = request.getParameter("task_due_date");
-        String taskDueTime = request.getParameter("task_due_time");
-        String taskStatus = request.getParameter("task_status");
-        String taskShortText = request.getParameter("task_short_text");
-        String taskLongText = request.getParameter("task_long_text");
+     
+        String taskAnfahrtszeit = request.getParameter("task_anfahrtszeit");
+        String taskAbfahrtszeit = request.getParameter("task_abfahrtszeit");
+        String taskBeginn = request.getParameter("task_Beginn");
+        String taskEnde = request.getParameter("task_ende");
+        String taskkategorie = request.getParameter("task_kategorie");
 
-        Task task = this.getRequestedTask(request);
+        Time anfahrtszeit = WebUtils.parseTime(taskAnfahrtszeit);
+        Time abfahrtszeit = WebUtils.parseTime(taskAbfahrtszeit);
+        Time beginn = WebUtils.parseTime(taskBeginn);
+        Time ende = WebUtils.parseTime(taskEnde);
+        
+        Arbeitszeit arbeitszeit = this.getRequestedTask(request);
 
-        if (taskCategory != null && !taskCategory.trim().isEmpty()) {
+        if (taskAnfahrtszeit != null && !taskAnfahrtszeit.trim().isEmpty()) {
             try {
-                task.setCategory(this.categoryBean.findById(Long.parseLong(taskCategory)));
+                arbeitszeit.setAnfahrtszeit(anfahrtszeit);
             } catch (NumberFormatException ex) {
                 // Ungültige oder keine ID mitgegeben
             }
         }
-
-        Date dueDate = WebUtils.parseDate(taskDueDate);
-        Time dueTime = WebUtils.parseTime(taskDueTime);
-
-        if (dueDate != null) {
-            task.setDueDate(dueDate);
-        } else {
-            errors.add("Das Datum muss dem Format dd.mm.yyyy entsprechen.");
+        if (taskAbfahrtszeit != null && !taskAbfahrtszeit.trim().isEmpty()) {
+            try {
+                arbeitszeit.setAbfahrtszeit(abfahrtszeit);
+            } catch (NumberFormatException ex) {
+                // Ungültige oder keine ID mitgegeben
+            }
         }
-
-        if (dueTime != null) {
-            task.setDueTime(dueTime);
-        } else {
-            errors.add("Die Uhrzeit muss dem Format hh:mm:ss entsprechen.");
+        if (taskBeginn != null && !taskBeginn.trim().isEmpty()) {
+            try {
+                arbeitszeit.setBeginn(beginn);
+            } catch (NumberFormatException ex) {
+                // Ungültige oder keine ID mitgegeben
+            }
         }
-
-        try {
-            task.setStatus(TaskStatus.valueOf(taskStatus));
-        } catch (IllegalArgumentException ex) {
-            errors.add("Der ausgewählte Status ist nicht vorhanden.");
+        if (taskEnde != null && !taskEnde.trim().isEmpty()) {
+            try {
+                arbeitszeit.setEnde(ende);
+            } catch (NumberFormatException ex) {
+                // Ungültige oder keine ID mitgegeben
+            }
         }
-
-        task.setShortText(taskShortText);
-        task.setLongText(taskLongText);
-
-        this.validationBean.validate(task, errors);
+        
+        this.validationBean.validate(arbeitszeit, errors);
 
         // Datensatz speichern
         if (errors.isEmpty()) {
-            this.taskBean.update(task);
+            this.arbeitszeitBean.update(arbeitszeit);
         }
 
         // Weiter zur nächsten Seite
@@ -188,8 +185,8 @@ public class TaskEditServlet extends HttpServlet {
             throws ServletException, IOException {
 
         // Datensatz löschen
-        Task task = this.getRequestedTask(request);
-        this.taskBean.delete(task);
+        Arbeitszeit arbeitszeit = this.getRequestedTask(request);
+        this.arbeitszeitBean.delete(arbeitszeit);
 
         // Zurück zur Übersicht
         response.sendRedirect(WebUtils.appUrl(request, "/app/tasks/"));
@@ -203,34 +200,36 @@ public class TaskEditServlet extends HttpServlet {
      * @param request HTTP-Anfrage
      * @return Zu bearbeitende Aufgabe
      */
-    private Task getRequestedTask(HttpServletRequest request) {
+    private Arbeitszeit getRequestedTask(HttpServletRequest request) {
         // Zunächst davon ausgehen, dass ein neuer Satz angelegt werden soll
-        Task task = new Task();
-        task.setOwner(this.userBean.getCurrentUser());
-        task.setDueDate(new Date(System.currentTimeMillis()));
-        task.setDueTime(new Time(System.currentTimeMillis()));
-
+        Arbeitszeit arbeitszeit = new Arbeitszeit();
+        arbeitszeit.setHelfer(this.benutzerBean.getCurrentUser());
+        arbeitszeit.setAnfahrtszeit(new Time(System.currentTimeMillis()));
+        arbeitszeit.setAbfahrtszeit(new Time(System.currentTimeMillis()));
+        arbeitszeit.setBeginn(new Time(System.currentTimeMillis()));
+        arbeitszeit.setEnde(new Time(System.currentTimeMillis()));
+        
         // ID aus der URL herausschneiden
-        String taskId = request.getPathInfo();
+        String arbeitszeitId = request.getPathInfo();
 
-        if (taskId == null) {
-            taskId = "";
+        if (arbeitszeitId == null) {
+            arbeitszeitId = "";
         }
 
-        taskId = taskId.substring(1);
+        arbeitszeitId = arbeitszeitId.substring(1);
 
-        if (taskId.endsWith("/")) {
-            taskId = taskId.substring(0, taskId.length() - 1);
+        if (arbeitszeitId.endsWith("/")) {
+            arbeitszeitId = arbeitszeitId.substring(0, arbeitszeitId.length() - 1);
         }
 
         // Versuchen, den Datensatz mit der übergebenen ID zu finden
         try {
-            task = this.taskBean.findById(Long.parseLong(taskId));
+            arbeitszeit = this.arbeitszeitBean.findById(Long.parseLong(arbeitszeitId));
         } catch (NumberFormatException ex) {
             // Ungültige oder keine ID in der URL enthalten
         }
 
-        return task;
+        return arbeitszeit;
     }
 
     /**
@@ -243,37 +242,30 @@ public class TaskEditServlet extends HttpServlet {
      * @param task Die zu bearbeitende Aufgabe
      * @return Neues, gefülltes FormValues-Objekt
      */
-    private FormValues createTaskForm(Task task) {
+    private FormValues createTaskForm(Arbeitszeit arbeitszeit) {
         Map<String, String[]> values = new HashMap<>();
 
         values.put("task_owner", new String[]{
-            task.getOwner().getUsername()
+            arbeitszeit.getHelfer().getBenutzername()
         });
+       
 
-        if (task.getCategory() != null) {
-            values.put("task_category", new String[]{
-                task.getCategory().toString()
+        if (arbeitszeit.getKategorie()!= null) {
+            values.put("task_kategorie", new String[]{
+                arbeitszeit.getKategorie().toString()
             });
         }
 
         values.put("task_due_date", new String[]{
-            WebUtils.formatDate(task.getDueDate())
+            WebUtils.formatTime(arbeitszeit.getBeginn())
         });
 
         values.put("task_due_time", new String[]{
-            WebUtils.formatTime(task.getDueTime())
+            WebUtils.formatTime(arbeitszeit.getEnde())
         });
 
-        values.put("task_status", new String[]{
-            task.getStatus().toString()
-        });
-
-        values.put("task_short_text", new String[]{
-            task.getShortText()
-        });
-
-        values.put("task_long_text", new String[]{
-            task.getLongText()
+        values.put("task_kategorie", new String[]{
+            arbeitszeit.getKategorie().toString()
         });
 
         FormValues formValues = new FormValues();

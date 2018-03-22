@@ -14,6 +14,12 @@
     <jsp:attribute name="head">
         <link rel="stylesheet" href="<c:url value="/css/login.css"/>" />
     </jsp:attribute>
+        
+    <jsp:attribute name="menu">
+        <div class="menuitem">
+            <a href="<c:url value="/home/"/>" class="icon-homehome">Home</a>
+        </div>
+    </jsp:attribute>
 
     <jsp:attribute name="content">
         <div class="container">
@@ -43,7 +49,6 @@
                     
                     <label for="geleistete_stunden_abfahrtszeit">
                         Abfahrtszeit:
-                        <span class="required">*</span>
                     </label>
                     <div class="side-by-side">
                         <input type="date" name="geleistete_stunden_abfahrtszeit" value="${signup_form.values["geleistete_stunden_abfahrtszeit"][0]}">
@@ -67,7 +72,6 @@
                     
                     <label for="geleistete_stunden_ankunftszeit">
                         Ankunftszeit:
-                        <span class="required">*</span>
                     </label>
                     <div class="side-by-side">
                         <input type="date" name="geleistete_stunden_ankunftszeit" value="${signup_form.values["geleistete_stunden_ankunftszeit"][0]}">
