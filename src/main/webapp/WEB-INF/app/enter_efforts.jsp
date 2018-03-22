@@ -49,7 +49,6 @@
                     
                     <label for="geleistete_stunden_abfahrtszeit">
                         Abfahrtszeit:
-                        <span class="required">*</span>
                     </label>
                     <div class="side-by-side">
                         <input type="date" name="geleistete_stunden_abfahrtszeit" value="${signup_form.values["geleistete_stunden_abfahrtszeit"][0]}">
@@ -73,7 +72,6 @@
                     
                     <label for="geleistete_stunden_ankunftszeit">
                         Ankunftszeit:
-                        <span class="required">*</span>
                     </label>
                     <div class="side-by-side">
                         <input type="date" name="geleistete_stunden_ankunftszeit" value="${signup_form.values["geleistete_stunden_ankunftszeit"][0]}">
