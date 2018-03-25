@@ -46,35 +46,13 @@
                     <div class="side-by-side">
                         <input type="date" name="geleistete_stunden_datum" value="${signup_form.values["geleistete_stunden_datum"][0]}">
                     </div>
-                    
-                    <label for="geleistete_stunden_abfahrtszeit">
-                        Abfahrtszeit:
+             
+                    <label for="efforts_zeit">
+                        Zeit:
+                        <span class="required">* (in Minuten)</span>
                     </label>
                     <div class="side-by-side">
-                        <input type="date" name="geleistete_stunden_abfahrtszeit" value="${signup_form.values["geleistete_stunden_abfahrtszeit"][0]}">
-                    </div>
-                    
-                    <label for="geleistete_stunden_beginn">
-                        Beginn:
-                        <span class="required">*</span>
-                    </label>
-                    <div class="side-by-side">
-                        <input type="date" name="geleistete_stunden_beginn" value="${signup_form.values["geleistete_stunden_beginn"][0]}">
-                    </div>
-                    
-                    <label for="geleistete_stunden_ende">
-                        Ende:
-                        <span class="required">*</span>
-                    </label>
-                    <div class="side-by-side">
-                        <input type="date" name="geleistete_stunden_ende" value="${signup_form.values["geleistete_stunden_ende"][0]}">
-                    </div>
-                    
-                    <label for="geleistete_stunden_ankunftszeit">
-                        Ankunftszeit:
-                    </label>
-                    <div class="side-by-side">
-                        <input type="date" name="geleistete_stunden_ankunftszeit" value="${signup_form.values["geleistete_stunden_ankunftszeit"][0]}">
+                        <input type="date" name="efforts_zeit" value="${signup_form.values["efforts_zeit"][0]}">
                     </div>
                     
                     <%-- Button zum Speichern --%>
@@ -99,10 +77,7 @@
                         <tr>
                             <th>Datum</th>
                             <th>Kategorie</th>
-                            <th>Abfahrtszeit</th>
-                            <th>Beginn</th>
-                            <th>Ende</th>
-                            <th>Ankunftszeit</th>
+                            <th>Zeit</th>
                         </tr>
                     </thead>
                     <c:forEach items="${efforts}" var="effort">
@@ -116,16 +91,7 @@
                                 <c:out value="${effort.category.name}"/>
                             </td>
                             <td>
-                                <c:out value="${utils.formatDate(effort.startTime)}"/>
-                            </td>
-                            <td>
-                                <c:out value="${utils.formatDate(effort.beginTime)}"/>
-                            </td>
-                            <td>
-                                <c:out value="${utils.formatDate(effort.endTime)}"/>
-                            </td>
-                            <td>
-                                <c:out value="${utils.formatDate(effort.returnTime)}"/>
+                                <c:out value="${utils.formatDate(effort.time)}"/>
                             </td>
                         </tr>
                     </c:forEach>

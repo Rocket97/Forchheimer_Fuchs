@@ -55,6 +55,14 @@
                         <input type="date" name="gefahren_am_datum" value="${signup_form.values["gefahren_am_datum"][0]}">
                     </div>
                     
+                    <label for="protocol_zeit">
+                        Zeit:
+                        <span class="required">* (in Minuten)</span>
+                    </label>
+                    <div class="side-by-side">
+                        <input type="date" name="protocol_zeit" value="${signup_form.values["protocol_zeit"][0]}">
+                    </div>
+                    
                     <label for="protocol_ort">
                         Ort:
                         <span class="required">*</span>

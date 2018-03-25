@@ -32,58 +32,36 @@
             <form method="post" class="stacked">
                 <div class="column">
                     <%-- Buttons zum Weiterleiten auf die verschiedenen Seiten als Admin --%>
-                    <label for="effort_category">Kategorie:</label>
+                    <label for="special_effort_category">Kategorie:</label>
                     <div class="side-by-side">
-                    <select name="effort_category">
+                    <select name="special_effort_category">
                         <option value="">Keine Kategorie</option>
 
                         <c:forEach items="${categories}" var="category">
-                            <option value="${category.id}" ${effort_form.values["effort_category"][0] == category.id ? 'selected' : ''}>
+                            <option value="${category.id}" ${effort_form.values["special_effort_category"][0] == category.id ? 'selected' : ''}>
                                 <c:out value="${category.name}" />
                             </option>
                         </c:forEach>
                     </select>
                     </div>
                     
-                    <label for="geleistete_stunden_datum">
+                    <label for="special_geleistete_stunden_datum">
                         Datum:
                         <span class="required">*</span>
                     </label>
                     <div class="side-by-side">
-                        <input type="date" name="geleistete_stunden_datum" value="${signup_form.values["geleistete_stunden_datum"][0]}">
+                        <input type="date" name="special_geleistete_stunden_datum" value="${signup_form.values["special_geleistete_stunden_datum"][0]}">
                     </div>
                     
-                    <label for="geleistete_stunden_abfahrtszeit">
-                        Abfahrtszeit:
+                    <label for="special_efforts_zeit">
+                        Zeit:
+                        <span class="required">* (in Minuten)</span>
                     </label>
                     <div class="side-by-side">
-                        <input type="date" name="geleistete_stunden_abfahrtszeit" value="${signup_form.values["geleistete_stunden_abfahrtszeit"][0]}">
+                        <input type="date" name="special_efforts_zeit" value="${signup_form.values["special_efforts_zeit"][0]}">
                     </div>
                     
-                    <label for="geleistete_stunden_beginn">
-                        Beginn:
-                        <span class="required">*</span>
-                    </label>
-                    <div class="side-by-side">
-                        <input type="date" name="geleistete_stunden_beginn" value="${signup_form.values["geleistete_stunden_beginn"][0]}">
-                    </div>
-                    
-                    <label for="geleistete_stunden_ende">
-                        Ende:
-                        <span class="required">*</span>
-                    </label>
-                    <div class="side-by-side">
-                        <input type="date" name="geleistete_stunden_ende" value="${signup_form.values["geleistete_stunden_ende"][0]}">
-                    </div>
-                    
-                    <label for="geleistete_stunden_ankunftszeit">
-                        Ankunftszeit:
-                    </label>
-                    <div class="side-by-side">
-                        <input type="date" name="geleistete_stunden_ankunftszeit" value="${signup_form.values["geleistete_stunden_ankunftszeit"][0]}">
-                    </div>
-                    
-                    <label for="geleistete_stunden_ankunftszeit">
+                    <label for="helfer">
                         Helfer:
                         <span class="required">*</span>
                     </label>
@@ -91,7 +69,7 @@
                         <input type="text" name="helfer" value="${signup_form.values["helfer"][0]}">
                     </div>
                     
-                    <label for="geleistete_stunden_ankunftszeit">
+                    <label for="special_efforts_titel">
                         Titel:
                         <span class="required">*</span>
                     </label>
@@ -121,10 +99,7 @@
                         <tr>
                             <th>Datum</th>
                             <th>Kategorie</th>
-                            <th>Abfahrtszeit</th>
-                            <th>Beginn</th>
-                            <th>Ende</th>
-                            <th>Ankunftszeit</th>
+                            <th>Zeit</th>
                             <th>Helfer</th>
                         </tr>
                     </thead>
@@ -139,16 +114,7 @@
                                 <c:out value="${effort.category.name}"/>
                             </td>
                             <td>
-                                <c:out value="${utils.formatDate(effort.startTime)}"/>
-                            </td>
-                            <td>
-                                <c:out value="${utils.formatDate(effort.beginTime)}"/>
-                            </td>
-                            <td>
-                                <c:out value="${utils.formatDate(effort.endTime)}"/>
-                            </td>
-                            <td>
-                                <c:out value="${utils.formatDate(effort.returnTime)}"/>
+                                <c:out value="${utils.formatDate(effort.time)}"/>
                             </td>
                             <td>
                                 <c:out value="${effort.helfer}"/>
