@@ -8,10 +8,11 @@ package com.dh.forchheimer_fuchs.ejb;
 import com.dh.forchheimer_fuchs.jpa.Arbeitszeit;
 import com.dh.forchheimer_fuchs.jpa.Benutzer;
 import com.dh.forchheimer_fuchs.jpa.StundenKategorie;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.Stateless;
-import javax.persistence.Query;
 import org.jfree.chart.JFreeChart;
 
 
@@ -48,8 +49,8 @@ public class ArbeitszeitBean extends EntityBean<Arbeitszeit, Long> {
         
         // der Admin darf mehr Daten sehen
         if (benutzer.getAdmin()){
-            int zahl = em.createQuery("SELECT COUNT (zeitID) FROM arbeitszeit WHERE mitgliedsnr = :mnr");
-
+            int zahl = em.createQuery("SELECT zeitspanne FROM arbeitszeit WHERE mitgliedsnr = :mnr AND kategorie = :kategorie");
+        }
         return ;
     }
         
@@ -58,6 +59,10 @@ public class ArbeitszeitBean extends EntityBean<Arbeitszeit, Long> {
         Date fromDate = from.getTime();
         Date toDate = to.getTime();
         long difference = fromDate.getTime() - toDate.getTime();
-        return (int) difference / 60000;
+        return (int) (difference / 60000);
     }
+    
+    public List<Arbeitszeit> findAllSorted(Benutzer benutzer){
+        return em.createQuery("SELECT a FROM arbeitszeit a WHERE a.helfer = :benutzer").setParameter("benutzer", benutzer).getResultList();
+    } 
 }
