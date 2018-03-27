@@ -13,11 +13,11 @@ import com.dh.forchheimer_fuchs.ejb.ArbeitszeitBean;
 import com.dh.forchheimer_fuchs.ejb.BenutzerBean;
 import com.dh.forchheimer_fuchs.ejb.ValidationBean;
 import com.dh.forchheimer_fuchs.jpa.Arbeitszeit;
-import com.dh.forchheimer_fuchs.jpa.Benutzer;
 import com.dh.forchheimer_fuchs.jpa.StundenKategorie;
 import java.io.IOException;
 import java.sql.Time;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -49,7 +49,7 @@ public class SundenBearbeitenServlet extends HttpServlet {
             throws ServletException, IOException {
 
         // Verfügbare Arbeitszeiten und Stati für die Suchfelder ermitteln
-        request.setAttribute("arbeitszeit", this.arbeitszeitBean.findAllSorted(Benutzer benutzer));
+        request.setAttribute("arbeitszeit", this.arbeitszeitBean.findAllSorted(this.benutzerBean.getCurrentUser()));
         request.setAttribute("kategorie", StundenKategorie.values());
 
         // Zu bearbeitende Arbeitszeit einlesen
@@ -65,7 +65,7 @@ public class SundenBearbeitenServlet extends HttpServlet {
         }
 
         // Anfrage an die JSP weiterleiten
-        request.getRequestDispatcher("/WEB-INF/app/task_edit.jsp").forward(request, response);
+        request.getRequestDispatcher("/WEB-INF/app/enter_efforts.jsp").forward(request, response);
 
         session.removeAttribute("task_form");
     }
@@ -111,7 +111,7 @@ public class SundenBearbeitenServlet extends HttpServlet {
        
         String taskBeginn = request.getParameter("task_Beginn");
         String taskEnde = request.getParameter("task_ende");
-        String taskkategorie = request.getParameter("task_kategorie");
+        StundenKategorie taskKategorie =StundenKategorie.valueOf(request.getParameter("task_kategorie"));
       
         Time beginn = WebUtils.parseTime(taskBeginn);
         Time ende = WebUtils.parseTime(taskEnde);
@@ -122,17 +122,23 @@ public class SundenBearbeitenServlet extends HttpServlet {
             try {
                 arbeitszeit.setBeginn(beginn);
             } catch (NumberFormatException ex) {
-                // Ungültige oder keine ID mitgegeben
+                // Ungültige oder keine Zeit mitgegeben
             }
         }
         if (taskEnde != null && !taskEnde.trim().isEmpty()) {
             try {
                 arbeitszeit.setEnde(ende);
             } catch (NumberFormatException ex) {
-                // Ungültige oder keine ID mitgegeben
+                // Ungültige oder keine Zeit mitgegeben
             }
         }
-        
+         if (taskKategorie != null) {
+            try {
+                arbeitszeit.setKategorie(taskKategorie);
+            } catch (NumberFormatException ex) {
+                // Ungültige oder keine Kategorie mitgegeben
+            }
+        }
         this.validationBean.validate(arbeitszeit, errors);
 
         // Datensatz speichern
@@ -173,7 +179,7 @@ public class SundenBearbeitenServlet extends HttpServlet {
         this.arbeitszeitBean.delete(arbeitszeit);
 
         // Zurück zur Übersicht
-        response.sendRedirect(WebUtils.appUrl(request, "/app/tasks/"));
+        response.sendRedirect(WebUtils.appUrl(request, "/app/home/"));
     }
 
     /**
@@ -188,11 +194,9 @@ public class SundenBearbeitenServlet extends HttpServlet {
         // Zunächst davon ausgehen, dass ein neuer Satz angelegt werden soll
         Arbeitszeit arbeitszeit = new Arbeitszeit();
         arbeitszeit.setHelfer(this.benutzerBean.getCurrentUser());
-        arbeitszeit.setAnfahrtszeit(new Time(System.currentTimeMillis()));
-        arbeitszeit.setAbfahrtszeit(new Time(System.currentTimeMillis()));
         arbeitszeit.setBeginn(new Time(System.currentTimeMillis()));
         arbeitszeit.setEnde(new Time(System.currentTimeMillis()));
-        
+        arbeitszeit.setZeitspanne(this.arbeitszeitBean.berechneZeitspanne((Calendar)request.getAttribute("efforts_zeit_beginn"), (Calendar)request.getAttribute("efforts_zeit_ende")));
         // ID aus der URL herausschneiden
         String arbeitszeitId = request.getPathInfo();
 
