@@ -32,15 +32,16 @@ public class Arbeitszeit extends Einsatz implements Serializable {
     private StundenKategorie kategorie;
 
     
-    //Konstruktoren
+    //<editor-fold defaultstate="collapsed" desc="Konstruktoren">
     public Arbeitszeit() {
-
+        
     }
-
+    
     public Arbeitszeit(long zeitId, Benutzer helfer) {
         this.zeitId = zeitId;
         this.helfer = helfer;
     }
+//</editor-fold>
     
     //<editor-fold defaultstate="collapsed" desc="Getter und Setter">
     public long getZeitId() {
