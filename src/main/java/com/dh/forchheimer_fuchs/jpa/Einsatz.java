@@ -24,14 +24,6 @@ public class Einsatz {
     @Temporal(TemporalType.DATE)
     private Date datum;
     
-    @Column(name = "ANFAHRTSZEIT")
-    @Temporal(TemporalType.TIME)
-    private Time anfahrtszeit;
-    
-    @Column(name = "ABFAHRTSZEIT")
-    @Temporal(TemporalType.TIME)
-    private Time abfahrtszeit;
-    
     @Column(name = "BEGINN")
     @Temporal(TemporalType.TIME)
     private Time beginn;
@@ -45,10 +37,8 @@ public class Einsatz {
     public Einsatz() {
     }
     
-    public Einsatz(Date datum, Time anfahrtszeit, Time abfahrtszeit, Time beginn, Time ende) {
+    public Einsatz(Date datum, Time beginn, Time ende) {
         this.datum = datum;
-        this.anfahrtszeit = anfahrtszeit;
-        this.abfahrtszeit = abfahrtszeit;
         this.beginn = beginn;
         this.ende = ende;
     }
@@ -62,23 +52,7 @@ public class Einsatz {
     public void setDatum(Date datum) {
         this.datum = datum;
     }
-    
-    public Time getAnfahrtszeit() {
-        return anfahrtszeit;
-    }
-    
-    public void setAnfahrtszeit(Time anfahrtszeit) {
-        this.anfahrtszeit = anfahrtszeit;
-    }
-    
-    public Time getAbfahrtszeit() {
-        return abfahrtszeit;
-    }
-    
-    public void setAbfahrtszeit(Time abfahrtszeit) {
-        this.abfahrtszeit = abfahrtszeit;
-    }
-    
+
     public Time getBeginn() {
         return beginn;
     }

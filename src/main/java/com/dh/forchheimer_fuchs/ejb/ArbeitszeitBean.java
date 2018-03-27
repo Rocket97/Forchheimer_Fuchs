@@ -9,7 +9,9 @@ import com.dh.forchheimer_fuchs.jpa.Arbeitszeit;
 import com.dh.forchheimer_fuchs.jpa.Benutzer;
 import com.dh.forchheimer_fuchs.jpa.StundenKategorie;
 import java.util.List;
+import javax.annotation.security.RolesAllowed;
 import javax.ejb.Stateless;
+import javax.persistence.Query;
 import org.jfree.chart.JFreeChart;
 
 
@@ -24,8 +26,8 @@ public class ArbeitszeitBean extends EntityBean<Arbeitszeit, Long> {
         super(Arbeitszeit.class);
     }
     
-    
-    public JFreeChart stundenAuswerten(List<Benutzer> helfer, StundenKategorie kategorie, Benutzer benutzer){
+    @RolesAllowed("ff_admin")
+    public JFreeChart stundenAuswertenAlle(List<Benutzer> helfer, StundenKategorie kategorie, Benutzer benutzer){
         
         // der Admin darf mehr Daten sehen
         String select = "";
@@ -40,5 +42,22 @@ public class ArbeitszeitBean extends EntityBean<Arbeitszeit, Long> {
         }
         em.createQuery(select);
         return ;
+    }
+    
+    public JFreeChart stundenAuswertenEinzeln(Benutzer helfer, Benutzer benutzer){
+        
+        // der Admin darf mehr Daten sehen
+        if (benutzer.getAdmin()){
+            int zahl = em.createQuery("SELECT COUNT (zeitID) FROM arbeitszeit WHERE mitgliedsnr = :mnr");
+
+        return ;
+    }
+        
+    
+    public int berechneZeitspanne(Calendar from, Calendar to) {
+        Date fromDate = from.getTime();
+        Date toDate = to.getTime();
+        long difference = fromDate.getTime() - toDate.getTime();
+        return (int) difference / 60000;
     }
 }
