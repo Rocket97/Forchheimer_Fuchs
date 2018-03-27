@@ -10,12 +10,10 @@
 package com.dh.forchheimer_fuchs.web;
 
 import com.dh.forchheimer_fuchs.ejb.ArbeitszeitBean;
+import com.dh.forchheimer_fuchs.ejb.BenutzerBean;
 import com.dh.forchheimer_fuchs.ejb.ValidationBean;
 import com.dh.forchheimer_fuchs.jpa.Arbeitszeit;
-import com.dh.forchheimer_fuchs.jpa.Benutzer;
 import java.io.IOException;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.servlet.RequestDispatcher;
@@ -39,13 +37,17 @@ public class StundenAnlegenServlet extends HttpServlet {
 
     @EJB
     ValidationBean validationBean;
+    
+    @EJB
+    BenutzerBean benutzerBean;
 
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        
 
         // Alle vorhandenen Arbeitszeiten ermitteln
-        request.setAttribute("arbeitszeiten", this.arbeitszeitBean.findAllSorted(Benutzer benutzer));
+        request.setAttribute("arbeitszeiten", this.arbeitszeitBean.findAllSorted(this.benutzerBean.getCurrentUser()));
         
         
 
