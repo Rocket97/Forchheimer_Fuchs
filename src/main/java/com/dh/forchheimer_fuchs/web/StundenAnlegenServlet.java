@@ -12,9 +12,11 @@ package com.dh.forchheimer_fuchs.web;
 import com.dh.forchheimer_fuchs.ejb.ArbeitszeitBean;
 import com.dh.forchheimer_fuchs.ejb.ValidationBean;
 import com.dh.forchheimer_fuchs.jpa.Arbeitszeit;
+import com.dh.forchheimer_fuchs.jpa.Benutzer;
 import java.io.IOException;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
-import javafx.concurrent.Task;
 import javax.ejb.EJB;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -29,7 +31,7 @@ import javax.servlet.http.HttpSession;
  * Formular, mit dem ein neue Kategorie angelegt werden kann, sowie eine Liste,
  * die zum Löschen der Kategorien verwendet werden kann.
  */
-@WebServlet(urlPatterns = {"/app/categories/"})
+@WebServlet(urlPatterns = {"/app/stundenAnlegen/"})
 public class StundenAnlegenServlet extends HttpServlet {
 
     @EJB
@@ -43,7 +45,9 @@ public class StundenAnlegenServlet extends HttpServlet {
             throws ServletException, IOException {
 
         // Alle vorhandenen Arbeitszeiten ermitteln
-        request.setAttribute("arbeitszeiten", this.arbeitszeitBean.findAllSorted());
+        request.setAttribute("arbeitszeiten", this.arbeitszeitBean.findAllSorted(Benutzer benutzer));
+        
+        
 
         // Anfrage an dazugerhörige JSP weiterleiten
         RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/app/enter_efforts.jsp");
@@ -111,7 +115,7 @@ public class StundenAnlegenServlet extends HttpServlet {
 
         response.sendRedirect(request.getRequestURI());
     }
-
+    
     /**
      * Aufgerufen in doPost(): Markierte Arbeitszeit löschen
      *

@@ -13,6 +13,7 @@ import com.dh.forchheimer_fuchs.ejb.ArbeitszeitBean;
 import com.dh.forchheimer_fuchs.ejb.BenutzerBean;
 import com.dh.forchheimer_fuchs.ejb.ValidationBean;
 import com.dh.forchheimer_fuchs.jpa.Arbeitszeit;
+import com.dh.forchheimer_fuchs.jpa.Benutzer;
 import com.dh.forchheimer_fuchs.jpa.StundenKategorie;
 import java.io.IOException;
 import java.sql.Time;
@@ -31,7 +32,7 @@ import javax.servlet.http.HttpSession;
 /**
  * Seite zum Anlegen oder Bearbeiten einer Aufgabe.
  */
-@WebServlet(urlPatterns = "/app/task/*")
+@WebServlet(urlPatterns = "/app/stundenAnlegen/*")
 public class SundenBearbeitenServlet extends HttpServlet {
 
     @EJB
@@ -48,7 +49,7 @@ public class SundenBearbeitenServlet extends HttpServlet {
             throws ServletException, IOException {
 
         // Verfügbare Arbeitszeiten und Stati für die Suchfelder ermitteln
-        request.setAttribute("arbeitszeit", this.arbeitszeitBean.findAllSorted());
+        request.setAttribute("arbeitszeit", this.arbeitszeitBean.findAllSorted(Benutzer benutzer));
         request.setAttribute("kategorie", StundenKategorie.values());
 
         // Zu bearbeitende Arbeitszeit einlesen
@@ -107,33 +108,16 @@ public class SundenBearbeitenServlet extends HttpServlet {
         List<String> errors = new ArrayList<>();
 
      
-        String taskAnfahrtszeit = request.getParameter("task_anfahrtszeit");
-        String taskAbfahrtszeit = request.getParameter("task_abfahrtszeit");
+       
         String taskBeginn = request.getParameter("task_Beginn");
         String taskEnde = request.getParameter("task_ende");
         String taskkategorie = request.getParameter("task_kategorie");
-
-        Time anfahrtszeit = WebUtils.parseTime(taskAnfahrtszeit);
-        Time abfahrtszeit = WebUtils.parseTime(taskAbfahrtszeit);
+      
         Time beginn = WebUtils.parseTime(taskBeginn);
         Time ende = WebUtils.parseTime(taskEnde);
         
         Arbeitszeit arbeitszeit = this.getRequestedTask(request);
 
-        if (taskAnfahrtszeit != null && !taskAnfahrtszeit.trim().isEmpty()) {
-            try {
-                arbeitszeit.setAnfahrtszeit(anfahrtszeit);
-            } catch (NumberFormatException ex) {
-                // Ungültige oder keine ID mitgegeben
-            }
-        }
-        if (taskAbfahrtszeit != null && !taskAbfahrtszeit.trim().isEmpty()) {
-            try {
-                arbeitszeit.setAbfahrtszeit(abfahrtszeit);
-            } catch (NumberFormatException ex) {
-                // Ungültige oder keine ID mitgegeben
-            }
-        }
         if (taskBeginn != null && !taskBeginn.trim().isEmpty()) {
             try {
                 arbeitszeit.setBeginn(beginn);
@@ -159,7 +143,7 @@ public class SundenBearbeitenServlet extends HttpServlet {
         // Weiter zur nächsten Seite
         if (errors.isEmpty()) {
             // Keine Fehler: Startseite aufrufen
-            response.sendRedirect(WebUtils.appUrl(request, "/app/tasks/"));
+            response.sendRedirect(WebUtils.appUrl(request, "/app/home/"));
         } else {
             // Fehler: Formuler erneut anzeigen
             FormValues formValues = new FormValues();

@@ -40,8 +40,8 @@ public class Event extends Einsatz implements Serializable {
     public Event() {
     }
 
-    public Event(Date datum, Time abfahrtszeit, Time anfahrtszeit, Time beginn, Time ende, long eventId, String eTitel, String abteilung, ArrayList<Protokoll> protokoll, ArrayList<Benutzer> helfer) {
-        super(datum, abfahrtszeit, anfahrtszeit, beginn, ende);
+    public Event(Date datum, Time beginn, Time ende, int zeitspanne, long eventId, String eTitel, String abteilung, ArrayList<Protokoll> protokoll, ArrayList<Benutzer> helfer) {
+        super(datum, beginn, ende, zeitspanne);
         this.eventId = eventId;
         this.eTitel = eTitel;
         this.abteilung = abteilung;

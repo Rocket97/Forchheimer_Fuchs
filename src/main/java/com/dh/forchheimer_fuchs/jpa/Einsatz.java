@@ -32,15 +32,20 @@ public class Einsatz {
     @Temporal(TemporalType.TIME)
     private Time ende;
     
+    @Column(name = "ZEITSPANNE")
+    private int zeitspanne;
+    
     
     //<editor-fold defaultstate="collapsed" desc="Konstruktoren">
     public Einsatz() {
     }
     
-    public Einsatz(Date datum, Time beginn, Time ende) {
+    public Einsatz(Date datum, Time beginn, Time ende, int zeitspanne) {
         this.datum = datum;
         this.beginn = beginn;
         this.ende = ende;
+        this.zeitspanne = zeitspanne;
+        
     }
     //</editor-fold>
 
@@ -68,7 +73,15 @@ public class Einsatz {
     public void setEnde(Time ende) {
         this.ende = ende;
     }
-    //</editor-fold>
     
+     public int getZeitspanne() {
+        return zeitspanne;
+    }
+
+    public void setZeitspanne(int zeitspanne) {
+        this.zeitspanne = zeitspanne;
+    }
+    
+    //</editor-fold>
     
 }
