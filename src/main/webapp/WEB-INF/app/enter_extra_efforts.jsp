@@ -45,20 +45,20 @@
                     </select>
                     </div>
                     
-                    <label for="special_geleistete_stunden_datum">
-                        Datum:
-                        <span class="required">*</span>
-                    </label>
-                    <div class="side-by-side">
-                        <input type="date" name="special_geleistete_stunden_datum" value="${signup_form.values["special_geleistete_stunden_datum"][0]}">
-                    </div>
-                    
-                    <label for="special_efforts_zeit">
-                        Zeit:
+                    <label for="special_efforts_zeit_beginn">
+                        Beginn (Datum und Uhrzeit):
                         <span class="required">* (in Minuten)</span>
                     </label>
                     <div class="side-by-side">
-                        <input type="date" name="special_efforts_zeit" value="${signup_form.values["special_efforts_zeit"][0]}">
+                        <input type="datetime-local" name="special_efforts_zeit_beginn">
+                    </div>
+                    
+                    <label for="special_efforts_zeit_ende">
+                        Ende (Datum und Uhrzeit):
+                        <span class="required">* (in Minuten)</span>
+                    </label>
+                    <div class="side-by-side">
+                        <input type="datetime-local" name="special_efforts_zeit_ende">
                     </div>
                     
                     <label for="helfer">
@@ -66,7 +66,7 @@
                         <span class="required">*</span>
                     </label>
                     <div class="side-by-side">
-                        <input type="text" name="helfer" value="${signup_form.values["helfer"][0]}">
+                        <input type="text" name="helfer">
                     </div>
                     
                     <label for="special_efforts_titel">
@@ -74,7 +74,7 @@
                         <span class="required">*</span>
                     </label>
                     <div class="side-by-side">
-                        <input type="text" name="titel" value="${signup_form.values["titel"][0]}">
+                        <input type="text" name="titel">
                     </div>
                     
                     <%-- Button zum Speichern --%>

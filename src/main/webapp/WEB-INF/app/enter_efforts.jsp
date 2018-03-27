@@ -39,20 +39,22 @@
                     </select>
                     </div>
                     
-                    <label for="geleistete_stunden_datum">
-                        Datum:
-                        <span class="required">*</span>
-                    </label>
-                    <div class="side-by-side">
-                        <input type="date" name="geleistete_stunden_datum" value="${signup_form.values["geleistete_stunden_datum"][0]}">
-                    </div>
+                 
              
-                    <label for="efforts_zeit">
-                        Zeit:
+                    <label for="efforts_zeit_beginn">
+                        Beginn (Datum und Uhrzeit):
                         <span class="required">* (in Minuten)</span>
                     </label>
                     <div class="side-by-side">
-                        <input type="date" name="efforts_zeit" value="${signup_form.values["efforts_zeit"][0]}">
+                        <input type="datetime-local" name="efforts_zeit_beginn">
+                    </div>
+                    
+                    <label for="efforts_zeit_ende">
+                        Ende (Datum und Uhrzeit):
+                        <span class="required">* (in Minuten)</span>
+                    </label>
+                    <div class="side-by-side">
+                        <input type="datetime-local" name="efforts_zeit_ende">
                     </div>
                     
                     <%-- Button zum Speichern --%>
