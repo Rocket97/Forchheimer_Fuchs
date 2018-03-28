@@ -47,7 +47,7 @@
                     
                     <label for="special_efforts_zeit_beginn">
                         Beginn (Datum und Uhrzeit):
-                        <span class="required">* (in Minuten)</span>
+                        <span class="required">*</span>
                     </label>
                     <div class="side-by-side">
                         <input type="datetime-local" name="special_efforts_zeit_beginn">
@@ -55,7 +55,7 @@
                     
                     <label for="special_efforts_zeit_ende">
                         Ende (Datum und Uhrzeit):
-                        <span class="required">* (in Minuten)</span>
+                        <span class="required">*</span>
                     </label>
                     <div class="side-by-side">
                         <input type="datetime-local" name="special_efforts_zeit_ende">
