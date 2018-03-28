@@ -55,14 +55,6 @@
                         <input type="date" name="gefahren_am_datum" value="${signup_form.values["gefahren_am_datum"][0]}">
                     </div>
                     
-                    <label for="protocol_zeit">
-                        Zeit:
-                        <span class="required">* (in Minuten)</span>
-                    </label>
-                    <div class="side-by-side">
-                        <input type="date" name="protocol_zeit" value="${signup_form.values["protocol_zeit"][0]}">
-                    </div>
-                    
                     <label for="protocol_ort">
                         Ort:
                         <span class="required">*</span>
@@ -130,20 +122,20 @@
                         Behandlung:
                     </label>
                     
-                    <label for="protocol_behandlungszeit_beginn">
-                        Beginn:
+                    <label for="protocol_behandlung_beginn">
+                        Beginn (Datum und Uhrzeit):
                         <span class="required">*</span>
                     </label>
                     <div class="side-by-side">
-                        <input type="date" name="protocol_behandlungszeit_beginn" value="${signup_form.values["protocol_behandlungszeit_beginn"][0]}">
+                        <input type="datetime-local" name="protocol_behandlung_beginn">
                     </div>
                     
-                    <label for="protocol_behandlungszeit_ende">
-                        Ende:
+                    <label for="protocol_behandlung_ende">
+                        Ende (Datum und Uhrzeit):
                         <span class="required">*</span>
                     </label>
                     <div class="side-by-side">
-                        <input type="date" name="protocol_behandlungszeit_ende" value="${signup_form.values["protocol_behandlungszeit_ende"][0]}">
+                        <input type="datetime-local" name="protocol_behandlung_ende">
                     </div>
                     
                     <label for="protocol_behandlungsbeschreibung">
