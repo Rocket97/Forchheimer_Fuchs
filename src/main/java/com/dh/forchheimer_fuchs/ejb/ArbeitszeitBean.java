@@ -114,7 +114,7 @@ public class ArbeitszeitBean extends EntityBean<Arbeitszeit, Long> {
     *  TORTENDIAGRAMM
     * ==================*/
     
-    public static JFreeChart tortendiagrammErstellen (String titel, int[] kategorie){
+    public JFreeChart tortendiagrammErstellen (String titel, int[] kategorie){
         
         // Datenset erzeugen
         DefaultPieDataset pieDataset = new DefaultPieDataset();
