@@ -37,6 +37,8 @@ public class ArbeitszeitBean extends EntityBean<Arbeitszeit, Long> {
     public ApplicationFrame stundenAuswertenAlle(List<Benutzer> helfer, StundenKategorie kategorie){
         
         // eine Kategorie, alle Personen
+        
+        // Array für die Zeitspannen, die im Diagramm im Verhältnis dargestellt werden sollen, erzeugen
         int[] helferminuten = new int[helfer.size()];
         int endzahlJeKategorie = 0;
         
@@ -66,8 +68,8 @@ public class ArbeitszeitBean extends EntityBean<Arbeitszeit, Long> {
         }
         
         // Diagramm erstellen mit Hilfe von ChartBean
-        JFreeChart pieChart = tortendiagrammErstellen(benutzer.getBenutzername(), kategorie);
-        JFreeChart barChart = tortendiagrammErstellen(benutzer.getBenutzername(), kategorie);
+        JFreeChart pieChart = tortendiagrammErstellen(kategorie.toString(), helferminuten);
+        JFreeChart barChart = tortendiagrammErstellen(kategorie.toString(), helferminuten);
         
         return setzeFrameFuerDiagramme(pieChart, barChart);
     }
@@ -80,8 +82,10 @@ public class ArbeitszeitBean extends EntityBean<Arbeitszeit, Long> {
 //      ausWeiterbildung [0], hausinstandhaltung [1], verwaltungsarbeit [2], materialpflege [3], fahrzeugwartung [4], jrkVerwaltungsarbeit [5], notfalldarstellung [6],
 //      schulsanitätsdienst [7], bereitschaftsabend [8], jahreshauptversammlung [9], verwaltungssitzung [10], kameradschaftspflege[11], jugendbereitschaftsabend [12]
 
+        // Array für die Zeitspannen, die im Diagramm im Verhältnis dargestellt werden sollen, erzeugen
         int[] kategorie = new int[13];
         int endzahlJeKategorie = 0;
+        
         // Zeitspannen je Arbeitszeit und Kategorie auslesen und addieren
         for (int i=0; i<StundenKategorie.values().length; i++){
             List<Integer> zeitspannen = em.createQuery("SELECT zeitspanne FROM arbeitszeit WHERE a.mitgliedsnr = :mnr AND a.kategorie = :kategorie")
@@ -89,10 +93,12 @@ public class ArbeitszeitBean extends EntityBean<Arbeitszeit, Long> {
                 .setParameter("kategorie", StundenKategorie.values()[i])
                 .getResultList();
             
+            // Zeitspannen einer Kategorie addieren
             for(int zsp : zeitspannen){
                 endzahlJeKategorie = endzahlJeKategorie + zsp;
             }
             kategorie[i] = endzahlJeKategorie;
+            
             // wieder auf Null setzen, um für die nächste Kategorie wieder von vorne die Zeitspannen addieren zu können
             endzahlJeKategorie = 0;
         }
@@ -109,14 +115,16 @@ public class ArbeitszeitBean extends EntityBean<Arbeitszeit, Long> {
     * ==================*/
     
     public static JFreeChart tortendiagrammErstellen (String titel, int[] kategorie){
-
+        
+        // Datenset erzeugen
         DefaultPieDataset pieDataset = new DefaultPieDataset();
-        // Daten in das Dataset
+        
+        // Daten in das Dataset laden 
         for (int i = 0; i < kategorie.length; i++){
             pieDataset.setValue(StundenKategorie.values()[i], kategorie[i]);
         }
         
-        
+        // ein Tortendiagramm mit den Daten aus dem Datenset erzeugen
         JFreeChart chart = ChartFactory.createPieChart
             (titel, // Title
             pieDataset, // Dataset
@@ -143,7 +151,16 @@ public class ArbeitszeitBean extends EntityBean<Arbeitszeit, Long> {
             dataset.addValue(kategorie[i], "Arbeitszeit", StundenKategorie.values()[i]);
         }
         
-        JFreeChart chart = ChartFactory.createBarChart(titel, "Kategorien", "Anzahl der Minuten", dataset, PlotOrientation.VERTICAL, true, true, false);
+        JFreeChart chart = ChartFactory.createBarChart
+            (titel, // Titel
+            "Kategorien",// x-Achsen-Beschriftung
+            "Anzahl der Minuten", //y-Achsen-Beschriftung
+            dataset, // Dataset
+            PlotOrientation.VERTICAL, // Balken-Ausrichtung
+            true, // Legende anzeigen?
+            true, // Tooltips?
+            false // URLs
+        );
         return chart;
     }   
     
