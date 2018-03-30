@@ -27,17 +27,14 @@
         <header>
             <%-- Titelzeile --%>
             <div id="titlebar">
-                <div class="drkLogo">
-                    <a href="/img/DRKlogo.png">DRK-Logo</a>
+                <div class="logo">
+                    <a href="/img/logo.jpg">Logo</a>
                 </div>
                 <div class="appname">
                     Forchheimer Fuchs
                 </div>
                 <div class="content">
                     ${title}
-                </div>
-                <div class="fuchsLogo">
-                    <a href="/img/FuchsLogo.jpg">Fuchs-Logo</a>
                 </div>
             </div>
 
