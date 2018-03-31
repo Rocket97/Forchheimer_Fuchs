@@ -45,6 +45,14 @@
                     </select>
                     </div>
                     
+                    <label for="special_efforts_titel">
+                        Titel:
+                        <span class="required">*</span>
+                    </label>
+                    <div class="side-by-side">
+                        <input type="text" name="titel">
+                    </div>
+                    
                     <label for="special_efforts_zeit_beginn">
                         Beginn (Datum und Uhrzeit):
                         <span class="required">*</span>
@@ -61,21 +69,31 @@
                         <input type="datetime-local" name="special_efforts_zeit_ende">
                     </div>
                     
-                    <label for="helfer">
-                        Helfer:
-                        <span class="required">*</span>
-                    </label>
-                    <div class="side-by-side">
-                        <input type="text" name="helfer">
-                    </div>
+                    <c:choose>
+                    <c:when test="${empty helfer}">
+                        <p>
+                            Es sind noch keine Helfer hinterlegt. Bitte helfer hinterlegen!
+                        </p>
+                    </c:when>
+                    <c:otherwise>
+                        <div>
+                            <div class="margin">
+                                <c:forEach items="${helfer}" var="helfer">
+                                    <input type="checkbox" name="helfer" id="${'helfer-'.concat(helfer.id)}" value="${helfer.id}" />
+                                    <label for="${'helfer-'.concat(helfer.id)}">
+                                        <c:out value="${helfer.name}"/>
+                                    </label>
+                                    <br />
+                                </c:forEach>
+                            </div>
+
+                            <button type="submit" name="action" value="delete" class="icon-trash">
+                                Markierte Helfer löschen
+                            </button>
+                        </div>
+                    </c:otherwise>
+                </c:choose>
                     
-                    <label for="special_efforts_titel">
-                        Titel:
-                        <span class="required">*</span>
-                    </label>
-                    <div class="side-by-side">
-                        <input type="text" name="titel">
-                    </div>
                     
                     <%-- Button zum Speichern --%>
                     <div class="side-by-side">
