@@ -76,7 +76,6 @@
                     
                     <label for="signup_telefonnummer">
                         Telefonnummer:
-                        <span class="required">*</span>
                     </label>
                     <div class="side-by-side">
                         <input type="tel" name="signup_telefonnummer" value="${signup_form.values["signup_telefonnummer"][0]}">
@@ -84,7 +83,6 @@
                     
                     <label for="signup_email">
                         E-Mail:
-                        <span class="required">*</span>
                     </label>
                     <div class="side-by-side">
                         <input type="email" name="signup_email" value="${signup_form.values["signup_email"][0]}">

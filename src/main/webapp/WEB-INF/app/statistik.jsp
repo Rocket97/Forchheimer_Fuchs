@@ -1,9 +1,3 @@
-<%-- 
-    Document   : jahresstatistik
-    Created on : 22.03.2018, 15:36:47
-    Author     : Christian Konstantin
---%>
-
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <%@taglib tagdir="/WEB-INF/tags/templates" prefix="template"%>
@@ -14,7 +8,7 @@
 
 <template:base>
     <jsp:attribute name="title">
-        Helferstatistik ansehen
+            Statistik ansehen
     </jsp:attribute>
 
    <jsp:attribute name="head">
@@ -31,7 +25,6 @@
         <div class="container">
             <form method="post" class="stacked">
                 <div class="column">
-                    
                     <label for="jahr">
                         Jahr:
                         <span class="required">*</span>
@@ -39,6 +32,16 @@
                     <div class="side-by-side">
                         <input type="text" name="jahr">
                     </div>
+                    
+                    <c:if test="${user.admin}">
+                        <label for="helfer">
+                            Helfer:
+                        </label>
+                        <div class="side-by-side">
+                            <input type="text" name="helfer">
+                        </div> 
+                    </c:if>
+                    
                     
                     <%-- Button zur Suche der Helfer --%>
                     <div class="side-by-side">
