@@ -8,12 +8,12 @@ package com.dh.forchheimer_fuchs.jpa;
 import java.io.Serializable;
 import java.sql.Time;
 import java.util.Date;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 
 /**
  *
@@ -30,7 +30,7 @@ public class Arbeitszeit extends Einsatz implements Serializable {
     @ManyToOne
     private Benutzer helfer;
     
-    @OneToOne
+    @Column(name = "STUNDENKATEGORIE")
     private StundenKategorie kategorie;
 
     

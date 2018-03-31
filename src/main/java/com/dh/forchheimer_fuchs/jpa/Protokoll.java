@@ -40,6 +40,9 @@ public class Protokoll implements Serializable {
     @Column(name = "ORT")
     private String ort;
     
+    @Column(name = "PROTOKOLLKATEGORIE")
+    private ProtokollKategorie kategorie;
+    
     @OneToMany
     private ArrayList<Patient> patient = new ArrayList<>();
     
