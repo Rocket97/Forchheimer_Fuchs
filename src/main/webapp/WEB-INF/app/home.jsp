@@ -33,7 +33,7 @@
                     </c:if>
                     <c:if test="${user.admin}">
                         <button>
-                            Mitglieder bearbeiten
+                            Mitglied bearbeiten
                         </button>
                     </c:if>
                     <c:if test="${user.admin}">
