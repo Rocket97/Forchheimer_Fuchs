@@ -27,52 +27,38 @@
                 <div class="column">
                     <%-- Buttons zum Weiterleiten auf die verschiedenen Seiten als Admin --%>
                     <c:if test="${user.admin}">
-                        <button>
+                        <button name="action" value="signup">
                             Mitglied anlegen
                         </button>
-                    </c:if>
-                    <c:if test="${user.admin}">
-                        <button>
+                        <button name="action" value="user_edit">
                             Mitglied bearbeiten
                         </button>
-                    </c:if>
-                    <c:if test="${user.admin}">
-                        <button>
+                        <button name="action" value="protokoll_save">
                             Protokolle eintragen
                         </button>
-                    </c:if>
-                    <c:if test="${user.admin}">
-                        <button>
+                        <button name="action" value="statistik_von_allen_generate">
                             Jahresstatistik erstellen
                         </button>
-                    </c:if>
-                    <c:if test="${user.admin}">
-                        <button>
+                        <button name="action" value="statistik_von_einzelnem_generate">
                             Helferstatistik ansehen
                         </button>
-                    </c:if>
-                    <c:if test="${user.admin}">
-                        <button>
+                        <button name="action" value="extra_effort_save">
                             Zusätzliche Stunden eintragen
                         </button>
                     </c:if>
                     
                     <%-- Buttons zum Weiterleiten auf die verschiedenen Seiten als normaler Nutzer--%>
-                    <c:if test="${!user.admin}">
-                        <button>
-                            Stunden eintragen
-                        </button>
-                    </c:if>
-                    <c:if test="${!user.admin}">
-                        <button>
-                            Statistik ansehen
-                        </button>
-                    </c:if>
-                    <c:if test="${!user.admin}">
-                        <button>
-                            Profil bearbeiten
-                        </button>
-                    </c:if>
+                    
+                    <button name="action" value="effort_save">
+                        Stunden eintragen
+                    </button>
+                    <button name="action" value="own_statistik_generate">
+                        Statistik ansehen
+                    </button>
+                    <button name="action" value="own_profil_edit">
+                        Profil bearbeiten
+                    </button>
+                    
             </form>
         </div>
     </jsp:attribute>
