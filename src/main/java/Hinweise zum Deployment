@@ -34,7 +34,7 @@ Gehe hierfür wie folgt vor:
          Group Table User Name Column:     benutzername
          Group Name Column:                gruppenname
          Passwort Encryption Algorithm:    SHA-256
-         Assign Groups:                    ff_nutzer
+         Assign Groups:                    ff_nutzer,ff_admin
 
     5. Oben rechts auf "OK" klicken zum Sichern
 
