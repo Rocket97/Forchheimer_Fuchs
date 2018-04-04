@@ -20,13 +20,14 @@ import javax.validation.constraints.*;
  * @author Valerie
  */
 @Entity
+@Table(name="FF_USER")
 public class Benutzer extends Person implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
     @Column(name = "MITGLIEDSNUMMER", length = 64)
-    @Size(min = 5, max = 64, message = "Die Mitgliedsnummer muss zwischen fünf und 64 Zeichen lang sein.")
-    @NotNull(message = "Die Mitgliedsnummer darf nicht leer sein.")
+    //@Size(min = 5, max = 64, message = "Die Mitgliedsnummer muss zwischen fünf und 64 Zeichen lang sein.")
+    //@NotNull(message = "Die Mitgliedsnummer darf nicht leer sein.")
     private long mitgliedsnr;
     
     @Column(name = "BENUTZERNAME")
@@ -46,7 +47,7 @@ public class Benutzer extends Person implements Serializable {
     @ElementCollection
     @CollectionTable(
             name = "FF_USER_GRUPPE",
-            joinColumns = @JoinColumn(name = "MITGLIEDSNUMMER")
+            joinColumns = @JoinColumn(name = "BENUTZERNAME")
     )
     @Column(name = "GRUPPENNAME")
     List<String> gruppen = new ArrayList<>();
@@ -79,7 +80,7 @@ public class Benutzer extends Person implements Serializable {
     
 
     
-    public Benutzer(long mitgliedsnr, String benutzername, String nachname, String vorname, String strasse, String hausnr, String plz, String ort, String passwort, String email, String telefonnr, String abteilung, Boolean admin) {
+    public Benutzer(long mitgliedsnr, String benutzername, String passwort, String nachname, String vorname, String strasse, String hausnr, String plz, String ort,  String email, String telefonnr, String abteilung, Boolean admin) {
         super(nachname, vorname, strasse, hausnr, plz, ort);
         this.mitgliedsnr = mitgliedsnr;
         this.benutzername = benutzername;

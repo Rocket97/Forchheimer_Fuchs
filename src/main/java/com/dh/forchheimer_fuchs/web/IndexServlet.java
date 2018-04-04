@@ -9,7 +9,9 @@
  */
 package com.dh.forchheimer_fuchs.web;
 
+import com.dh.forchheimer_fuchs.ejb.BenutzerBean;
 import java.io.IOException;
+import javax.ejb.EJB;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -25,6 +27,9 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet(urlPatterns = {"/index.html"})
 public class IndexServlet extends HttpServlet {
     
+    @EJB
+    BenutzerBean benutzerBean;
+    
     /**
      * GET-Anfrage: Seite anzeigen
      * 
@@ -36,7 +41,12 @@ public class IndexServlet extends HttpServlet {
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response)
     throws IOException, ServletException {
-        response.sendRedirect(WebUtils.appUrl(request, "/app/tasks/"));
+        // Sicherstellen, dass es einen Admin-Benutzer gibt,
+        // weil nur der neue Benutzer anlegen kann
+        benutzerBean.adminAnlegenWennNichtVorhanden();
+        
+        // Weiter zur Startseite
+        response.sendRedirect(WebUtils.appUrl(request, "/app/home/"));
     }
 
 }

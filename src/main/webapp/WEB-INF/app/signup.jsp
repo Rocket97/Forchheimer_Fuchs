@@ -12,12 +12,12 @@
     </jsp:attribute>
 
     <jsp:attribute name="head">
-        <link rel="stylesheet" href="<c:url value="/css/login.css"/>" />
+        <link rel="stylesheet" href="<c:url value="/css/form.css"/>" />                 // form.css oder main.css -> login.css gibt es nicht!!!
     </jsp:attribute>
 
     <jsp:attribute name="menu">
         <div class="menuitem">
-            <a href="<c:url value="/home/"/>" class="icon-home">Home</a>
+            <a href="<c:url value="/app/home/"/>" class="icon-home">Home</a>
         </div>
     </jsp:attribute>
 
@@ -29,12 +29,12 @@
                     <input type="hidden" name="csrf_token" value="${csrf_token}">
 
                     <%-- Eingabefelder --%>
-                    <label for="signup_mitgliedsnummer">
+                    <label for="signup_mitgliedsnr">
                         Mitgliedsnummer:
                         <span class="required">*</span>
                     </label>
                     <div class="side-by-side">
-                        <input type="number" name="signup_mitlgiedsnummer" value="${signup_form.values["signup_mitgliedsnummer"][0]}">
+                        <input type="number" name="signup_mitgliedsnr" value="${signup_form.values["signup_mitgliedsnr"][0]}">
                     </div>
                     
                     <label for="signup_nachname">
@@ -118,20 +118,28 @@
                         <input type="checkbox" name="signup_abteilung_bereitschaft" value="${signup_form.values["signup_abteilung_bereitschaft"][0]}">Bereitschaft<br />
                     </div>
                     
-                    <label for="signup_username">
+                    <label for="signup_benutzername">
                         Nutzername:
                         <span class="required">*</span>
                     </label>
                     <div class="side-by-side">
-                        <input type="text" name="signup_username" value="${signup_form.values["signup_username"][0]}">
+                        <input type="text" name="signup_benutzername" value="${signup_form.values["signup_benutzername"][0]}">
                     </div>
 
-                    <label for="signup_password">
+                    <label for="signup_passwort1">
                         Passwort:
                         <span class="required">*</span>
                     </label>
                     <div class="side-by-side">
-                        <input type="password" name="signup_password" value="${signup_form.values["signup_password"][0]}">
+                        <input type="passwort1" name="signup_passwort1" value="${signup_form.values["signup_passwort1"][0]}">
+                    </div>
+                    
+                    <label for="signup_passwort2">
+                        Passwort (Wdh.):
+                        <span class="required">*</span>
+                    </label>
+                    <div class="side-by-side">
+                        <input type="passwort2" name="signup_passwort2" value="${signup_form.values["signup_passwort2"][0]}">
                     </div>
                     
                     <label for="signup_admin">

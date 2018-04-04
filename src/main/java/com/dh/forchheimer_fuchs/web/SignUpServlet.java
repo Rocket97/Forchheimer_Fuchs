@@ -28,7 +28,7 @@ import javax.servlet.http.HttpSession;
  * Servlet für die Registrierungsseite. Hier kann sich ein neuer Benutzer
  * registrieren. Anschließend wird der auf die Startseite weitergeleitet.
  */
-@WebServlet(urlPatterns = {"/signup_admin/"})
+@WebServlet(urlPatterns = {"/signup/"})
 public class SignUpServlet extends HttpServlet {
     
            
@@ -43,7 +43,7 @@ public class SignUpServlet extends HttpServlet {
             throws ServletException, IOException {
         
         // Anfrage an dazugerhörige JSP weiterleiten
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/login/signup.jsp");
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/app/signup.jsp");
         dispatcher.forward(request, response);
         
         // Alte Formulardaten aus der Session entfernen
@@ -68,9 +68,9 @@ public class SignUpServlet extends HttpServlet {
         String hausnr = request.getParameter("signup_hausnummer");
         String plz = request.getParameter("signup_plz");
         String ort = request.getParameter("signup_ort");
-        String telefonnr = request.getParameter("signup_telefonnr");                            
+        String telefonnr = request.getParameter("signup_telefonnummer");                            
         String email = request.getParameter("signup_email");
-        String abteilung = request.getParameter("signup_abteilung");
+        String abteilung = request.getParameter("signup_abteilung");                    // hier müssen wir nochmal schauen, wegen Auslesen des Wertes
         boolean admin = Boolean.parseBoolean(request.getParameter("signup_admin"));
         
         // Eingaben prüfen
@@ -91,8 +91,7 @@ public class SignUpServlet extends HttpServlet {
         // Weiter zur nächsten Seite
         if (errors.isEmpty()) {
             // Keine Fehler: Startseite aufrufen
-            request.login(benutzername, passwort1);
-            response.sendRedirect(WebUtils.appUrl(request, "/app/tasks/"));
+            response.sendRedirect(WebUtils.appUrl(request, "/app/home/"));
         } else {
             // Fehler: Formuler erneut anzeigen
             FormValues formValues = new FormValues();

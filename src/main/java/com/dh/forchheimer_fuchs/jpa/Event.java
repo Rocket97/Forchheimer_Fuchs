@@ -6,9 +6,9 @@
 package com.dh.forchheimer_fuchs.jpa;
 
 import java.io.Serializable;
-import java.sql.Time;
-import java.util.ArrayList;
+import java.time.ZonedDateTime;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.*;
 
 /**
@@ -31,28 +31,29 @@ public class Event extends Einsatz implements Serializable {
     private String abteilung;
     
     @OneToMany
-    private ArrayList<Protokoll> protokoll = new ArrayList<>();
+    private List<Protokoll> protokoll;
     
     @ManyToMany
-    private ArrayList<Benutzer> helfer = new ArrayList<>();
+    private List<Benutzer> helfer;
     
-    //Konstruktor
+    //<editor-fold defaultstate="collapsed" desc="Konstruktoren">
     public Event() {
     }
-
-    public Event(Date datum, Time beginn, Time ende, int zeitspanne, long eventId, String eTitel, String abteilung, ArrayList<Protokoll> protokoll, ArrayList<Benutzer> helfer) {
-        super(datum, beginn, ende, zeitspanne);
+    
+    public Event(Date beginn, Date ende, int zeitspanne, long eventId, String eTitel, String abteilung, List<Protokoll> protokoll, List<Benutzer> helfer) {
+        super(beginn, ende, zeitspanne);
         this.eventId = eventId;
         this.eTitel = eTitel;
         this.abteilung = abteilung;
         this.protokoll = protokoll;
     }
+    //</editor-fold>
     
-    //Setter und Getter
+    //<editor-fold defaultstate="collapsed" desc="Getter und Setter">
     public long getEventId() {
         return eventId;
     }
-
+    
     public void setEventId(long eventId) {
         this.eventId = eventId;
     }
@@ -60,9 +61,34 @@ public class Event extends Einsatz implements Serializable {
     public String getAbteilung() {
         return abteilung;
     }
-
+    
     public void setAbteilung(String abteilung) {
         this.abteilung = abteilung;
     }
+    
+    public String geteTitel() {
+        return eTitel;
+    }
+    
+    public void seteTitel(String eTitel) {
+        this.eTitel = eTitel;
+    }
+    
+    public List<Protokoll> getProtokoll() {
+        return protokoll;
+    }
+    
+    public void setProtokoll(List<Protokoll> protokoll) {
+        this.protokoll = protokoll;
+    }
+    
+    public List<Benutzer> getHelfer() {
+        return helfer;
+    }
+    
+    public void setHelfer(List<Benutzer> helfer) {
+        this.helfer = helfer;
+    }
+    //</editor-fold>
     
 }

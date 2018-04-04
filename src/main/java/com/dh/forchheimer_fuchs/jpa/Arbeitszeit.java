@@ -6,14 +6,13 @@
 package com.dh.forchheimer_fuchs.jpa;
 
 import java.io.Serializable;
-import java.sql.Time;
 import java.util.Date;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 
 /**
  *
@@ -30,7 +29,7 @@ public class Arbeitszeit extends Einsatz implements Serializable {
     @ManyToOne
     private Benutzer helfer;
     
-    @OneToOne
+    @Column(name = "STUNDENKATEGORIE")
     private StundenKategorie kategorie;
 
     
@@ -39,13 +38,13 @@ public class Arbeitszeit extends Einsatz implements Serializable {
         
     }
 
-    public Arbeitszeit(long zeitId, Benutzer helfer, StundenKategorie kategorie, Date datum, Time beginn, Time ende, int zeitspanne) {
-        super(datum, beginn, ende, zeitspanne);
+    public Arbeitszeit(long zeitId, Benutzer helfer, StundenKategorie kategorie, Date beginn, Date ende, int zeitspanne) {
+        super(beginn, ende, zeitspanne);
         this.zeitId = zeitId;
         this.helfer = helfer;
         this.kategorie = kategorie;
     }
-//</editor-fold>
+    //</editor-fold>
     
     //<editor-fold defaultstate="collapsed" desc="Getter und Setter">
     public long getZeitId() {
