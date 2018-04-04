@@ -14,7 +14,7 @@
         <meta charset="utf-8" />
 
         <title>Forchheimer Fuchs: ${title}</title>
-        <link rel="icon" type="image/png" href="FuchsIcon">
+        <link rel="icon" type="image/png" href="FuchsIcon.jpg"/>
 
         <link rel="stylesheet" href="<c:url value="/fontello/css/fontello.css"/>" />
         <link rel="stylesheet" href="<c:url value="/css/main.css"/>" />
