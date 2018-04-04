@@ -70,7 +70,7 @@ public class SignUpServlet extends HttpServlet {
         String ort = request.getParameter("signup_ort");
         String telefonnr = request.getParameter("signup_telefonnummer");                            
         String email = request.getParameter("signup_email");
-        String abteilung = request.getParameter("signup_abteilung");                    // hier müssen wir nochmal schauen, wegen Auslesen des Wertes
+        String abteilung = request.getParameter("signup_abteilung_jugend") + "," + request.getParameter("signup_abteilung_bereitschaft");                    // hier müssen wir nochmal schauen, wegen Auslesen des Wertes
         boolean admin = Boolean.parseBoolean(request.getParameter("signup_admin"));
         
         // Eingaben prüfen
