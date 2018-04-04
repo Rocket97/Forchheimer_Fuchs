@@ -14,7 +14,8 @@
         <meta charset="utf-8" />
 
         <title>Forchheimer Fuchs: ${title}</title>
-        <link rel="icon" type="image/png" href="src/main/webapp/favicon.png"
+        <%-- <link rel="icon" type="image/png" href="src/main/webapp/img/favicon.png" /> --%>
+    
         
         <link rel="stylesheet" href="<c:url value="/fontello/css/fontello.css"/>" />
         <link rel="stylesheet" href="<c:url value="/css/main.css"/>" />
@@ -28,7 +29,8 @@
             <%-- Titelzeile --%>
             <div id="titlebar">
                 <div class="logo">
-                    <img src="<c:url value="${img/logo.png}"/>" height="120" weight="100">
+                    <img src="${pageContext.servletContext.contextPath}/img/logo.png" 
+                         alt="Das Icon :)" width="100%" height="100%" onmouseover="Testen">
                 </div>
                 <div class="appname">
                     Forchheimer Fuchs

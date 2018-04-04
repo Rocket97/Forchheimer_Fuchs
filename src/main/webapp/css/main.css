@@ -11,9 +11,9 @@ html {
     font-size: 14pt;
 
     background-color: rgb(250, 250, 250);
-    color: rgb(83, 91, 94);
+    color: #FF0000;
 
-    background-color: #EAEBE1;      /*hellgrau*/
+    background-color: #808080;      /*hellgrau*/
 
     box-sizing: border-box;
     height: 100%;
@@ -38,7 +38,7 @@ header, main {
 
 /* Titelzeile */
 #titlebar {
-    color: #A1A29E; /*dunkelgrau*/
+    color: #7B0000; /*Weinrot*/
     font-size: 260%;
     margin-bottom: 1rem;
 }
@@ -58,7 +58,7 @@ header, main {
 }
 
 #titlebar .appname {
-    color: #FF7D0A; /*Orange*/
+    color: #FF0000; /*Rot*/
 }
 
 /* Menüzeile */
@@ -70,7 +70,7 @@ header, main {
 
 /* Farben für Links */
 a, a:visited {
-    color:#ff6600;  /*helleres Orange*/
+    color:#ff0000;  /*sattes Rot*/
     text-decoration: none;
 }
 
