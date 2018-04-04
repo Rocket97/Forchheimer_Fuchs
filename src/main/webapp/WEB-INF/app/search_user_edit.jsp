@@ -79,7 +79,7 @@
                         </p>
                     </c:when>
                     <c:otherwise>
-                       <%-- <jsp:useBean id="utils" class="dhbwka.wwi.vertsys.javaee.maximarkt.web.WebUtils"/> --%>
+                       <jsp:useBean id="utils" class="com.dh.forchheimer_fuchs.web.WebUtils"/> <%-- eventuell funktioniert das nicht, ich bin mir nicht genau sicher, was es macht --%>
 
                         <table>
                             <thead>
