@@ -28,7 +28,7 @@
             <%-- Titelzeile --%>
             <div id="titlebar">
                 <div class="logo">
-                    <a href="/img/logo.jpg">Logo</a>
+                    <a href="/img/logo.JPG">Logo</a>
                 </div>
                 <div class="appname">
                     Forchheimer Fuchs
