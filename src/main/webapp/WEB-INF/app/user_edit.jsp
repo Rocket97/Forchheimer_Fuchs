@@ -20,7 +20,7 @@
     </jsp:attribute> 
    
    <jsp:attribute name="head">
-        <link rel="stylesheet" href="<c:url value="/css/task_list.css"/>" />
+        <link rel="stylesheet" href="<c:url value="/css/task_edit.css"/>" />
     </jsp:attribute>
 
     <jsp:attribute name="menu">
@@ -66,14 +66,6 @@
                         <input type="text" name="user_vorname" value="${signup_form.values["user_vorname"][0]}">
                     </div>
                    
-                    <label for="user_geburtsdatum">
-                        Geburtsdatum:
-                        <span class="required">*</span>
-                    </label>
-                    <div class="side-by-side">
-                        <input type="date" name="user_geburtsdatum" value="${signup_form.values["user_geburtsdatum"][0]}">
-                    </div>
-                    
                     <label for="user_telefonnummer">
                         Telefonnummer:
                     </label>
