@@ -47,7 +47,7 @@ public class HomeServlet extends HttpServlet {
                 response.sendRedirect(WebUtils.appUrl(request, "/signup/"));        //signup.jsp
                 break;
             case "user_edit": 
-                response.sendRedirect(WebUtils.appUrl(request, "/member/"));     //search_user_edit.jsp -> Suche des Mitglieds, um dann danach in user_edit.jsp die Daten des Mitglieds zu laden
+                response.sendRedirect(WebUtils.appUrl(request, "/members/"));     //search_user_edit.jsp -> Suche des Mitglieds, um dann danach in user_edit.jsp die Daten des Mitglieds zu laden
                 break;
             case "protokoll_save":
                 response.sendRedirect(WebUtils.appUrl(request, "/protocol/")); // muss man da noch einen * hinter url packen?  -> enter_protocol.jsp
@@ -68,7 +68,7 @@ public class HomeServlet extends HttpServlet {
                 response.sendRedirect(WebUtils.appUrl(request, "/statistic/"));     //statistik.jsp
                 break;
             case "own_profil_edit":  //erledigt
-                response.sendRedirect(WebUtils.appUrl(request, "/user/" + this.benutzerBean.getCurrentUser().getMitgliedsnr()));          //user_edit.jsp
+                response.sendRedirect(WebUtils.appUrl(request, "/user/" + String.valueOf(this.benutzerBean.getCurrentUser().getBenutzername()) + "/"));          //user_edit.jsp
                 break;
             
             default:

@@ -22,7 +22,7 @@ import javax.persistence.criteria.Root;
  * @author Valerie
  */
 @Stateless
-public class BenutzerBean extends EntityBean<Benutzer, Long> {
+public class BenutzerBean extends EntityBean<Benutzer, String> {
 
     @Resource
     EJBContext context;
@@ -127,7 +127,6 @@ public class BenutzerBean extends EntityBean<Benutzer, Long> {
     public List<Entity> findByUsername(String benutzer) {
         String select = "SELECT x FROM Benutzer x WHERE Benutzername LIKE :benutzer";
         return em.createQuery(select).setParameter("benutzer", benutzer).getResultList();
-
     }
 
     /**

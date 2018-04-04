@@ -28,7 +28,7 @@ import javax.servlet.http.HttpSession;
 /**
  * Seite zum Anlegen oder Bearbeiten einer Aufgabe.
  */
-@WebServlet(urlPatterns = "/app/user/*")
+@WebServlet(urlPatterns = "/user/*")
 public class UserEditServlet extends HttpServlet {
 
     @EJB
@@ -174,7 +174,7 @@ public class UserEditServlet extends HttpServlet {
      */
     private Benutzer getRequestedUser(HttpServletRequest request) {
         // Zunächst davon ausgehen, dass ein neuer Satz angelegt werden soll
-        Benutzer user = new Benutzer();
+        
 
         // ID aus der URL herausschneiden
         String userId = request.getPathInfo();
@@ -190,11 +190,11 @@ public class UserEditServlet extends HttpServlet {
         }
 
         // Versuchen, den Datensatz mit der übergebenen ID zu finden
-        try {
-            user = this.benutzerBean.findById(Long.parseLong(userId));
-        } catch (NumberFormatException ex) {
-            // Ungültige oder keine ID in der URL enthalten
-        }
+//       try{
+            Benutzer user = this.benutzerBean.findById(userId);
+//        } catch (NumberFormatException ex) {
+//            // Ungültige oder keine ID in der URL enthalten
+//        }
 
         return user;
     }

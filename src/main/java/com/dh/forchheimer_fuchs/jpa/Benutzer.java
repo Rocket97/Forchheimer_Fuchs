@@ -24,12 +24,14 @@ import javax.validation.constraints.*;
 public class Benutzer extends Person implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    @Id
+    
+    // Annotation unique oder so fehlt noch!!!
     @Column(name = "MITGLIEDSNUMMER", length = 64)
     //@Size(min = 5, max = 64, message = "Die Mitgliedsnummer muss zwischen fünf und 64 Zeichen lang sein.")
     //@NotNull(message = "Die Mitgliedsnummer darf nicht leer sein.")
     private long mitgliedsnr;
     
+    @Id
     @Column(name = "BENUTZERNAME")
     private String benutzername;
     

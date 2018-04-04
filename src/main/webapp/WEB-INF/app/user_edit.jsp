@@ -138,21 +138,18 @@
                     <c:if test="${admin}">
                         <label for="user_passwordAlt">
                             Altes Passwort:
-                            <span class="required">*</span>
                         </label>
                         <div class="side-by-side">
                             <input type="password" name="user_passwordAlt" value="${signup_form.values["user_passwordAlt"][0]}">
                         </div>
                         <label for="user_password1">
                             Neues Passwort:
-                            <span class="required">*</span>
                         </label>
                         <div class="side-by-side">
                             <input type="password" name="user_password1" value="${signup_form.values["user_password1"][0]}">
                         </div>
                         <label for="user_password">
                             Passwort (Wdh.):
-                            <span class="required">*</span>
                         </label>
                         <div class="side-by-side">
                             <input type="password" name="user_password" value="${signup_form.values["user_password"][0]}">
