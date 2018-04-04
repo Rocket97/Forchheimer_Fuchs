@@ -6,7 +6,7 @@
 package com.dh.forchheimer_fuchs.jpa;
 
 import java.io.Serializable;
-import java.time.ZonedDateTime;
+import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -38,13 +38,13 @@ public class Arbeitszeit extends Einsatz implements Serializable {
         
     }
 
-    public Arbeitszeit(long zeitId, Benutzer helfer, StundenKategorie kategorie, ZonedDateTime beginn, ZonedDateTime ende, int zeitspanne) {
+    public Arbeitszeit(long zeitId, Benutzer helfer, StundenKategorie kategorie, Date beginn, Date ende, int zeitspanne) {
         super(beginn, ende, zeitspanne);
         this.zeitId = zeitId;
         this.helfer = helfer;
         this.kategorie = kategorie;
     }
-//</editor-fold>
+    //</editor-fold>
     
     //<editor-fold defaultstate="collapsed" desc="Getter und Setter">
     public long getZeitId() {

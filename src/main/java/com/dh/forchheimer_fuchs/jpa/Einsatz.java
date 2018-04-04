@@ -6,10 +6,8 @@
 package com.dh.forchheimer_fuchs.jpa;
 
 import java.time.ZonedDateTime;
-import java.util.Calendar;
 import java.util.Date;
 import javax.persistence.*;
-import javax.validation.constraints.*;
 
 /**
  *
@@ -22,11 +20,11 @@ public class Einsatz {
     
     @Column(name = "BEGINN")
     @Temporal(TemporalType.TIMESTAMP)
-    private ZonedDateTime beginn;
+    private Date beginn;
     
     @Column(name = "ENDE")
     @Temporal(TemporalType.TIMESTAMP)
-    private ZonedDateTime ende;
+    private Date ende;
     
     @Column(name = "ZEITSPANNE")
     private int zeitspanne;
@@ -36,7 +34,7 @@ public class Einsatz {
     public Einsatz() {
     }
     
-    public Einsatz(ZonedDateTime beginn, ZonedDateTime ende, int zeitspanne) {
+    public Einsatz(Date beginn, Date ende, int zeitspanne) {
         this.beginn = beginn;
         this.ende = ende;
         this.zeitspanne = zeitspanne;
@@ -45,19 +43,19 @@ public class Einsatz {
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Getter und Setter">
-    public ZonedDateTime getBeginn() {
+    public Date getBeginn() {
         return beginn;
     }
     
-    public void setBeginn(ZonedDateTime beginn) {
+    public void setBeginn(Date beginn) {
         this.beginn = beginn;
     }
     
-    public ZonedDateTime getEnde() {
+    public Date getEnde() {
         return ende;
     }
     
-    public void setEnde(ZonedDateTime ende) {
+    public void setEnde(Date ende) {
         this.ende = ende;
     }
     

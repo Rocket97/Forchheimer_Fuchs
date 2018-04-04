@@ -9,7 +9,7 @@
  */
 package com.dh.forchheimer_fuchs.web;
 
-import java.sql.Date;
+import java.util.Date;
 import java.sql.Time;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;

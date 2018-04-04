@@ -27,10 +27,10 @@ Gehe hierfür wie folgt vor:
          Class Name:                       ….JDBCRealm
          JAAS Context:                     jdbcRealm
          JNDI:                             jdbc/__default
-         User Table:                       forchheimer_fuchs.ff_nutzer
+         User Table:                       forchheimer_fuchs.ff_user
          User Name Column:                 benutzername
          Password Column:                  passwort_hash
-         Group Table:                      forchheimer_fuchs.ff_nutzer_gruppe
+         Group Table:                      forchheimer_fuchs.ff_user_gruppe
          Group Table User Name Column:     benutzername
          Group Name Column:                gruppenname
          Passwort Encryption Algorithm:    SHA-256

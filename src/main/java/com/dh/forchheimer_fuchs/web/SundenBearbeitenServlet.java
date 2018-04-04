@@ -15,15 +15,16 @@ import com.dh.forchheimer_fuchs.ejb.ValidationBean;
 import com.dh.forchheimer_fuchs.jpa.Arbeitszeit;
 import com.dh.forchheimer_fuchs.jpa.StundenKategorie;
 import java.io.IOException;
-import java.sql.Time;
-import java.time.LocalDateTime;
-import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatter;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -110,27 +111,42 @@ public class SundenBearbeitenServlet extends HttpServlet {
         // Formulareingaben prüfen
         List<String> errors = new ArrayList<>();
 
-     
-       
         String taskBeginn = request.getParameter("task_Beginn");
         String taskEnde = request.getParameter("task_ende");
-        StundenKategorie taskKategorie =StundenKategorie.valueOf(request.getParameter("task_kategorie"));
+        
+        if (taskBeginn == null) {
+            taskBeginn = "";
+        }
+        
+        if (taskEnde == null) {
+            taskEnde = "";
+        }
+        
+        StundenKategorie taskKategorie = StundenKategorie.valueOf(request.getParameter("task_kategorie"));
       
-        DateTimeFormatter f = DateTimeFormatter.ofPattern( "E MMM d HH:mm:ss z uuuu" );
-        ZonedDateTime beginn = ZonedDateTime.parse( taskBeginn , f );
-        ZonedDateTime ende = ZonedDateTime.parse( taskBeginn , f );
+        //DateTimeFormatter f = DateTimeFormatter.ofPattern( "E MMM d HH:mm:ss z uuuu" );
+        //Date beginn = Date.parse( taskBeginn , f );
+        //Date ende = Date.parse( taskEnde , f );
+        SimpleDateFormat formatter = new SimpleDateFormat("E MMM d HH:mm:ss z uuuu");
+        Date beginn = null, ende = null;
+        try {
+            beginn = formatter.parse(taskBeginn);
+            ende = formatter.parse(taskEnde);
+        } catch (ParseException ex) {
+            Logger.getLogger(SundenBearbeitenServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
         
         Arbeitszeit arbeitszeit = this.getRequestedTask(request);
 
-        if (taskBeginn != null && !taskBeginn.trim().isEmpty()) {
+        if (beginn != null && !taskBeginn.trim().isEmpty()) {
             try {
                 arbeitszeit.setBeginn(beginn);
             } catch (NumberFormatException ex) {
                 // Ungültige oder keine Zeit mitgegeben
             }
         }
-        if (taskEnde != null && !taskEnde.trim().isEmpty()) {
+        if (ende != null && !taskEnde.trim().isEmpty()) {
             try {
                 arbeitszeit.setEnde(ende);
             } catch (NumberFormatException ex) {
@@ -199,8 +215,8 @@ public class SundenBearbeitenServlet extends HttpServlet {
         // Zunächst davon ausgehen, dass ein neuer Satz angelegt werden soll
         Arbeitszeit arbeitszeit = new Arbeitszeit();
         arbeitszeit.setHelfer(this.benutzerBean.getCurrentUser());
-        arbeitszeit.setBeginn(new ZonedDateTime(LocalDateTime.now(), ));
-        arbeitszeit.setEnde(new Time(System.currentTimeMillis()));
+        arbeitszeit.setBeginn(new Date(System.currentTimeMillis()));
+        arbeitszeit.setEnde(new Date(System.currentTimeMillis()));
         arbeitszeit.setZeitspanne(this.arbeitszeitBean.berechneZeitspanne((Calendar)request.getAttribute("efforts_zeit_beginn"), (Calendar)request.getAttribute("efforts_zeit_ende")));
         // ID aus der URL herausschneiden
         String arbeitszeitId = request.getPathInfo();
@@ -250,11 +266,11 @@ public class SundenBearbeitenServlet extends HttpServlet {
         }
 
         values.put("task_due_date", new String[]{
-            WebUtils.formatTime(arbeitszeit.getBeginn())
+            WebUtils.formatDate(arbeitszeit.getBeginn())
         });
 
         values.put("task_due_time", new String[]{
-            WebUtils.formatTime(arbeitszeit.getEnde())
+            WebUtils.formatDate(arbeitszeit.getEnde())
         });
 
         values.put("task_kategorie", new String[]{
