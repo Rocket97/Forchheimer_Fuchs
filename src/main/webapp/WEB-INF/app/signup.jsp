@@ -110,8 +110,8 @@
                         <span class="required">*</span>
                     </label>
                     <div class="side-by-side">
-                        <input type="checkbox" name="signup_abteilung_jugend" value="${signup_form.values["signup_abteilung_jugend"][0]}">Jugend<br />
-                        <input type="checkbox" name="signup_abteilung_bereitschaft" value="${signup_form.values["signup_abteilung_bereitschaft"][0]}">Bereitschaft<br />
+                        <input type="checkbox" name="signup_abteilung" value="${signup_form.values["signup_abteilung_jugend"][0]}">Jugend<br />
+                        <input type="checkbox" name="signup_abteilung" value="${signup_form.values["signup_abteilung_bereitschaft"][0]}">Bereitschaft<br />
                     </div>
                     
                     <label for="signup_benutzername">

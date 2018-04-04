@@ -74,7 +74,7 @@ public class SignUpServlet extends HttpServlet {
         boolean admin = Boolean.parseBoolean(request.getParameter("signup_admin"));
         
         // Eingaben prüfen
-        Benutzer benutzer = new Benutzer(mitgliedsnr, benutzername, nachname, vorname, strasse, hausnr, plz, ort, benutzername, email, telefonnr, abteilung, admin);
+        Benutzer benutzer = new Benutzer(mitgliedsnr, benutzername, benutzername, nachname, vorname, strasse, hausnr, plz, ort, email, telefonnr, abteilung, admin);
         List<String> errors = this.validationBean.validate(benutzer);
         this.validationBean.validate(benutzer.getPasswort(), errors);
         
