@@ -14,8 +14,7 @@
         <meta charset="utf-8" />
 
         <title>Forchheimer Fuchs: ${title}</title>
-        <link rel="icon" type="image/png" href="FuchsIcon.jpg"/>
-
+        
         <link rel="stylesheet" href="<c:url value="/fontello/css/fontello.css"/>" />
         <link rel="stylesheet" href="<c:url value="/css/main.css"/>" />
         <link rel="stylesheet" href="<c:url value="/css/form.css"/>" />
@@ -28,7 +27,7 @@
             <%-- Titelzeile --%>
             <div id="titlebar">
                 <div class="logo">
-                    <a href="/img/logo.JPG">Logo</a>
+                    <img src="src/main/webapp/img/FuchsIcon.jpg">
                 </div>
                 <div class="appname">
                     Forchheimer Fuchs
