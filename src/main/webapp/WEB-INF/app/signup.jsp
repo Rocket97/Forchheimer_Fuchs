@@ -57,14 +57,6 @@
                         <input type="text" name="signup_vorname" value="${signup_form.values["signup_vorname"][0]}">
                     </div>
                    
-                    <label for="signup_geburtsdatum">
-                        Geburtsdatum:
-                        <span class="required">*</span>
-                    </label>
-                    <div class="side-by-side">
-                        <input type="date" name="signup_geburtsdatum" value="${signup_form.values["signup_geburtsdatum"][0]}">
-                    </div>
-                    
                     <label for="signup_telefonnummer">
                         Telefonnummer:
                         <span class="required">*</span>

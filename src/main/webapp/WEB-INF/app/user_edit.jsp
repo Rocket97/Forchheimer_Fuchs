@@ -44,7 +44,7 @@
                     
                     <!--: Admin: Allle Eingaben müssen sichtbar sein - nur Passwort nicht!-->
                     
-                    <c:if test="${user.admin}">
+                    <c:if test="${admin}">
                         <label for="user_mitgliedsnummer">
                             Mitgliedsnummer:
                             <span class="required">*</span>
@@ -116,7 +116,7 @@
                         <input type="text" name="user_ort" value="${signup_form.values["user_ort"][0]}">
                     </div>
                     
-                    <c:if test="${user.admin}">
+                    <c:if test="${admin}">
                         <label for="user_abteilung">
                            Abteilung:
                             <span class="required">*</span>
@@ -135,7 +135,7 @@
                     <div class="side-by-side">
                         <input type="text" name="user_username" value="${signup_form.values["user_username"][0]}">
                     </div>
-                    <c:if test="${!user.admin}">
+                    <c:if test="${admin}">
                         <label for="user_passwordAlt">
                             Altes Passwort:
                             <span class="required">*</span>
@@ -143,8 +143,6 @@
                         <div class="side-by-side">
                             <input type="password" name="user_passwordAlt" value="${signup_form.values["user_passwordAlt"][0]}">
                         </div>
-                    </c:if>
-                    <c:if test="${!user.admin}">
                         <label for="user_password1">
                             Neues Passwort:
                             <span class="required">*</span>
@@ -152,8 +150,6 @@
                         <div class="side-by-side">
                             <input type="password" name="user_password1" value="${signup_form.values["user_password1"][0]}">
                         </div>
-                    </c:if>
-                    <c:if test="${!user.admin}">
                         <label for="user_password">
                             Passwort (Wdh.):
                             <span class="required">*</span>
@@ -161,9 +157,6 @@
                         <div class="side-by-side">
                             <input type="password" name="user_password" value="${signup_form.values["user_password"][0]}">
                         </div>
-                    </c:if>
-                    
-                    <c:if test="${user.admin}">
                         <label for="user_admin">
                             Admin
                         </label>
