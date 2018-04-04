@@ -18,7 +18,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Valerie
  */
-@WebServlet(urlPatterns = {"/app/home/"})
+@WebServlet(urlPatterns = {"/app/home/*"})
 public class HomeServlet extends HttpServlet {
     
     @EJB
