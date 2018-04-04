@@ -30,7 +30,7 @@ public class BenutzerBean extends EntityBean<Benutzer, Long> {
     @EJB
     ValidationBean validationBean;
 
-    public public BenutzerBean() {
+    public BenutzerBean() {
         super(Benutzer.class);
     }
 
