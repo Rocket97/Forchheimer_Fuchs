@@ -80,7 +80,7 @@ public class Benutzer extends Person implements Serializable {
     
 
     
-    public Benutzer(long mitgliedsnr, String benutzername, String nachname, String vorname, String strasse, String hausnr, String plz, String ort, String passwort, String email, String telefonnr, String abteilung, Boolean admin) {
+    public Benutzer(long mitgliedsnr, String benutzername, String passwort, String nachname, String vorname, String strasse, String hausnr, String plz, String ort,  String email, String telefonnr, String abteilung, Boolean admin) {
         super(nachname, vorname, strasse, hausnr, plz, ort);
         this.mitgliedsnr = mitgliedsnr;
         this.benutzername = benutzername;

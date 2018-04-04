@@ -177,7 +177,7 @@ public class BenutzerBean extends EntityBean<Benutzer, Long> {
         List<Benutzer> admins = em.createQuery("SELECT b FROM Benutzer b WHERE b.admin = True").getResultList();
 
         if (admins.isEmpty()) {
-            Benutzer user = new Benutzer(1, "admin", "admin", "Administrator", "Willy", "Root Str.", "7", "76189", "Karlsruhe", "admin@admin.de", "0721/123456", "IT-Support", true);
+            Benutzer user = new Benutzer(1, "admin", "admin123", "Administrator", "Willy", "Root Str.", "7", "76189", "Karlsruhe", "admin@admin.de", "0721/123456", "IT-Support", true);
             user.addToGroup("ff_admin");
             user.addToGroup("ff_nutzer");
 
