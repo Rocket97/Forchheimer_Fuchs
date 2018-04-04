@@ -36,19 +36,14 @@
                             Mitglied bearbeiten
                         </button>
                     </c:if>
-                    <c:if test="${user.admin}">
+                  
                         <button>
                             Protokolle eintragen
                         </button>
-                    </c:if>
+                     
                     <c:if test="${user.admin}">
                         <button>
-                            Jahresstatistik erstellen
-                        </button>
-                    </c:if>
-                    <c:if test="${user.admin}">
-                        <button>
-                            Helferstatistik ansehen
+                            Statistik ansehen
                         </button>
                     </c:if>
                     <c:if test="${user.admin}">
