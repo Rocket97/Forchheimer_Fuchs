@@ -75,7 +75,7 @@
                 <c:choose>
                     <c:when test="${empty tasks}">
                         <p>
-                            Es wurden keine Angebote gefunden. 🐈
+                            Es wurden keine Benutzer gefunden. 🐈
                         </p>
                     </c:when>
                     <c:otherwise>
