@@ -27,7 +27,7 @@ public class HomeServlet extends HttpServlet {
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        //request.setAttribute("user", benutzerBean.getCurrentUser().getAdmin());
+        request.setAttribute("admin", benutzerBean.getCurrentUser().getAdmin());
         request.getRequestDispatcher("/WEB-INF/app/home.jsp").forward(request, response);
     }
     

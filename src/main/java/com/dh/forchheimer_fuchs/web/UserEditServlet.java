@@ -47,13 +47,14 @@ public class UserEditServlet extends HttpServlet {
         // wenn User sein Profil bearbeiten will, sollen seine eigene Daten in den Feldern vorbelegt werden
         // wenn ein Admin einen anderen Benutzer bearbeiten will, dann sollen dessen Daten in den Feldern vorbelegt werden
         Benutzer user = this.getRequestedUser(request);
-        
+       
         if (session.getAttribute("user_form") == null) {
             // Keine Formulardaten mit fehlerhaften Daten in der Session,
             // daher Formulardaten aus dem Datenbankobjekt übernehmen
             request.setAttribute("user_form", this.createUserForm(user));
         }
-
+        
+         request.setAttribute("admin", benutzerBean.getCurrentUser().getAdmin());
         // Anfrage an die JSP weiterleiten
         request.getRequestDispatcher("/WEB-INF/app/user_edit.jsp").forward(request, response);
 

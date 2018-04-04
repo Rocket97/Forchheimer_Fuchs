@@ -17,7 +17,7 @@
 
     <jsp:attribute name="menu">
         <div class="menuitem">
-            <a href="<c:url value="/home/"/>" class="icon-home">Home</a>
+            <a href="<c:url value="/app/home/"/>" class="icon-home">Home</a>
         </div>
     </jsp:attribute>
 
