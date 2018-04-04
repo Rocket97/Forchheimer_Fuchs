@@ -45,29 +45,15 @@ public class BenutzerBean extends EntityBean<Benutzer, String> {
 
     /**
      *
-     * @param mitgliedsnr
-     * @param benutzername
-     * @param passwort
-     * @param vorname
-     * @param nachname
-     * @param strasse
-     * @param hausnr
-     * @param plz
-     * @param ort
-     * @param email
-     * @param telefonnr
-     * @param abteilung
-     * @param admin
+     * @param user
      * @throws BenutzerBean.UserAlreadyExistsException
      */
     @RolesAllowed("ff_admin")
-    public void registrieren(long mitgliedsnr, String benutzername, String passwort, String vorname, String nachname, String strasse, String hausnr, String plz, String ort, String email, String telefonnr, String abteilung, Boolean admin) throws UserAlreadyExistsException {
-        if (em.find(Benutzer.class, mitgliedsnr) != null) {
-            String mnr = String.valueOf(mitgliedsnr);
-            throw new UserAlreadyExistsException("Der Benutzername $B ist bereits vergeben.".replace("$B", mnr));
+    public void registrieren(Benutzer user) throws UserAlreadyExistsException {
+        if (em.find(Benutzer.class, user.getBenutzername()) != null) {
+            throw new UserAlreadyExistsException("Der Benutzername $B ist bereits vergeben.".replace("$B", user.getBenutzername()));
         }
 
-        Benutzer user = new Benutzer(mitgliedsnr, benutzername, passwort, nachname, vorname, strasse, hausnr, plz, ort, email, telefonnr, abteilung, admin);
         if (user.getAdmin()) {
             user.addToGroup("ff_admin");
         }

@@ -122,12 +122,13 @@
                         <input type="text" name="signup_benutzername" value="${signup_form.values["signup_benutzername"][0]}">
                     </div>
 
+                    <%--  siehe SignUpServlet für Kommentar
                     <label for="signup_passwort1">
                         Passwort:
                         <span class="required">*</span>
                     </label>
                     <div class="side-by-side">
-                        <input type="passwort1" name="signup_passwort1" value="${signup_form.values["signup_passwort1"][0]}">
+                        <input type="password" name="signup_passwort1" value="${signup_form.values["signup_passwort1"][0]}">
                     </div>
                     
                     <label for="signup_passwort2">
@@ -135,8 +136,9 @@
                         <span class="required">*</span>
                     </label>
                     <div class="side-by-side">
-                        <input type="passwort2" name="signup_passwort2" value="${signup_form.values["signup_passwort2"][0]}">
+                        <input type="password" name="signup_passwort2" value="${signup_form.values["signup_passwort2"][0]}">
                     </div>
+                    --%>
                     
                     <label for="signup_admin">
                         Admin

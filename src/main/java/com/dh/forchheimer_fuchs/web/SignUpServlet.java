@@ -60,8 +60,8 @@ public class SignUpServlet extends HttpServlet {
         
         long mitgliedsnr = Long.parseLong(request.getParameter("signup_mitgliedsnr"));
         String benutzername = request.getParameter("signup_benutzername");
-        String passwort1 = request.getParameter("signup_passwort1");
-        String passwort2 = request.getParameter("signup_passwort2");
+//        String passwort1 = request.getParameter("signup_passwort1"); --> brauchen wir eigentlich nicht, denn wir hatten beschlossen, 
+//        String passwort2 = request.getParameter("signup_passwort2");     dass wir beim Registrieren bzw. beim Passwort-Zurücksetzen den Benutzernamen als Passwort nehmen
         String nachname = request.getParameter("signup_nachname");
         String vorname = request.getParameter("signup_vorname");
         String strasse = request.getParameter("signup_strasse");
@@ -74,7 +74,7 @@ public class SignUpServlet extends HttpServlet {
         boolean admin = Boolean.parseBoolean(request.getParameter("signup_admin"));
         
         // Eingaben prüfen
-        Benutzer benutzer = new Benutzer(mitgliedsnr, benutzername, nachname, vorname, strasse, hausnr, plz, ort, passwort1, email, telefonnr, abteilung, admin);
+        Benutzer benutzer = new Benutzer(mitgliedsnr, benutzername, nachname, vorname, strasse, hausnr, plz, ort, benutzername, email, telefonnr, abteilung, admin);
         List<String> errors = this.validationBean.validate(benutzer);
         this.validationBean.validate(benutzer.getPasswort(), errors);
         
@@ -82,7 +82,7 @@ public class SignUpServlet extends HttpServlet {
         // Neuen Benutzer anlegen
         if (errors.isEmpty()) {
             try {
-                this.benutzerBean.registrieren(mitgliedsnr, benutzername, passwort1, vorname, nachname, strasse, hausnr, plz, ort, email, telefonnr, abteilung, admin);
+                this.benutzerBean.registrieren(benutzer);
             } catch (BenutzerBean.UserAlreadyExistsException ex) {
                 errors.add(ex.getMessage());
             }

@@ -26,7 +26,7 @@ public class Benutzer extends Person implements Serializable {
     private static final long serialVersionUID = 1L;
     
     // Annotation unique oder so fehlt noch!!!
-    @Column(name = "MITGLIEDSNUMMER", length = 64)
+    @Column(name = "MITGLIEDSNUMMER", length = 64, unique=true)
     //@Size(min = 5, max = 64, message = "Die Mitgliedsnummer muss zwischen fünf und 64 Zeichen lang sein.")
     //@NotNull(message = "Die Mitgliedsnummer darf nicht leer sein.")
     private long mitgliedsnr;
