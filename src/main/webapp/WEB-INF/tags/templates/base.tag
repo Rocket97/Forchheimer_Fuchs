@@ -28,7 +28,7 @@
             <%-- Titelzeile --%>
             <div id="titlebar">
                 <div class="logo">
-                    <img src="src/main/webapp/img/FuchsIcon.jpg">
+                    <img src="<c:url value="${img/logo.png}"/>" height="120" weight="100">
                 </div>
                 <div class="appname">
                     Forchheimer Fuchs

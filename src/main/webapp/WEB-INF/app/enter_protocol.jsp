@@ -24,6 +24,10 @@
     <jsp:attribute name="content">
         <div class="container">
             <form method="post" class="stacked">
+                
+                <%-- CSRF-Token --%>
+                <input type="hidden" name="csrf_token" value="${csrf_token}">
+            
                 <div class="column">
                     <%-- Buttons zum Weiterleiten auf die verschiedenen Seiten als Admin --%>
                     <label for="task_category">Kategorie:</label>
