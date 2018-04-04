@@ -54,7 +54,7 @@
                         </button>
                     </div>
                     
-                    <%-- <img ...> für das JFreeChart --%>
+                    <%-- Panel oder ApplicationFrame (Frame) --%>
                 </div>
 
                 
