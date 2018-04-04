@@ -5,7 +5,8 @@
  */
 package com.dh.forchheimer_fuchs.jpa;
 
-import java.sql.Time;
+import java.time.ZonedDateTime;
+import java.util.Calendar;
 import java.util.Date;
 import javax.persistence.*;
 import javax.validation.constraints.*;
@@ -19,18 +20,13 @@ public class Einsatz {
     
     //eventuell wenn die Spalten nicht gespeichert werden, versuche @Transient --> https://www.java-forum.org/thema/jpa-und-vererbung.155162/
     
-    @Column(name = "DATUM")
-    @Past
-    @Temporal(TemporalType.DATE)
-    private Date datum;
-    
     @Column(name = "BEGINN")
-    @Temporal(TemporalType.TIME)
-    private Time beginn;
+    @Temporal(TemporalType.TIMESTAMP)
+    private ZonedDateTime beginn;
     
     @Column(name = "ENDE")
-    @Temporal(TemporalType.TIME)
-    private Time ende;
+    @Temporal(TemporalType.TIMESTAMP)
+    private ZonedDateTime ende;
     
     @Column(name = "ZEITSPANNE")
     private int zeitspanne;
@@ -40,8 +36,7 @@ public class Einsatz {
     public Einsatz() {
     }
     
-    public Einsatz(Date datum, Time beginn, Time ende, int zeitspanne) {
-        this.datum = datum;
+    public Einsatz(ZonedDateTime beginn, ZonedDateTime ende, int zeitspanne) {
         this.beginn = beginn;
         this.ende = ende;
         this.zeitspanne = zeitspanne;
@@ -50,27 +45,19 @@ public class Einsatz {
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Getter und Setter">
-    public Date getDatum() {
-        return datum;
-    }
-    
-    public void setDatum(Date datum) {
-        this.datum = datum;
-    }
-
-    public Time getBeginn() {
+    public ZonedDateTime getBeginn() {
         return beginn;
     }
     
-    public void setBeginn(Time beginn) {
+    public void setBeginn(ZonedDateTime beginn) {
         this.beginn = beginn;
     }
     
-    public Time getEnde() {
+    public ZonedDateTime getEnde() {
         return ende;
     }
     
-    public void setEnde(Time ende) {
+    public void setEnde(ZonedDateTime ende) {
         this.ende = ende;
     }
     

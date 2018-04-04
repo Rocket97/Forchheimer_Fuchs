@@ -5,7 +5,9 @@
  */
 package com.dh.forchheimer_fuchs.web;
 
+import com.dh.forchheimer_fuchs.ejb.BenutzerBean;
 import java.io.IOException;
+import javax.ejb.EJB;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -18,7 +20,10 @@ import javax.servlet.http.HttpServletResponse;
  */
 @WebServlet(urlPatterns = {"/app/home/"})
 public class HomeServlet extends HttpServlet {
-
+    
+    @EJB
+    BenutzerBean benutzerBean;
+    
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -62,7 +67,7 @@ public class HomeServlet extends HttpServlet {
                 response.sendRedirect(WebUtils.appUrl(request, "/statistic/"));     //statistik.jsp
                 break;
             case "own_profil_edit":  //erledigt
-                response.sendRedirect(WebUtils.appUrl(request, "/user/"));          //user_edit.jsp
+                response.sendRedirect(WebUtils.appUrl(request, "/user/" + this.benutzerBean.getCurrentUser().getMitgliedsnr()));          //user_edit.jsp
                 break;
             
             default:

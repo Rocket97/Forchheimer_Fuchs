@@ -16,6 +16,9 @@ import com.dh.forchheimer_fuchs.jpa.Arbeitszeit;
 import com.dh.forchheimer_fuchs.jpa.StundenKategorie;
 import java.io.IOException;
 import java.sql.Time;
+import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -113,8 +116,10 @@ public class SundenBearbeitenServlet extends HttpServlet {
         String taskEnde = request.getParameter("task_ende");
         StundenKategorie taskKategorie =StundenKategorie.valueOf(request.getParameter("task_kategorie"));
       
-        Time beginn = WebUtils.parseTime(taskBeginn);
-        Time ende = WebUtils.parseTime(taskEnde);
+        DateTimeFormatter f = DateTimeFormatter.ofPattern( "E MMM d HH:mm:ss z uuuu" );
+        ZonedDateTime beginn = ZonedDateTime.parse( taskBeginn , f );
+        ZonedDateTime ende = ZonedDateTime.parse( taskBeginn , f );
+        
         
         Arbeitszeit arbeitszeit = this.getRequestedTask(request);
 
@@ -194,7 +199,7 @@ public class SundenBearbeitenServlet extends HttpServlet {
         // Zunächst davon ausgehen, dass ein neuer Satz angelegt werden soll
         Arbeitszeit arbeitszeit = new Arbeitszeit();
         arbeitszeit.setHelfer(this.benutzerBean.getCurrentUser());
-        arbeitszeit.setBeginn(new Time(System.currentTimeMillis()));
+        arbeitszeit.setBeginn(new ZonedDateTime(LocalDateTime.now(), ));
         arbeitszeit.setEnde(new Time(System.currentTimeMillis()));
         arbeitszeit.setZeitspanne(this.arbeitszeitBean.berechneZeitspanne((Calendar)request.getAttribute("efforts_zeit_beginn"), (Calendar)request.getAttribute("efforts_zeit_ende")));
         // ID aus der URL herausschneiden

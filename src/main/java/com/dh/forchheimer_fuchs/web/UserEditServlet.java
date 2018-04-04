@@ -43,9 +43,11 @@ public class UserEditServlet extends HttpServlet {
 
         // Zu bearbeitende Aufgabe einlesen
         HttpSession session = request.getSession();
-
-        Benutzer user = this.benutzerBean.getCurrentUser();
-                                
+        
+        // wenn User sein Profil bearbeiten will, sollen seine eigene Daten in den Feldern vorbelegt werden
+        // wenn ein Admin einen anderen Benutzer bearbeiten will, dann sollen dessen Daten in den Feldern vorbelegt werden
+        Benutzer user = this.getRequestedUser(request);
+        
         if (session.getAttribute("user_form") == null) {
             // Keine Formulardaten mit fehlerhaften Daten in der Session,
             // daher Formulardaten aus dem Datenbankobjekt übernehmen
@@ -120,7 +122,7 @@ public class UserEditServlet extends HttpServlet {
         // um leere Strings als Passwörter abfangen zu können
         Benutzer userAlt = this.benutzerBean.getCurrentUser();
         if (errors.isEmpty() && !password1.equals("")) {
-            // hier: nicht mehr nötig, auf altes Passwort zu überprüfen, weil das in Zeile 103 schon gemacht wurde
+            // hier: nicht mehr nötig, auf altes Passwort zu überprüfen, weil das in Zeile 106 schon gemacht wurde
             try {
                 this.benutzerBean.aenderePasswort(userAlt, passwordAlt, password1);
             }   catch (BenutzerBean.InvalidCredentialsException ex) {
@@ -160,6 +162,41 @@ public class UserEditServlet extends HttpServlet {
 
             response.sendRedirect(request.getRequestURI());
         }
+    }
+    
+    /**
+     * Zu bearbeitende Aufgabe aus der URL ermitteln und zurückgeben. Gibt
+     * entweder einen vorhandenen Datensatz oder ein neues, leeres Objekt
+     * zurück.
+     *
+     * @param request HTTP-Anfrage
+     * @return Zu bearbeitende Aufgabe
+     */
+    private Benutzer getRequestedUser(HttpServletRequest request) {
+        // Zunächst davon ausgehen, dass ein neuer Satz angelegt werden soll
+        Benutzer user = new Benutzer();
+
+        // ID aus der URL herausschneiden
+        String userId = request.getPathInfo();
+
+        if (userId == null) {
+            userId = "";
+        }
+
+        userId = userId.substring(1);
+
+        if (userId.endsWith("/")) {
+            userId = userId.substring(0, userId.length() - 1);
+        }
+
+        // Versuchen, den Datensatz mit der übergebenen ID zu finden
+        try {
+            user = this.benutzerBean.findById(Long.parseLong(userId));
+        } catch (NumberFormatException ex) {
+            // Ungültige oder keine ID in der URL enthalten
+        }
+
+        return user;
     }
     
     /**

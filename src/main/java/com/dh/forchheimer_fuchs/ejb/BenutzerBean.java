@@ -12,21 +12,23 @@ import javax.annotation.security.RolesAllowed;
 import javax.ejb.EJBContext;
 import javax.ejb.Stateless;
 import javax.persistence.Entity;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 
 /**
  *
  * @author Valerie
  */
 @Stateless
-public class BenutzerBean{
+public class BenutzerBean extends EntityBean<Benutzer, Long>{
 
-    @PersistenceContext
-    EntityManager em;
-    
     @Resource
     EJBContext context;
+
+    public BenutzerBean() {
+        super(Benutzer.class);
+    }
 
     /**
      * Gibt das Datenbankobjekt des aktuell eingeloggten Benutzers zurück,
@@ -120,6 +122,48 @@ public class BenutzerBean{
         String select = "SELECT x FROM Benutzer x WHERE Benutzername LIKE :benutzer";
         return em.createQuery(select).setParameter("benutzer", benutzer).getResultList();
         
+    }
+    
+    /**
+     * Suche nach Benutzer anhand ihrer Mitgliedsnummer, Vorname, Nachname und Benutzername.
+     * 
+     * @param searchMitgliedsnr (optional)
+     * @param searchVorname (optional)
+     * @param searchNachname (optional)
+     * @param searchBenutzername (optional)
+     * @return Liste mit den gefundenen Aufgaben
+     */
+    public List<Benutzer> search(Long searchMitgliedsnr, String searchVorname, String searchNachname, String searchBenutzername) {
+        // Hilfsobjekt zum Bauen des Query
+        CriteriaBuilder cb = this.em.getCriteriaBuilder();
+        
+        // SELECT u FROM Benutzer u
+        CriteriaQuery<Benutzer> query = cb.createQuery(Benutzer.class);
+        Root<Benutzer> from = query.from(Benutzer.class);
+        query.select(from);
+        
+        // WHERE u.mitgliedsnr = searchMitgliedsnr
+        if (searchMitgliedsnr == null) {
+        } else {
+            query.where(cb.equal(from.get("mitgliedsnr"), searchMitgliedsnr));
+        }
+        
+        // WHERE u.benutzername = searchBenutzername
+        if (searchBenutzername != null && !searchBenutzername.trim().isEmpty()) {
+            query.where(cb.equal(from.get("benutzername"), searchBenutzername));
+        }
+        
+        // WHERE u.vorname = searchVorname
+        if (searchVorname != null && !searchVorname.trim().isEmpty()) {
+            query.where(cb.equal(from.get("vorname"), searchVorname));
+        }
+        
+         // WHERE u.nachname = searchNachname
+        if (searchNachname != null && !searchNachname.trim().isEmpty()) {
+            query.where(cb.equal(from.get("nachname"), searchNachname));
+        }
+        
+        return em.createQuery(query).getResultList();
     }
     
     /**

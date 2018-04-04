@@ -6,7 +6,7 @@
 package com.dh.forchheimer_fuchs.jpa;
 
 import java.io.Serializable;
-import java.sql.Time;
+import java.time.ZonedDateTime;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.*;
@@ -40,8 +40,8 @@ public class Event extends Einsatz implements Serializable {
     public Event() {
     }
     
-    public Event(Date datum, Time beginn, Time ende, int zeitspanne, long eventId, String eTitel, String abteilung, List<Protokoll> protokoll, List<Benutzer> helfer) {
-        super(datum, beginn, ende, zeitspanne);
+    public Event(Date datum, ZonedDateTime beginn, ZonedDateTime ende, int zeitspanne, long eventId, String eTitel, String abteilung, List<Protokoll> protokoll, List<Benutzer> helfer) {
+        super(beginn, ende, zeitspanne);
         this.eventId = eventId;
         this.eTitel = eTitel;
         this.abteilung = abteilung;

@@ -30,36 +30,36 @@
 
                     <%-- Suchfelder --%>    
               
-                    <label for="signup_mitgliedsnummer">
+                    <label for="search_mitgliedsnummer">
                         Mitgliedsnummer:
                         <span class="required">*</span>
                     </label>
                     <div class="side-by-side">
-                        <input type="number" name="signup_mitlgiedsnummer" value="${signup_form.values["signup_mitgliedsnummer"][0]}">
+                        <input type="number" name="search_mitlgiedsnummer" value="${signup_form.values["search_mitgliedsnummer"][0]}">
                     </div>
                     
-                    <label for="signup_nachname">
+                    <label for="search_nachname">
                         Nachname:
                         <span class="required">*</span>
                     </label>
                     <div class="side-by-side">
-                        <input type="text" name="signup_nachname" value="${signup_form.values["signup_nachname"][0]}">
+                        <input type="text" name="search_nachname" value="${signup_form.values["search_nachname"][0]}">
                     </div>
                     
-                    <label for="signup_vorname">
+                    <label for="search_vorname">
                         Vorname:
                         <span class="required">*</span>
                     </label>
                     <div class="side-by-side">
-                        <input type="text" name="signup_vorname" value="${signup_form.values["signup_vorname"][0]}">
+                        <input type="text" name="search_vorname" value="${signup_form.values["search_vorname"][0]}">
                     </div>
                    
-                    <label for="signup_username">
+                    <label for="search_username">
                         Nutzername:
                         <span class="required">*</span>
                     </label>
                     <div class="side-by-side">
-                        <input type="text" name="signup_username" value="${signup_form.values["signup_username"][0]}">
+                        <input type="text" name="search_username" value="${signup_form.values["search_username"][0]}">
                     </div>
 
                     
@@ -71,7 +71,47 @@
                         </button>
                     </div>
                 </div>
+                
+                <c:choose>
+                    <c:when test="${empty tasks}">
+                        <p>
+                            Es wurden keine Angebote gefunden. 🐈
+                        </p>
+                    </c:when>
+                    <c:otherwise>
+                       <%-- <jsp:useBean id="utils" class="dhbwka.wwi.vertsys.javaee.maximarkt.web.WebUtils"/> --%>
 
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Mitgliedsnummer</th>
+                                    <th>Benutzername</th>
+                                    <th>Vorname</th>
+                                    <th>Nachname</th>
+                                </tr>
+                            </thead>
+                            <c:forEach items="${users}" var="task">
+                                <tr>
+                                    <td>
+                                        <a href="<c:url value="/app/user/${user.mitgliedsnr}/"/>">
+                                            <c:out value="${user.mitgliedsnr}"/>
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <c:out value="${user.benutzername}"/>
+                                    </td>
+                                    <td>
+                                        <c:out value="${user.vorname}"/>
+                                    </td>
+                                    <td>
+                                        <c:out value="${user.nachname}"/>
+                                    </td>
+                                </tr>
+                            </c:forEach>
+                        </table>
+                    </c:otherwise>
+                </c:choose>    
+                
                 <%-- Fehlermeldungen --%>
                 <c:if test="${!empty user_form.errors}">
                     <ul class="errors">
