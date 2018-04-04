@@ -11,7 +11,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.EJB;
-import javax.persistence.Entity;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -23,7 +22,7 @@ import javax.servlet.http.HttpSession;
  *
  * @author Valerie
  */
-@WebServlet(urlPatterns = {"/app/members/"})
+@WebServlet(urlPatterns = {"/members/"})
 public class MitgliedServlet extends HttpServlet {
     
     @EJB
@@ -33,7 +32,7 @@ public class MitgliedServlet extends HttpServlet {
     public void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        // Zu bearbeitende Aufgabe einlesen
+        // Zu bearbeitendes Mitglied einlesen
         HttpSession session = request.getSession();
 
         Benutzer user = this.benutzerBean.getCurrentUser();

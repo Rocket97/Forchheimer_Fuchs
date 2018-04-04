@@ -39,7 +39,7 @@
                         <span class="required">*</span>
                     </label>
                     <div class="side-by-side">
-                        <input type="number" name="search_mitlgiedsnummer" value="${signup_form.values["search_mitgliedsnummer"][0]}">
+                        <input type="number" name="search_mitgliedsnummer" value="${signup_form.values["search_mitgliedsnummer"][0]}">
                     </div>
                     
                     <label for="search_nachname">

@@ -36,8 +36,8 @@ import javax.servlet.http.HttpSession;
 /**
  * Seite zum Anlegen oder Bearbeiten einer Aufgabe.
  */
-@WebServlet(urlPatterns = "/app/stundenAnlegen/*")
-public class SundenBearbeitenServlet extends HttpServlet {
+@WebServlet(urlPatterns = "/extra_efforts/")
+public class ExtraStundenServlet extends HttpServlet {
 
     @EJB
     ArbeitszeitBean arbeitszeitBean;
@@ -133,7 +133,7 @@ public class SundenBearbeitenServlet extends HttpServlet {
             beginn = formatter.parse(taskBeginn);
             ende = formatter.parse(taskEnde);
         } catch (ParseException ex) {
-            Logger.getLogger(SundenBearbeitenServlet.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ExtraStundenServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
         
         

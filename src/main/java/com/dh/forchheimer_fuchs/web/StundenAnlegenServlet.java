@@ -29,7 +29,7 @@ import javax.servlet.http.HttpSession;
  * Formular, mit dem ein neue Kategorie angelegt werden kann, sowie eine Liste,
  * die zum Löschen der Kategorien verwendet werden kann.
  */
-@WebServlet(urlPatterns = {"/app/stundenAnlegen/"})
+@WebServlet(urlPatterns = {"/efforts/"})
 public class StundenAnlegenServlet extends HttpServlet {
 
     @EJB

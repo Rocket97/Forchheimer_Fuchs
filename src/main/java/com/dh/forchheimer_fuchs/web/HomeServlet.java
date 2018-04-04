@@ -49,13 +49,10 @@ public class HomeServlet extends HttpServlet {
             case "user_edit": 
                 response.sendRedirect(WebUtils.appUrl(request, "/members/"));     //search_user_edit.jsp -> Suche des Mitglieds, um dann danach in user_edit.jsp die Daten des Mitglieds zu laden
                 break;
-            case "protokoll_save":
+            case "protocol_save":
                 response.sendRedirect(WebUtils.appUrl(request, "/protocol/")); // muss man da noch einen * hinter url packen?  -> enter_protocol.jsp
                 break;
-            case "statistik_von_allen_generate":
-                response.sendRedirect(WebUtils.appUrl(request, "/statistic/"));     //statistik.jsp
-                break;
-            case "statistik_von_einzelnem_generate":
+            case "statistic_generate":
                 response.sendRedirect(WebUtils.appUrl(request, "/statistic/"));     //statistik.jsp
                 break;
             case "extra_effort_save":
@@ -63,9 +60,6 @@ public class HomeServlet extends HttpServlet {
                 break;
             case "effort_save":
                 response.sendRedirect(WebUtils.appUrl(request, "/efforts/"));       //enter_efforts.jsp
-                break;
-            case "own_statistik_generate":
-                response.sendRedirect(WebUtils.appUrl(request, "/statistic/"));     //statistik.jsp
                 break;
             case "own_profil_edit":  //erledigt
                 response.sendRedirect(WebUtils.appUrl(request, "/user/" + String.valueOf(this.benutzerBean.getCurrentUser().getBenutzername()) + "/"));          //user_edit.jsp

@@ -31,7 +31,7 @@
                         <button name="action" value="effort_save">
                             Stunden eintragen
                         </button>
-                        <button name="action" value="own_statistik_generate">
+                        <button name="action" value="statistic_generate">
                             Statistik ansehen
                         </button>
                     </div>
@@ -45,7 +45,7 @@
                             <button name="action" value="user_edit">
                                 Mitglied bearbeiten
                             </button>
-                            <button>
+                            <button name="action" value="protocol_save">
                                 Protokolle eintragen
                             </button>
                             <button name="action" value="extra_effort_save">
