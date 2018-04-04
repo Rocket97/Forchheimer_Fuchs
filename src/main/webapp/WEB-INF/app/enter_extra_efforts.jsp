@@ -1,9 +1,3 @@
-<%-- 
-    Document   : enter_extra_efforts
-    Created on : 22.03.2018, 14:35:34
-    Author     : rocket
---%>
-
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <%@taglib tagdir="/WEB-INF/tags/templates" prefix="template"%>

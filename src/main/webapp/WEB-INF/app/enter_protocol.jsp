@@ -94,13 +94,6 @@
                         <input type="checkbox" name="protocol_patient_geschlecht_maennlich" value="${signup_form.values["protocol_patient_geschlecht_maennlich"][0]}">männlich<br />
                     </div>
                         
-                    <label for="protocol_patient_geburtsdatum">
-                        Geburtsdatum:
-                    </label>
-                    <div class="side-by-side">
-                        <input type="text" name="protocol_patient_geburtsdatum" value="${task_form.values["protocol_patient_geburtsdatum"][0]}">
-                    </div>
-                    
                     <label for="protocol_patient_strasse">
                         Straße:
                     </label>

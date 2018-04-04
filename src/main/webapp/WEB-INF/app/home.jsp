@@ -38,7 +38,7 @@
                     
                     <%-- Buttons zum Weiterleiten auf die verschiedenen Seiten als Admin --%>
                     <div class="column">
-                        <c:if test="${user.admin}">
+                        <c:if test="${admin}">
                             <button name="action" value="signup">
                                 Mitglied anlegen
                             </button>

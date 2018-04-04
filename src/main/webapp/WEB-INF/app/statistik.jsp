@@ -29,20 +29,55 @@
                 <input type="hidden" name="csrf_token" value="${csrf_token}">
             
                 <div class="column">
-                    <label for="jahr">
-                        Jahr:
+                    <label for="von">
+                        Von:
                         <span class="required">*</span>
                     </label>
                     <div class="side-by-side">
-                        <input type="text" name="jahr">
+                        <input type="datetime-local" name="von">
                     </div>
                     
-                    <c:if test="${user.admin}">
-                        <label for="helfer">
-                            Helfer:
+                    <label for="bis">
+                        Bis:
+                        <span class="required">*</span>
+                    </label>
+                    <div class="side-by-side">
+                        <input type="datetime-local" name="bis">
+                    </div>
+                    
+                    <c:if test="${admin}">
+                        <%-- Suchfelder --%>    
+              
+                        <label for="search_mitgliedsnummer">
+                            Mitgliedsnummer:
+                            <span class="required">*</span>
                         </label>
                         <div class="side-by-side">
-                            <input type="text" name="helfer">
+                            <input type="number" name="search_mitlgiedsnummer" value="${signup_form.values["search_mitgliedsnummer"][0]}">
+                        </div>
+                    
+                        <label for="search_nachname">
+                            Nachname:
+                            <span class="required">*</span>
+                        </label>
+                        <div class="side-by-side">
+                            <input type="text" name="search_nachname" value="${signup_form.values["search_nachname"][0]}">
+                        </div>
+                    
+                        <label for="search_vorname">
+                            Vorname:
+                            <span class="required">*</span>
+                        </label>
+                        <div class="side-by-side">
+                            <input type="text" name="search_vorname" value="${signup_form.values["search_vorname"][0]}">
+                        </div>
+                   
+                        <label for="search_username">
+                            Nutzername:
+                            <span class="required">*</span>
+                        </label>
+                        <div class="side-by-side">
+                            <input type="text" name="search_username" value="${signup_form.values["search_username"][0]}">
                         </div> 
                     </c:if>
                     
