@@ -33,7 +33,7 @@
                          alt="Das Icon :)" width="100%" height="100%" onmouseover="Testen">
                 </div>
                 <div class="appname">
-                    Forchheimer Fuchs
+                    Forchheimer Fuchs -
                 </div>
                 <div class="content">
                     ${title}
