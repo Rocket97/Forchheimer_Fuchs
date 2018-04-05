@@ -29,41 +29,35 @@
                 <input type="hidden" name="csrf_token" value="${csrf_token}">
             
                 <div class="column">
-                    <%-- CSRF-Token --%>
-                    <input type="hidden" name="csrf_token" value="${csrf_token}">
 
                     <%-- Suchfelder --%>    
               
                     <label for="search_mitgliedsnummer">
                         Mitgliedsnummer:
-                        <span class="required">*</span>
                     </label>
                     <div class="side-by-side">
-                        <input type="number" name="search_mitgliedsnummer" value="${signup_form.values["search_mitgliedsnummer"][0]}">
+                        <input type="number" name="search_mitgliedsnummer" value="${param.search_mitgliedsnr}}">
                     </div>
                     
                     <label for="search_nachname">
                         Nachname:
-                        <span class="required">*</span>
                     </label>
                     <div class="side-by-side">
-                        <input type="text" name="search_nachname" value="${signup_form.values["search_nachname"][0]}">
+                        <input type="text" name="search_nachname" value="${param.search_nachname}">
                     </div>
                     
                     <label for="search_vorname">
                         Vorname:
-                        <span class="required">*</span>
                     </label>
                     <div class="side-by-side">
-                        <input type="text" name="search_vorname" value="${signup_form.values["search_vorname"][0]}">
+                        <input type="text" name="search_vorname" value="${param.search_vorname}">
                     </div>
                    
                     <label for="search_username">
                         Nutzername:
-                        <span class="required">*</span>
                     </label>
                     <div class="side-by-side">
-                        <input type="text" name="search_username" value="${signup_form.values["search_username"][0]}">
+                        <input type="text" name="search_username" value="${param.search_username}">
                     </div>
 
                     
@@ -77,7 +71,7 @@
                 </div>
                 
                 <c:choose>
-                    <c:when test="${empty tasks}">
+                    <c:when test="${empty users}">
                         <p>
                             Es wurden keine Benutzer gefunden. 🐈
                         </p>
@@ -94,7 +88,7 @@
                                     <th>Nachname</th>
                                 </tr>
                             </thead>
-                            <c:forEach items="${users}" var="task">
+                            <c:forEach items="${users}" var="user">
                                 <tr>
                                     <td>
                                         <a href="<c:url value="/app/user/${user.mitgliedsnr}/"/>">

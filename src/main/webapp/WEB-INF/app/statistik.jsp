@@ -34,7 +34,7 @@
                         <span class="required">*</span>
                     </label>
                     <div class="side-by-side">
-                        <input type="datetime-local" name="von">
+                        <input type="datetime-local" name="von" value="${statistic_form.values["statistic_vonDatum"][0]}">
                     </div>
                     
                     <label for="bis">
@@ -42,7 +42,7 @@
                         <span class="required">*</span>
                     </label>
                     <div class="side-by-side">
-                        <input type="datetime-local" name="bis">
+                        <input type="datetime-local" name="bis" value="${statistic_form.values["statistic_bisDatum"][0]}">
                     </div>
                     
                     <c:if test="${admin}">
@@ -53,7 +53,7 @@
                             <span class="required">*</span>
                         </label>
                         <div class="side-by-side">
-                            <input type="number" name="search_mitlgiedsnummer" value="${signup_form.values["search_mitgliedsnummer"][0]}">
+                            <input type="number" name="search_mitlgiedsnummer" value="${statistic_form.values["statistic_mitgliedsnummer"][0]}">
                         </div>
                     
                         <label for="search_nachname">
@@ -61,7 +61,7 @@
                             <span class="required">*</span>
                         </label>
                         <div class="side-by-side">
-                            <input type="text" name="search_nachname" value="${signup_form.values["search_nachname"][0]}">
+                            <input type="text" name="search_nachname" value="${statistic_form.values["statistic_nachname"][0]}">
                         </div>
                     
                         <label for="search_vorname">
@@ -69,7 +69,7 @@
                             <span class="required">*</span>
                         </label>
                         <div class="side-by-side">
-                            <input type="text" name="search_vorname" value="${signup_form.values["search_vorname"][0]}">
+                            <input type="text" name="search_vorname" value="${statistic_form.values["statistic_vorname"][0]}">
                         </div>
                    
                         <label for="search_username">
@@ -77,7 +77,7 @@
                             <span class="required">*</span>
                         </label>
                         <div class="side-by-side">
-                            <input type="text" name="search_username" value="${signup_form.values["search_username"][0]}">
+                            <input type="text" name="search_username" value="${statistic_form.values["statistic_username"][0]}">
                         </div> 
                     </c:if>
                     
@@ -90,13 +90,16 @@
                     </div>
                     
                     <%-- Panel oder ApplicationFrame (Frame) --%>
+                    <div>
+                        <img src="/drawChartServlet?type=myDesiredChart&width=300&height=400">
+                    </div>
                 </div>
 
                 
                 <%-- Fehlermeldungen --%>
-                <c:if test="${!empty user_form.errors}">
+                <c:if test="${!empty statistic_form.errors}">
                     <ul class="errors">
-                        <c:forEach items="${user_form.errors}" var="error">
+                        <c:forEach items="${statistic_form.errors}" var="error">
                             <li>${error}</li>
                             </c:forEach>
                     </ul>

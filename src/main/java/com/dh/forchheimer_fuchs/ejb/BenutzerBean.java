@@ -80,11 +80,7 @@ public class BenutzerBean extends EntityBean<Benutzer, String> {
     }
 
     @RolesAllowed("ff_admin")
-    public void setzePasswortVonBenutzerZurück(Benutzer benutzer) throws InvalidCredentialsException {
-        if (benutzer == null) {
-            throw new InvalidCredentialsException("Benutzername oder Passwort sind falsch.");
-        }
-
+    public void setzePasswortVonBenutzerZurück(Benutzer benutzer) {
         benutzer.setPasswort(benutzer.getBenutzername());
     }
 
@@ -135,8 +131,7 @@ public class BenutzerBean extends EntityBean<Benutzer, String> {
         query.select(from);
 
         // WHERE u.mitgliedsnr = searchMitgliedsnr
-        if (searchMitgliedsnr == null) {
-        } else {
+        if (searchMitgliedsnr != null) {
             query.where(cb.equal(from.get("mitgliedsnr"), searchMitgliedsnr));
         }
 

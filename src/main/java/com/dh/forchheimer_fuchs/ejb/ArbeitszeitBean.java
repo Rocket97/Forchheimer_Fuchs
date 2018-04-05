@@ -47,7 +47,7 @@ public class ArbeitszeitBean extends EntityBean<Arbeitszeit, Long> {
             int i = 0;
             
             // von einem Benutzer alle Zeitspannen der gegebenen Kategorie raussuchen
-            List<Integer> zeitspannen = em.createQuery("SELECT a.zeitspanne FROM arbeitszeit a WHERE a.mitgliedsnr = :mnr AND a.kategorie = :kategorie")
+            List<Integer> zeitspannen = em.createQuery("SELECT a.zeitspanne FROM Arbeitszeit a WHERE a.helfer.mitgliedsnr = :mnr AND a.kategorie = :kategorie")
                 .setParameter("mnr", helferlein.getMitgliedsnr())
                 .setParameter("kategorie", kategorie)
                 .getResultList();
@@ -88,7 +88,7 @@ public class ArbeitszeitBean extends EntityBean<Arbeitszeit, Long> {
         
         // Zeitspannen je Arbeitszeit und Kategorie auslesen und addieren
         for (int i=0; i<StundenKategorie.values().length; i++){
-            List<Integer> zeitspannen = em.createQuery("SELECT a.zeitspanne FROM arbeitszeit a WHERE a.mitgliedsnr = :mnr AND a.kategorie = :kategorie")
+            List<Integer> zeitspannen = em.createQuery("SELECT a.zeitspanne FROM Arbeitszeit a WHERE a.helfer.mitgliedsnr = :mnr AND a.kategorie = :kategorie")
                 .setParameter("mnr", benutzer.getMitgliedsnr())
                 .setParameter("kategorie", StundenKategorie.values()[i])
                 .getResultList();
@@ -188,6 +188,6 @@ public class ArbeitszeitBean extends EntityBean<Arbeitszeit, Long> {
     }
     
     public List<Arbeitszeit> findAllSorted(Benutzer benutzer){
-        return em.createQuery("SELECT a FROM arbeitszeit a WHERE a.helfer = :benutzer").setParameter("benutzer", benutzer).getResultList();
+        return em.createQuery("SELECT a FROM Arbeitszeit a WHERE a.helfer = :benutzer").setParameter("benutzer", benutzer).getResultList();
     } 
 }

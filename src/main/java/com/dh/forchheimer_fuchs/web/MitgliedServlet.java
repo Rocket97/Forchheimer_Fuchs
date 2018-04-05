@@ -32,37 +32,26 @@ public class MitgliedServlet extends HttpServlet {
     public void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        // Zu bearbeitendes Mitglied einlesen
-        HttpSession session = request.getSession();
-
-        Benutzer user = this.benutzerBean.getCurrentUser();
+        request.setCharacterEncoding("utf-8");
         
-        // wenn User Admin, dann weiterleiten zur Benutzersuche, ansonsten wieder zurück auf den Home-Bereich schicken (, wenn ein User sich überhaupt auf diese Seite verirrt hat)
-        if (user.getAdmin()){
-            request.setCharacterEncoding("utf-8");
+        // Benutzer-Referenz aus den Suche-Parametern heraussuchen
+        String mitgliedsnr = request.getParameter("search_mitgliedsnummer");
+        String benutzername = request.getParameter("search_username");
+        String vorname = request.getParameter("search_vorname");
+        String nachname = request.getParameter("search_nachname");
         
-            // Benutzer-Referenz aus den Suche-Parametern heraussuchen
-            Long mitgliedsnr = Long.parseLong(request.getParameter("search_mitgliedsnummer"));
-            String benutzername = request.getParameter("search_username");
-            String vorname = request.getParameter("search_vorname");
-            String nachname = request.getParameter("search_nachname");
-
-            List<Benutzer> users = this.benutzerBean.search(mitgliedsnr, vorname, nachname, benutzername);
-            List<String> errors = new ArrayList<>();
-
-            if (users.isEmpty()){
-                errors.add("Es wurden keine Suchergebnisse gefunden.");
-            }
-
-            if(errors.isEmpty()){
-
-            }
-            // Ergebnis-Benutzer aus dem Suchen an das UserEditServlet übergeben (nicht die user_edit.jsp, da in der doGet-Methode des UserEditServlets die jsp aufgerufen wird)
-            // Anfrage an die JSP weiterleiten
-            request.getRequestDispatcher("/WEB-INF/app/search_user_edit.jsp").forward(request, response);
-
-        } else {
-            response.sendRedirect(WebUtils.appUrl(request, "/app/home/"));
+        Long mitgliedsnummer = null;
+        
+        if(mitgliedsnr != null){
+            mitgliedsnummer = Long.parseLong(mitgliedsnr);
         }
+        
+        List<Benutzer> users = this.benutzerBean.search(mitgliedsnummer, vorname, nachname, benutzername);
+
+        // Ergebnis-Benutzer aus dem Suchen an das UserEditServlet übergeben (nicht die user_edit.jsp, da in der doGet-Methode des UserEditServlets die jsp aufgerufen wird)
+        request.setAttribute("users", users);
+        
+        // Anfrage an die JSP weiterleiten
+        request.getRequestDispatcher("/WEB-INF/app/search_user_edit.jsp").forward(request, response);
     }
 }

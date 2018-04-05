@@ -37,12 +37,10 @@
                 <input type="hidden" name="csrf_token" value="${csrf_token}">
             
                 <div class="column">
-                    <%-- CSRF-Token --%>
-                    <input type="hidden" name="csrf_token" value="${csrf_token}">
 
                     <%-- Eingabefelder --%>    
                     
-                    <!--: Admin: Allle Eingaben müssen sichtbar sein - nur Passwort nicht!-->
+                    <!--: Admin: Alle Eingaben müssen sichtbar sein - nur Passwort nicht!-->
                     
                     <c:if test="${admin}">
                         <label for="user_mitgliedsnummer">
@@ -50,7 +48,7 @@
                             <span class="required">*</span>
                         </label>
                         <div class="side-by-side">
-                            <input type="number" name="user_mitlgiedsnummer" value="${signup_form.values["user_mitgliedsnummer"][0]}">
+                            <input type="number" name="user_mitlgiedsnummer" value="${user_form.values["user_mitgliedsnummer"][0]}">
                         </div>
                     </c:if>
                     
@@ -59,7 +57,7 @@
                         <span class="required">*</span>
                     </label>
                     <div class="side-by-side">
-                        <input type="text" name="user_nachname" value="${signup_form.values["user_nachname"][0]}">
+                        <input type="text" name="user_nachname" value="${user_form.values["user_nachname"][0]}">
                     </div>
                     
                     <label for="user_vorname">
@@ -67,21 +65,21 @@
                         <span class="required">*</span>
                     </label>
                     <div class="side-by-side">
-                        <input type="text" name="user_vorname" value="${signup_form.values["user_vorname"][0]}">
+                        <input type="text" name="user_vorname" value="${user_form.values["user_vorname"][0]}">
                     </div>
                    
                     <label for="user_telefonnummer">
                         Telefonnummer:
                     </label>
                     <div class="side-by-side">
-                        <input type="tel" name="user_telefonnummer" value="${signup_form.values["user_telefonnummer"][0]}">
+                        <input type="tel" name="user_telefonnummer" value="${user_form.values["user_telefonnummer"][0]}">
                     </div>
                     
                     <label for="user_email">
                         E-Mail:
                     </label>
                     <div class="side-by-side">
-                        <input type="email" name="user_email" value="${signup_form.values["user_email"][0]}">
+                        <input type="email" name="user_email" value="${user_form.values["user_email"][0]}">
                     </div>
                     
                     <label for="user_strasse">
@@ -89,7 +87,7 @@
                         <span class="required">*</span>
                     </label>
                     <div class="side-by-side">
-                        <input type="text" name="user_strasse" value="${signup_form.values["user_strasse"][0]}">
+                        <input type="text" name="user_strasse" value="${user_form.values["user_strasse"][0]}">
                     </div>
                     
                     <label for="user_hausnummer">
@@ -97,7 +95,7 @@
                         <span class="required">*</span>
                     </label>
                     <div class="side-by-side">
-                        <input type="text" name="user_hausnummer" value="${signup_form.values["user_hausnummer"][0]}">
+                        <input type="text" name="user_hausnummer" value="${user_form.values["user_hausnummer"][0]}">
                     </div>
                     
                     <label for="user_plz">
@@ -105,7 +103,7 @@
                         <span class="required">*</span>
                     </label>
                     <div class="side-by-side">
-                        <input type="number" name="user_plz" value="${signup_form.values["user_plz"][0]}">
+                        <input type="number" name="user_plz" value="${user_form.values["user_plz"][0]}">
                     </div>
                     
                     <label for="user_ort">
@@ -113,7 +111,7 @@
                         <span class="required">*</span>
                     </label>
                     <div class="side-by-side">
-                        <input type="text" name="user_ort" value="${signup_form.values["user_ort"][0]}">
+                        <input type="text" name="user_ort" value="${user_form.values["user_ort"][0]}">
                     </div>
                     
                     <c:if test="${admin}">
@@ -122,8 +120,8 @@
                             <span class="required">*</span>
                         </label>
                         <div class="side-by-side">
-                            <input type="checkbox" name="user_abteilung_jugend" value="${signup_form.values["user_abteilung_jugend"][0]}">Jugend<br />
-                            <input type="checkbox" name="user_abteilung_bereitschaft" value="${signup_form.values["user_abteilung_bereitschaft"][0]}">Bereitschaft<br />
+                            <input type="checkbox" name="user_abteilung_jugend" value="${user_form.values["user_abteilung_jugend"][0]}">Jugend<br />
+                            <input type="checkbox" name="user_abteilung_bereitschaft" value="${user_form.values["user_abteilung_bereitschaft"][0]}">Bereitschaft<br />
                         </div>
                     </c:if>
                     
@@ -133,40 +131,45 @@
                         <span class="required">*</span>
                     </label>
                     <div class="side-by-side">
-                        <input type="text" name="user_username" value="${signup_form.values["user_username"][0]}">
+                        <input type="text" name="user_username" value="${user_form.values["user_username"][0]}">
                     </div>
-                    <c:if test="${admin}">
+                    <c:if test="${!admin}">
                         <label for="user_passwordAlt">
                             Altes Passwort:
                         </label>
                         <div class="side-by-side">
-                            <input type="password" name="user_passwordAlt" value="${signup_form.values["user_passwordAlt"][0]}">
+                            <input type="password" name="user_passwordAlt" value="${user_form.values["user_passwordAlt"][0]}">
                         </div>
                         <label for="user_password1">
                             Neues Passwort:
                         </label>
                         <div class="side-by-side">
-                            <input type="password" name="user_password1" value="${signup_form.values["user_password1"][0]}">
+                            <input type="password" name="user_password1" value="${user_form.values["user_password1"][0]}">
                         </div>
                         <label for="user_password">
                             Passwort (Wdh.):
                         </label>
                         <div class="side-by-side">
-                            <input type="password" name="user_password" value="${signup_form.values["user_password"][0]}">
+                            <input type="password" name="user_password" value="${user_form.values["user_password"][0]}">
                         </div>
+                    </c:if>
+                    <c:if test="${admin}">
                         <label for="user_admin">
                             Admin
                         </label>
                         <div class="side-by-side">
-                            <input type="checkbox" name="user_admin" value="${signup_form.values["user_admin"][0]}">
+                            <input type="checkbox" name="user_admin" value="${user_form.values["user_admin"][0]}">
                         </div>
                     </c:if>
                     
            
                     <%-- Button zum Speichern --%>
                     <div class="side-by-side">
-                        <button class="icon-pencil" type="submit">
+                        <button class="icon-pencil" name="action" value="save">
                             Speichern
+                        </button>
+                        <button class="icon-pencil" name="action" value="passwort">
+                            Passwort zurücksetzen
                         </button>
                     </div>
                 </div>

@@ -12,7 +12,7 @@
     </jsp:attribute>
 
     <jsp:attribute name="head">
-        <link rel="stylesheet" href="<c:url value="/css/form.css"/>" />                 // form.css oder main.css -> login.css gibt es nicht!!!
+        <link rel="stylesheet" href="<c:url value="/css/form.css"/>" />                 <%-- form.css oder main.css -> login.css gibt es nicht!!!--%>
     </jsp:attribute>
 
     <jsp:attribute name="menu">

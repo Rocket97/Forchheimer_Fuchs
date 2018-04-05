@@ -5,13 +5,20 @@
  */
 package com.dh.forchheimer_fuchs.web;
 
+import com.dh.forchheimer_fuchs.ejb.ArbeitszeitBean;
+import com.dh.forchheimer_fuchs.ejb.BenutzerBean;
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.OutputStream;
+import javax.ejb.EJB;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import org.jfree.chart.ChartUtilities;
+import org.jfree.chart.JFreeChart;
 
 /**
  *
@@ -19,70 +26,47 @@ import javax.servlet.http.HttpServletResponse;
  */
 @WebServlet(urlPatterns = {"/statistic/"})
 public class StatistikServlet extends HttpServlet {
-
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet StatistikServlet</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet StatistikServlet at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        }
-    }
-
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /**
-     * Handles the HTTP <code>GET</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
+    
+    @EJB
+    ArbeitszeitBean arbeitszeitBean;
+    
+    @EJB
+    BenutzerBean benutzerBean;
+    
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+    public void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        
+        // Anfrage an dazugerhörige JSP weiterleiten
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/app/statistik.jsp");
+        dispatcher.forward(request, response);
+        
+        // Alte Formulardaten aus der Session entfernen
+        HttpSession session = request.getSession();
+        session.removeAttribute("statistic_form");
     }
-
-    /**
-     * Handles the HTTP <code>POST</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
+    
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+    public void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        
+        // Formulareingaben auslesen
+        request.setCharacterEncoding("utf-8");
+        
+        // Eingaben des Benutzers auslesen
+        Long mitgliedsnr = Long.parseLong(request.getParameter("statistic_mitgliedsnummer"));
+        String benutzername = request.getParameter("statistic_username");
+        String vorname = request.getParameter("statistic_vorname");
+        String nachname = request.getParameter("statistic_nachname");
+        String datumVon = request.getParameter("statistic_vonDatum");
+        String datumBis = request.getParameter("statistic_bisDatum");
+        
+        //List<Benutzer> users = this.benutzerBean.search(mitgliedsnr, vorname, nachname, benutzername);
+        
+        String titel = "Arbeitszeit von " + datumVon + " bis " + datumBis;
+        OutputStream out = response.getOutputStream(); /* Get the output stream from the response object */
+        response.setContentType("image/png"); /* Set the HTTP Response Type */
+//        JFreeChart chart = this.arbeitszeitBean.stundenAuswertenEinzeln(benutzer); // Create chart 
+//        ChartUtilities.writeChartAsPNG(out, chart, 400, 300);/* Write the data to the output stream */
     }
-
-    /**
-     * Returns a short description of the servlet.
-     *
-     * @return a String containing servlet description
-     */
-    @Override
-    public String getServletInfo() {
-        return "Short description";
-    }// </editor-fold>
-
 }

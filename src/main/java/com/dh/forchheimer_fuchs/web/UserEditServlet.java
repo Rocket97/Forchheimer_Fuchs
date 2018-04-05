@@ -54,7 +54,9 @@ public class UserEditServlet extends HttpServlet {
             request.setAttribute("user_form", this.createUserForm(user));
         }
         
-         request.setAttribute("admin", benutzerBean.getCurrentUser().getAdmin());
+        // in der jsp die Variable "admin" setzen
+        request.setAttribute("admin", benutzerBean.getCurrentUser().getAdmin());
+        
         // Anfrage an die JSP weiterleiten
         request.getRequestDispatcher("/WEB-INF/app/user_edit.jsp").forward(request, response);
 
@@ -68,7 +70,23 @@ public class UserEditServlet extends HttpServlet {
         // Aktion ausführen
         request.setCharacterEncoding("utf-8");
         
-        this.saveUser(request, response);
+         String action = request.getParameter("action");
+
+        if (action == null) {
+            action = "";
+        }
+        
+        switch (action){
+            case "passwort":
+                String username = request.getParameter("user_username");
+                this.benutzerBean.setzePasswortVonBenutzerZurück(this.benutzerBean.findById(username));
+                response.sendRedirect(WebUtils.appUrl(request, "/app/home/"));
+                break;
+            case "save":
+                this.saveUser(request, response);
+                break;
+            default:
+        }
     }
 
     /**
