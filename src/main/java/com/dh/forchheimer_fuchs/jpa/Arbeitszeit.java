@@ -38,9 +38,8 @@ public class Arbeitszeit extends Einsatz implements Serializable {
         
     }
 
-    public Arbeitszeit(long zeitId, Benutzer helfer, StundenKategorie kategorie, Date beginn, Date ende, int zeitspanne) {
+    public Arbeitszeit(Benutzer helfer, StundenKategorie kategorie, Date beginn, Date ende, int zeitspanne) {
         super(beginn, ende, zeitspanne);
-        this.zeitId = zeitId;
         this.helfer = helfer;
         this.kategorie = kategorie;
     }

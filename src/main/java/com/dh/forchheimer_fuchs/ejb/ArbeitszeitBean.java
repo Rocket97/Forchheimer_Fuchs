@@ -185,14 +185,12 @@ public class ArbeitszeitBean extends EntityBean<Arbeitszeit, Long> {
         return frame;
     }
         
-    public int berechneZeitspanne(Calendar from, Calendar to) {
-        Date fromDate = from.getTime();
-        Date toDate = to.getTime();
-        long difference = fromDate.getTime() - toDate.getTime();
+    public int berechneZeitspanne(Date from, Date to) {
+        long difference = from.getTime() - to.getTime();
         return (int) (difference / 60000);
     }
     
     public List<Arbeitszeit> findAllSorted(Benutzer benutzer){
-        return em.createQuery("SELECT a FROM Arbeitszeit a WHERE a.helfer = :benutzer").setParameter("benutzer", benutzer).getResultList();
+        return em.createQuery("SELECT a FROM Arbeitszeit a WHERE a.helfer = :benutzer ORDER BY a.beginn, a.kategorie").setParameter("benutzer", benutzer).getResultList();
     } 
 }

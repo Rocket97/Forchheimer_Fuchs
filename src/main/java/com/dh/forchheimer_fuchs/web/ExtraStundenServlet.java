@@ -127,7 +127,7 @@ public class ExtraStundenServlet extends HttpServlet {
         //DateTimeFormatter f = DateTimeFormatter.ofPattern( "E MMM d HH:mm:ss z uuuu" );
         //Date beginn = Date.parse( taskBeginn , f );
         //Date ende = Date.parse( taskEnde , f );
-        SimpleDateFormat formatter = new SimpleDateFormat("E MMM d HH:mm:ss z uuuu");
+        SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.yyyy hh:mm:ss");
         Date beginn = null, ende = null;
         try {
             beginn = formatter.parse(taskBeginn);
@@ -217,7 +217,7 @@ public class ExtraStundenServlet extends HttpServlet {
         arbeitszeit.setHelfer(this.benutzerBean.getCurrentUser());
         arbeitszeit.setBeginn(new Date(System.currentTimeMillis()));
         arbeitszeit.setEnde(new Date(System.currentTimeMillis()));
-        arbeitszeit.setZeitspanne(this.arbeitszeitBean.berechneZeitspanne((Calendar)request.getAttribute("efforts_zeit_beginn"), (Calendar)request.getAttribute("efforts_zeit_ende")));
+        arbeitszeit.setZeitspanne(this.arbeitszeitBean.berechneZeitspanne((Date)request.getAttribute("special_efforts_zeit_beginn"), (Date)request.getAttribute("special_efforts_zeit_ende")));
         // ID aus der URL herausschneiden
         String arbeitszeitId = request.getPathInfo();
 

@@ -36,10 +36,10 @@
                         <option value="">Keine Kategorie</option>
 
                         <c:forEach items="${categories}" var="category">
-                            <option value="${category.id}" ${effort_form.values["effort_category"][0] == category.id ? 'selected' : ''}>
-                                <c:out value="${category.name}" />
+                            <option value="${category}" ${param.search_category == category ? 'selected' : ''}>
+                                <c:out value="${category.label}"/>
                             </option>
-                        </c:forEach>
+                </c:forEach>
                     </select>
                     </div>
                     
@@ -63,7 +63,7 @@
                     
                     <%-- Button zum Speichern --%>
                     <div class="side-by-side">
-                        <button class="icon-pencil" type="submit">
+                        <button class="icon-pencil" name="action" value="save">
                             Speichern
                         </button>
                     </div>
@@ -81,6 +81,7 @@
                 <table>
                     <thead>
                         <tr>
+                            <th></th>   <%-- nur als Platzhalter für die Lösch-Knöpfe--%>
                             <th>Datum</th>
                             <th>Kategorie</th>
                             <th>Zeit</th>
@@ -89,9 +90,10 @@
                     <c:forEach items="${efforts}" var="effort">
                         <tr>
                             <td>
-                                <a href="<c:url value="/app/effort/${effort.id}/"/>">
-                                    <c:out value="${effort.date}"/>
-                                </a>
+                                <input type="checkbox" name="effort" id="${'category-'.concat(effort.id)}" value="${effort.id}" />
+                            </td>
+                            <td>
+                                <c:out value="${effort.date}"/>
                             </td>
                             <td>
                                 <c:out value="${effort.category.name}"/>
@@ -102,6 +104,12 @@
                         </tr>
                     </c:forEach>
                 </table>
+                <%-- Button zum Löschen --%>
+                <div class="side-by-side">
+                    <button class="icon-pencil" name="action" value="delete">
+                        Speichern
+                    </button>
+                </div>
             </c:otherwise>
         </c:choose>
             </form>

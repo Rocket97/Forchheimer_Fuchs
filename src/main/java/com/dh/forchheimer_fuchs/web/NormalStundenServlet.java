@@ -5,8 +5,15 @@ import com.dh.forchheimer_fuchs.ejb.ArbeitszeitBean;
 import com.dh.forchheimer_fuchs.ejb.BenutzerBean;
 import com.dh.forchheimer_fuchs.ejb.ValidationBean;
 import com.dh.forchheimer_fuchs.jpa.Arbeitszeit;
+import com.dh.forchheimer_fuchs.jpa.Benutzer;
+import com.dh.forchheimer_fuchs.jpa.StundenKategorie;
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -37,6 +44,8 @@ public class NormalStundenServlet extends HttpServlet {
     public void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
+        // Verfügbare Kategorien und Stati für die Suchfelder ermitteln
+        request.setAttribute("categories", StundenKategorie.values());
 
         // Alle vorhandenen Arbeitszeiten ermitteln
         request.setAttribute("efforts", this.arbeitszeitBean.findAllSorted(this.benutzerBean.getCurrentUser()));
@@ -64,7 +73,7 @@ public class NormalStundenServlet extends HttpServlet {
         }
 
         switch (action) {
-            case "create":
+            case "save":
                 this.createArbeitszeit(request, response);
                 break;
             case "delete":
@@ -85,9 +94,31 @@ public class NormalStundenServlet extends HttpServlet {
             throws ServletException, IOException {
 
         // Formulareingaben prüfen
-        String name = request.getParameter("name");
-
-        Arbeitszeit arbeitszeit = new Arbeitszeit();
+        StundenKategorie kategorie = StundenKategorie.valueOf(request.getParameter("effort_category"));
+        String datumVon = request.getParameter("efforts_zeit_beginn");
+        String datumBis = request.getParameter("efforts_zeit_ende");
+        Benutzer user = this.benutzerBean.getCurrentUser();
+        
+        
+        
+        //Zeitspanne berechnen
+        if (datumVon == null) {
+            datumVon = "";
+        }
+        
+        if (datumBis == null) {
+            datumBis = "";
+        }
+        SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.yyyy hh:mm");
+        Date beginn = null, ende = null;
+        try {
+            beginn = formatter.parse(datumVon);
+            ende = formatter.parse(datumBis);
+        } catch (ParseException ex) {
+            Logger.getLogger(NormalStundenServlet.class.getName()).log(Level.SEVERE, null, ex);
+        } 
+        
+        Arbeitszeit arbeitszeit = new Arbeitszeit(user, kategorie, beginn, ende, this.arbeitszeitBean.berechneZeitspanne(beginn, ende));
         List<String> errors = this.validationBean.validate(arbeitszeit);
 
         // Neue Arbeitszeit anlegen
@@ -120,7 +151,7 @@ public class NormalStundenServlet extends HttpServlet {
             throws ServletException, IOException {
 
         // Markierte Kategorie IDs auslesen
-        String[] zeitIds = request.getParameterValues("arbeitszeit");
+        String[] zeitIds = request.getParameterValues("effort");
 
         if (zeitIds == null) {
             zeitIds = new String[0];
