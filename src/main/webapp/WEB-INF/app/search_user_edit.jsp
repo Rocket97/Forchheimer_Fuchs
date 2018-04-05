@@ -12,7 +12,7 @@
     </jsp:attribute>
 
    <jsp:attribute name="head">
-        <link rel="stylesheet" href="<c:url value="/css/task_list.css"/>" />
+        <link rel="stylesheet" href="<c:url value="/css/user_list.css"/>" />
     </jsp:attribute>
 
     <jsp:attribute name="menu">
@@ -23,7 +23,7 @@
 
     <jsp:attribute name="content">
         <div class="container">
-            <form method="post" class="stacked">
+            <form method="GET" class="stacked">
                 
                 <%-- CSRF-Token --%>
                 <input type="hidden" name="csrf_token" value="${csrf_token}">
@@ -82,27 +82,27 @@
                         <table>
                             <thead>
                                 <tr>
-                                    <th>Mitgliedsnummer</th>
                                     <th>Benutzername</th>
                                     <th>Vorname</th>
                                     <th>Nachname</th>
+                                    <th>Mitgliedsnummer</th>
                                 </tr>
                             </thead>
                             <c:forEach items="${users}" var="user">
                                 <tr>
                                     <td>
-                                        <a href="<c:url value="/app/user/${user.mitgliedsnr}/"/>">
-                                            <c:out value="${user.mitgliedsnr}"/>
+                                        <a href="<c:url value="/user/${user.benutzername}/"/>">
+                                            <c:out value="${user.benutzername}"/>
                                         </a>
-                                    </td>
-                                    <td>
-                                        <c:out value="${user.benutzername}"/>
                                     </td>
                                     <td>
                                         <c:out value="${user.vorname}"/>
                                     </td>
                                     <td>
                                         <c:out value="${user.nachname}"/>
+                                    </td>
+                                    <td>
+                                        <c:out value="${user.mitgliedsnr}"/>
                                     </td>
                                 </tr>
                             </c:forEach>

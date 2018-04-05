@@ -1,12 +1,4 @@
-/*
- * Copyright © 2018 Dennis Schulmeister-Zimolong
- * 
- * E-Mail: dhbw@windows3.de
- * Webseite: https://www.wpvs.de/
- * 
- * Dieser Quellcode ist lizenziert unter einer
- * Creative Commons Namensnennung 4.0 International Lizenz.
- */
+
 package com.dh.forchheimer_fuchs.web;
 
 import com.dh.forchheimer_fuchs.ejb.ArbeitszeitBean;
@@ -30,7 +22,7 @@ import javax.servlet.http.HttpSession;
  * die zum Löschen der Kategorien verwendet werden kann.
  */
 @WebServlet(urlPatterns = {"/efforts/"})
-public class StundenAnlegenServlet extends HttpServlet {
+public class NormalStundenServlet extends HttpServlet {
 
     @EJB
     ArbeitszeitBean arbeitszeitBean;
@@ -47,17 +39,15 @@ public class StundenAnlegenServlet extends HttpServlet {
         
 
         // Alle vorhandenen Arbeitszeiten ermitteln
-        request.setAttribute("arbeitszeiten", this.arbeitszeitBean.findAllSorted(this.benutzerBean.getCurrentUser()));
+        request.setAttribute("efforts", this.arbeitszeitBean.findAllSorted(this.benutzerBean.getCurrentUser()));
         
-        
-
         // Anfrage an dazugerhörige JSP weiterleiten
         RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/app/enter_efforts.jsp");
         dispatcher.forward(request, response);
 
         // Alte Formulardaten aus der Session entfernen
         HttpSession session = request.getSession();
-        session.removeAttribute("arbeitszeit_form");
+        session.removeAttribute("effort_form");
     }
 
     @Override
@@ -78,7 +68,7 @@ public class StundenAnlegenServlet extends HttpServlet {
                 this.createArbeitszeit(request, response);
                 break;
             case "delete":
-                this.deleteCategories(request, response);
+                this.deleteArbeitszeit(request, response);
                 break;
         }
     }
@@ -112,7 +102,7 @@ public class StundenAnlegenServlet extends HttpServlet {
             formValues.setErrors(errors);
 
             HttpSession session = request.getSession();
-            session.setAttribute("categories_form", formValues);
+            session.setAttribute("effort_form", formValues);
         }
 
         response.sendRedirect(request.getRequestURI());
@@ -126,7 +116,7 @@ public class StundenAnlegenServlet extends HttpServlet {
      * @throws ServletException
      * @throws IOException
      */
-    private void deleteCategories(HttpServletRequest request, HttpServletResponse response)
+    private void deleteArbeitszeit(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
         // Markierte Kategorie IDs auslesen

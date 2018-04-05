@@ -34,9 +34,10 @@ public class ArbeitszeitBean extends EntityBean<Arbeitszeit, Long> {
     }
     
     @RolesAllowed("ff_admin")
-    public ApplicationFrame stundenAuswertenAlle(List<Benutzer> helfer, StundenKategorie kategorie){
+    public ApplicationFrame stundenAuswertenAlle(StundenKategorie kategorie, Date von, Date bis){
         
         // eine Kategorie, alle Personen
+        List<Benutzer> helfer = em.createQuery("SELECT b FROM Benutzer b").getResultList();
         
         // Array für die Zeitspannen, die im Diagramm im Verhältnis dargestellt werden sollen, erzeugen
         int[] helferminuten = new int[helfer.size()];
@@ -47,9 +48,11 @@ public class ArbeitszeitBean extends EntityBean<Arbeitszeit, Long> {
             int i = 0;
             
             // von einem Benutzer alle Zeitspannen der gegebenen Kategorie raussuchen
-            List<Integer> zeitspannen = em.createQuery("SELECT a.zeitspanne FROM Arbeitszeit a WHERE a.helfer.mitgliedsnr = :mnr AND a.kategorie = :kategorie")
+            List<Integer> zeitspannen = em.createQuery("SELECT a.zeitspanne FROM Arbeitszeit a WHERE a.helfer.mitgliedsnr = :mnr AND a.kategorie = :kategorie AND (a.beginn BETWEEN :von AND :bis)")
                 .setParameter("mnr", helferlein.getMitgliedsnr())
                 .setParameter("kategorie", kategorie)
+                .setParameter("von", von)
+                .setParameter("bis", bis)
                 .getResultList();
             
             // Zeitspannen des einen Benutzers addieren
@@ -74,7 +77,7 @@ public class ArbeitszeitBean extends EntityBean<Arbeitszeit, Long> {
         return setzeFrameFuerDiagramme(pieChart, barChart);
     }
     
-    public ApplicationFrame stundenAuswertenEinzeln(Benutzer benutzer){
+    public ApplicationFrame stundenAuswertenEinzeln(Benutzer benutzer, Date von, Date bis){
         
         // eine Person, alle Kategorien
         
@@ -88,9 +91,11 @@ public class ArbeitszeitBean extends EntityBean<Arbeitszeit, Long> {
         
         // Zeitspannen je Arbeitszeit und Kategorie auslesen und addieren
         for (int i=0; i<StundenKategorie.values().length; i++){
-            List<Integer> zeitspannen = em.createQuery("SELECT a.zeitspanne FROM Arbeitszeit a WHERE a.helfer.mitgliedsnr = :mnr AND a.kategorie = :kategorie")
+            List<Integer> zeitspannen = em.createQuery("SELECT a.zeitspanne FROM Arbeitszeit a WHERE a.helfer.mitgliedsnr = :mnr AND a.kategorie = :kategorie AND (a.beginn BETWEEN :von AND :bis)")
                 .setParameter("mnr", benutzer.getMitgliedsnr())
                 .setParameter("kategorie", StundenKategorie.values()[i])
+                .setParameter("von", von)
+                .setParameter("bis", bis)
                 .getResultList();
             
             // Zeitspannen einer Kategorie addieren

@@ -20,7 +20,7 @@
     </jsp:attribute> 
    
    <jsp:attribute name="head">
-        <link rel="stylesheet" href="<c:url value="/css/task_edit.css"/>" />
+        <link rel="stylesheet" href="<c:url value="/css/user_edit.css"/>" />
     </jsp:attribute>
 
     <jsp:attribute name="menu">

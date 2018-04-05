@@ -12,7 +12,7 @@
     </jsp:attribute>
 
    <jsp:attribute name="head">
-        <link rel="stylesheet" href="<c:url value="/css/task_list.css"/>" />
+        <link rel="stylesheet" href="<c:url value="/css/form.css"/>" />
     </jsp:attribute>
 
     <jsp:attribute name="menu">
