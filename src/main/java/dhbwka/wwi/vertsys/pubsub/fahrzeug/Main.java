@@ -16,6 +16,10 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
+import org.eclipse.paho.client.mqttv3.MqttCallback;
+import org.eclipse.paho.client.mqttv3.MqttClient;
+import static org.eclipse.paho.client.mqttv3.MqttClient.generateClientId;
+import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
 
 /**
  * Hauptklasse unseres kleinen Progrämmchens.
@@ -26,11 +30,15 @@ import java.util.List;
  * Goolge Maps eine Nachkommastelle mehr, als das ITN-Format erlaubt. :-)
  */
 public class Main {
-
+    
+MqttClient client;
+        
     public static void main(String[] args) throws Exception {
         // Fahrzeug-ID abfragen
         String vehicleId = Utils.askInput("Beliebige Fahrzeug-ID", "postauto");
-
+        
+        
+        
         // Zu fahrende Strecke abfragen
         File workdir = new File("./waypoints");
         String[] waypointFiles = workdir.list((File dir, String name) -> {
@@ -50,6 +58,7 @@ public class Main {
         System.out.println();
         int index = Integer.parseInt(Utils.askInput("Zu fahrende Strecke", "0"));
 
+        
         // TODO: Methode parseItnFile() unten ausprogrammieren
         List<WGS84> waypoints = parseItnFile(new File(workdir, waypointFiles[index]));
 
@@ -63,13 +72,34 @@ public class Main {
         //
         // Die Nachricht muss dem MqttConnectOptions-Objekt übergeben werden
         // und soll an das Topic Utils.MQTT_TOPIC_NAME gesendet werden.
+        
+        
+        
         // TODO: Verbindung zum MQTT-Broker herstellen.
+        
+        MqttConnectOptions options= new MqttConnectOptions();
+        options.setCleanSession(true);
+        
+        String clientId = "MiniChat-SwingClient-" + System.currentTimeMillis();
+        String address;
+
+        MqttClient mqttClient = new MqttClient("tcp://broker.mqttdashboard.com", generateClientId());
+        mqttClient.connect(options);
+        
+        mqttClient.subscribe(Utils.MQTT_TOPIC_NAME);
+        mqttClient.setCallback(();
+        
+        
         // TODO: Statusmeldung mit "type" = "StatusType.VEHICLE_READY" senden.
         // Die Nachricht soll soll an das Topic Utils.MQTT_TOPIC_NAME gesendet
         // werden.
+        
+        
+        
         // TODO: Thread starten, der jede Sekunde die aktuellen Sensorwerte
         // des Fahrzeugs ermittelt und verschickt. Die Sensordaten sollen
         // an das Topic Utils.MQTT_TOPIC_NAME + "/" + vehicleId gesendet werden.
+        
         Vehicle vehicle = new Vehicle(vehicleId, waypoints);
         vehicle.startVehicle();
 
@@ -77,15 +107,19 @@ public class Main {
         Utils.fromKeyboard.readLine();
 
         vehicle.stopVehicle();
-
+    }
         // TODO: Oben vorbereitete LastWill-Nachricht hier manuell versenden,
         // da sie bei einem regulären Verbindungsende nicht automatisch
         // verschickt wird.
         //
         // Anschließend die Verbindung trennen und den oben gestarteten Thread
         // beenden, falls es kein Daemon-Thread ist.
-    }
+        String adress;
+        String clientId = "Fahrzeug-SwingClient-" + System.currentTimeMillis();
 
+        
+        client
+        
     /**
      * Öffnet die in "filename" übergebene ITN-Datei und extrahiert daraus die
      * Koordinaten für die Wegstrecke des Fahrzeugs. Das Dateiformat ist ganz
@@ -132,5 +166,9 @@ public class Main {
         }
         
         return waypoints;
+    }
+
+    public Main() {
+        this.client = new MqttClient(adress, clientId);
     }
 }
