@@ -29,14 +29,22 @@
                     benutzername = document.getElementById("input-benutzername").value;
                 }
 
-                let img = document.getElementById("chart");
-                img.src = "chart?benutzername=" + encodeURI(benutzername)
+                let imgPie = document.getElementById("chartPie");
+                imgPie.src = "chart?benutzername=" + encodeURI(benutzername)
                         + "&von=" + encodeURI(von)
                         + "&bis=" + encodeURI(bis)
                         + "&type=pie";
+                
+                let imgBar = document.getElementById("chartBar");
+                imgBar.src = "chart?benutzername=" + encodeURI(benutzername)
+                        + "&von=" + encodeURI(von)
+                        + "&bis=" + encodeURI(bis)
+                        + "&type=bar";
+
 
                 // <img>-Element sichtbar schalten
-                img.classList.remove("invisible");
+                imgPie.classList.remove("invisible");
+                imgBar.classList.remove("invisible");
             }
         </script>
     </jsp:attribute>
@@ -122,7 +130,10 @@
 
                     <%-- Panel oder ApplicationFrame (Frame) --%>
                     <div>
-                        <img id="chart" class="invisible">
+                        <img id="chartPie" class="invisible">
+                    </div>
+                    <div>
+                        <img id="chartBar" class="invisible">
                     </div>
                 </div>
 
