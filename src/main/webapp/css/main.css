@@ -78,3 +78,7 @@ a, a:visited {
 a:hover {
     text-decoration: underline;
 }
+
+.invisible {
+    display: none;
+}
