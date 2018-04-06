@@ -20,8 +20,9 @@ public class Event extends Einsatz implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "EVENT_ID")
+    @GeneratedValue(generator = "event_ids")
+    @TableGenerator(name = "event_ids", initialValue = 0, allocationSize = 50)
+    @Column(name="EVENT_ID")
     private long eventId;
     
     @Column(name = "TITEL")

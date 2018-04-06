@@ -20,7 +20,8 @@ public class Protokoll implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(generator = "protokoll_ids")
+    @TableGenerator(name = "protokoll_ids", initialValue = 0, allocationSize = 50)
     @NotNull(message = "Das Protokoll muss eine ID haben.")
     @Column(name = "PROTOKOLL_ID")
     private long protokollId;

@@ -20,7 +20,8 @@ public class Patient extends Person implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(generator = "patient_ids")
+    @TableGenerator(name = "patient_ids", initialValue = 0, allocationSize = 50)
     @Column(name = "PATIENTENNUMMER")
     @NotNull(message = "Die Patientennummer darf nicht leer sein.")
     private long patientennr;

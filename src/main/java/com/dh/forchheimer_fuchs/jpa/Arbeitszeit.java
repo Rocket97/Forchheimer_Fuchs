@@ -13,6 +13,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.TableGenerator;
 
 /**
  *
@@ -23,7 +24,9 @@ public class Arbeitszeit extends Einsatz implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(generator = "effort_ids")
+    @TableGenerator(name = "effort_ids", initialValue = 0, allocationSize = 50)
+    @Column(name="ZEIT_ID")
     private long zeitId;
 
     @ManyToOne
