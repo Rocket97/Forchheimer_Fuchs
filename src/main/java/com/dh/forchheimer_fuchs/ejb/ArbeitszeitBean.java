@@ -8,7 +8,6 @@ package com.dh.forchheimer_fuchs.ejb;
 import com.dh.forchheimer_fuchs.jpa.Arbeitszeit;
 import com.dh.forchheimer_fuchs.jpa.Benutzer;
 import com.dh.forchheimer_fuchs.jpa.StundenKategorie;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import javax.annotation.security.RolesAllowed;
