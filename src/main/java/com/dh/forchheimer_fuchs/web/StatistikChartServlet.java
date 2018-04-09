@@ -9,6 +9,7 @@ import com.dh.forchheimer_fuchs.ejb.ArbeitszeitBean;
 import com.dh.forchheimer_fuchs.ejb.BenutzerBean;
 import com.dh.forchheimer_fuchs.jpa.Benutzer;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -20,6 +21,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.jfree.chart.ChartUtilities;
 import org.jfree.chart.JFreeChart;
 
 /**
@@ -69,6 +71,8 @@ public class StatistikChartServlet extends HttpServlet {
         JFreeChart chart = arbeitszeitBean.stundenAuswertenEinzeln(benutzer, beginn, ende, type);
         
         // TODO: Binärdaten vom Chart zurückgeben
-        
+        OutputStream out = response.getOutputStream();
+        response.setContentType("image/png");
+        ChartUtilities.writeChartAsPNG(out, chart, 400, 300);
     }
 }

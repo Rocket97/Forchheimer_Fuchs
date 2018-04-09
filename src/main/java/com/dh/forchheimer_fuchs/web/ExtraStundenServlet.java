@@ -127,7 +127,7 @@ public class ExtraStundenServlet extends HttpServlet {
         //DateTimeFormatter f = DateTimeFormatter.ofPattern( "E MMM d HH:mm:ss z uuuu" );
         //Date beginn = Date.parse( taskBeginn , f );
         //Date ende = Date.parse( taskEnde , f );
-        SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.yyyy hh:mm:ss");
+        SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.yyyy hh:mm");
         Date beginn = null, ende = null;
         try {
             beginn = formatter.parse(taskBeginn);
