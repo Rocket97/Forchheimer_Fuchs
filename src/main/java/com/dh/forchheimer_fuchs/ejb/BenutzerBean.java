@@ -6,6 +6,7 @@
 package com.dh.forchheimer_fuchs.ejb;
 
 import com.dh.forchheimer_fuchs.jpa.Benutzer;
+import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.Resource;
 import javax.annotation.security.RolesAllowed;
@@ -80,8 +81,14 @@ public class BenutzerBean extends EntityBean<Benutzer, String> {
     }
 
     @RolesAllowed("ff_admin")
-    public void setzePasswortVonBenutzerZurück(Benutzer benutzer) {
-        benutzer.setPasswort(benutzer.getBenutzername());
+    public List<String> setzePasswortVonBenutzerZurück(Benutzer benutzer) {
+        List<String> errors = new ArrayList<>();
+        if (benutzer.getBenutzername().equals("administrator")){
+            errors.add("Das Passwort des Urgroßvaters aller Benutzer des Forchheimer Fuchses darf nicht zurückgesetzt werden ;)");
+        } else {
+            benutzer.setPasswort(benutzer.getBenutzername());
+        }
+        return errors;
     }
 
     /**
@@ -157,7 +164,7 @@ public class BenutzerBean extends EntityBean<Benutzer, String> {
         List<Benutzer> admins = em.createQuery("SELECT b FROM Benutzer b WHERE b.admin = True").getResultList();
 
         if (admins.isEmpty()) {
-            Benutzer user = new Benutzer(1, "admin", "admin123", "Administrator", "Willy", "Root Str.", "7", "76189", "Karlsruhe", "admin@admin.de", "0721/123456", "IT-Support", true);
+            Benutzer user = new Benutzer(1, "administrator", "admin123", "Administrator", "Willy", "Root Str.", "7", "76189", "Karlsruhe", "admin@admin.de", "0721/123456", "IT-Support", true);
             user.addToGroup("ff_admin");
             user.addToGroup("ff_nutzer");
 

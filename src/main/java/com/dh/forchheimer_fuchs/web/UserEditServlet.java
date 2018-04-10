@@ -9,11 +9,11 @@
  */
 package com.dh.forchheimer_fuchs.web;
 
-
 import com.dh.forchheimer_fuchs.ejb.BenutzerBean;
 import com.dh.forchheimer_fuchs.ejb.ValidationBean;
 import com.dh.forchheimer_fuchs.jpa.Benutzer;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -43,20 +43,20 @@ public class UserEditServlet extends HttpServlet {
 
         // Zu bearbeitende Aufgabe einlesen
         HttpSession session = request.getSession();
-        
+
         // wenn User sein Profil bearbeiten will, sollen seine eigene Daten in den Feldern vorbelegt werden
         // wenn ein Admin einen anderen Benutzer bearbeiten will, dann sollen dessen Daten in den Feldern vorbelegt werden
         Benutzer user = this.getRequestedUser(request);
-       
+
         if (session.getAttribute("user_form") == null) {
             // Keine Formulardaten mit fehlerhaften Daten in der Session,
             // daher Formulardaten aus dem Datenbankobjekt übernehmen
-            request.setAttribute("user_form", this.createUserForm(user));
+            request.setAttribute("user_form", this.createUserForm(user, request));
         }
-        
+
         // in der jsp die Variable "admin" setzen
         request.setAttribute("admin", benutzerBean.getCurrentUser().getAdmin());
-        
+
         // Anfrage an die JSP weiterleiten
         request.getRequestDispatcher("/WEB-INF/app/user_edit.jsp").forward(request, response);
 
@@ -69,18 +69,29 @@ public class UserEditServlet extends HttpServlet {
 
         // Aktion ausführen
         request.setCharacterEncoding("utf-8");
-        
-         String action = request.getParameter("action");
+
+        String action = request.getParameter("action");
 
         if (action == null) {
             action = "";
         }
-        
-        switch (action){
+
+        switch (action) {
             case "passwort":
                 String username = request.getParameter("user_username");
-                this.benutzerBean.setzePasswortVonBenutzerZurück(this.benutzerBean.findById(username));
-                response.sendRedirect(WebUtils.appUrl(request, "/app/home/"));
+                List<String> errors = this.benutzerBean.setzePasswortVonBenutzerZurück(this.benutzerBean.findById(username));
+
+                if (!errors.isEmpty()) {
+                    FormValues formValues = new FormValues();
+                    formValues.setValues(request.getParameterMap());
+                    formValues.setErrors(errors);
+
+                    HttpSession session = request.getSession();
+                    session.setAttribute("user_form", formValues);
+                    response.sendRedirect(request.getRequestURI());
+                } else {
+                    response.sendRedirect(WebUtils.appUrl(request, "/app/home/"));
+                }
                 break;
             case "save":
                 this.saveUser(request, response);
@@ -99,7 +110,7 @@ public class UserEditServlet extends HttpServlet {
      */
     private void saveUser(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+
         // Formularwerte auslesen
         Long mitgliedsnr = Long.parseLong(request.getParameter("user_mitgliedsnummer"));
         String benutzername = request.getParameter("user_username");
@@ -116,27 +127,27 @@ public class UserEditServlet extends HttpServlet {
         String telefonnummer = request.getParameter("user_telefonnummer");
         String abteilung = request.getParameter("user_abteilung");
         Boolean admin = Boolean.parseBoolean(request.getParameter("user_admin"));
-        
+
         // eingegebene Werte prüfen
-        Benutzer userNeu = new Benutzer (mitgliedsnr, benutzername, password1, nachname, vorname, strasse, hausnummer, plz, ort, email, telefonnummer, abteilung, admin);
-        
-        if (!password1.equals("")){
-            userNeu = new Benutzer (mitgliedsnr, benutzername, password1, nachname, vorname, strasse, hausnummer, plz, ort, email, telefonnummer, abteilung, admin);
+        Benutzer userNeu = new Benutzer(mitgliedsnr, benutzername, password1, nachname, vorname, strasse, hausnummer, plz, ort, email, telefonnummer, abteilung, admin);
+
+        if (!password1.equals("")) {
+            userNeu = new Benutzer(mitgliedsnr, benutzername, password1, nachname, vorname, strasse, hausnummer, plz, ort, email, telefonnummer, abteilung, admin);
         }
         List<String> errors = this.validationBean.validate(userNeu);
         this.validationBean.validate(userNeu.getPasswort(), errors);
-        
+
         // altes Passwort muss eingegeben werden
-        if (passwordAlt != null && passwordAlt.equals(this.benutzerBean.getCurrentUser().getPasswort().toString())){
+        if (passwordAlt != null && passwordAlt.equals(this.benutzerBean.getCurrentUser().getPasswort().toString())) {
             errors.add("Das alte Passwort stimmt nicht.");
         }
-        
+
         // Neues Passwort und dessen Wiederholung auf Gleichheit überprüfen
         // Neue Passwörter dürfen auch leer sein, wenn man sein Passwort nicht ändern möchte
         if (!password1.equals(password2)) {
             errors.add("Die beiden neuen Passwörter stimmen nicht überein.");
         }
-        
+
         // Datensatz updaten und wenn das Passwort geändert wird, auch das Passwort separat ändern, 
         // um leere Strings als Passwörter abfangen zu können
         Benutzer userAlt = this.benutzerBean.getCurrentUser();
@@ -144,13 +155,13 @@ public class UserEditServlet extends HttpServlet {
             // hier: nicht mehr nötig, auf altes Passwort zu überprüfen, weil das in Zeile 106 schon gemacht wurde
             try {
                 this.benutzerBean.aenderePasswort(userAlt, passwordAlt, password1);
-            }   catch (BenutzerBean.InvalidCredentialsException ex) {
+            } catch (BenutzerBean.InvalidCredentialsException ex) {
                 errors.add("Das Passwort konnte nicht verändert werden.");
             }
         }
-        
+
         //Wenn beim Passwort alles gut gegangen ist, aktualisiere den Rest
-        if (errors.isEmpty()){
+        if (errors.isEmpty()) {
             userAlt.setMitgliedsnr(mitgliedsnr);
             userAlt.setVorname(vorname);
             userAlt.setNachname(nachname);
@@ -162,7 +173,14 @@ public class UserEditServlet extends HttpServlet {
             userAlt.setTelefonnr(telefonnummer);
             userAlt.setAbteilung(abteilung);
             userAlt.setAdmin(admin);
-            
+
+            // Admin-Rechte je nachdem entziehen oder vergeben
+            if (admin == false) {
+                userAlt.removeFromGroup("ff_admin");
+            } else if (admin == true) {
+                userAlt.addToGroup("ff_admin");
+            }
+
             this.benutzerBean.aktualisieren(userAlt);
         }
 
@@ -182,7 +200,7 @@ public class UserEditServlet extends HttpServlet {
             response.sendRedirect(request.getRequestURI());
         }
     }
-    
+
     /**
      * Zu bearbeitende Aufgabe aus der URL ermitteln und zurückgeben. Gibt
      * entweder einen vorhandenen Datensatz oder ein neues, leeres Objekt
@@ -193,7 +211,6 @@ public class UserEditServlet extends HttpServlet {
      */
     private Benutzer getRequestedUser(HttpServletRequest request) {
         // Zunächst davon ausgehen, dass ein neuer Satz angelegt werden soll
-        
 
         // ID aus der URL herausschneiden
         String userId = request.getPathInfo();
@@ -210,14 +227,14 @@ public class UserEditServlet extends HttpServlet {
 
         // Versuchen, den Datensatz mit der übergebenen ID zu finden
 //       try{
-            Benutzer user = this.benutzerBean.findById(userId);
+        Benutzer user = this.benutzerBean.findById(userId);
 //        } catch (NumberFormatException ex) {
 //            // Ungültige oder keine ID in der URL enthalten
 //        }
 
         return user;
     }
-    
+
     /**
      * Neues FormValues-Objekt erzeugen und mit den Daten eines aus der
      * Datenbank eingelesenen Datensatzes füllen. Dadurch müssen in der JSP
@@ -228,13 +245,13 @@ public class UserEditServlet extends HttpServlet {
      * @param user Der zu bearbeitende Benutzer
      * @return Neues, gefülltes FormValues-Objekt
      */
-    private FormValues createUserForm(Benutzer user) {
+    private FormValues createUserForm(Benutzer user, HttpServletRequest request) {
         Map<String, String[]> values = new HashMap<>();
 
         values.put("user_mitgliedsnummer", new String[]{
             String.valueOf(user.getMitgliedsnr())
         });
-        
+
         values.put("user_username", new String[]{
             user.getBenutzername()
         });
@@ -244,7 +261,7 @@ public class UserEditServlet extends HttpServlet {
         });
 
         values.put("user_nachname", new String[]{
-           user.getNachname()
+            user.getNachname()
         });
 
         values.put("user_strasse", new String[]{
@@ -258,26 +275,44 @@ public class UserEditServlet extends HttpServlet {
         values.put("user_plz", new String[]{
             user.getPlz()
         });
-        
+
         values.put("user_ort", new String[]{
             user.getOrt()
         });
-        
+
         values.put("user_email", new String[]{
             user.getEmail()
         });
-        
+
         values.put("user_telefonnummer", new String[]{
             user.getTelefonnr()
         });
+
+        String abteilung = user.getAbteilung();
+        boolean jugend = false;
+        boolean bereitschaft = false;
+        switch (abteilung) {
+            case "Jugend,Bereitschaft":
+                jugend = true;
+                bereitschaft = true;
+                break;
+            case "Jugend,null":
+                jugend = true;
+                break;
+            case "null,Bereitschaft":
+                bereitschaft = true;
+                break;
+            default:
+                break;
+        }
+        request.setAttribute("jugend", jugend);
+        request.setAttribute("bereitschaft", bereitschaft);
         
-        values.put("user_abteilung", new String[]{
-            user.getAbteilung()
-        });
-        
-        values.put("user_admin", new String[]{
-            String.valueOf(user.getAdmin())
-        });
+        boolean admin = false;
+        if (user.getAdmin()) {
+            admin = true;
+        }
+        request.setAttribute("administrator", admin);
 
         FormValues formValues = new FormValues();
         formValues.setValues(values);

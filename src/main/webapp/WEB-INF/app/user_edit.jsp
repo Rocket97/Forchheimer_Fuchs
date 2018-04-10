@@ -12,15 +12,28 @@
             Mitglied bearbeiten
         </c:if>
     </jsp:attribute>       
-    
+
     <jsp:attribute name="title">
         <c:if test="${!user.admin}">
             Profil bearbeiten
         </c:if>
     </jsp:attribute> 
-   
-   <jsp:attribute name="head">
+
+    <jsp:attribute name="head">
         <link rel="stylesheet" href="<c:url value="/css/user_edit.css"/>" />
+        <script>
+            function setCheckboxes() {
+                // übergebene Variablen aus dem Servlet auf Wert überprüfen
+                let checkJugend = "${jugend ? true : false}";
+                let checkBereitschaft = "${bereitschaft ? true : false}";
+                let checkAdmin = "${administrator ? true : false}";
+                
+                // je nach übergebenen Wert die Checkbox selektieren oder eben nicht
+                document.getElementById("user_abteilung_jugend").checked = checkJugend;
+                document.getElementById("user_abteilung_bereitschaft").checked = checkBereitschaft;
+                document.getElementById("user_admin").checked = checkAdmin;
+            }
+        </script>
     </jsp:attribute>
 
     <jsp:attribute name="menu">
@@ -31,17 +44,17 @@
 
     <jsp:attribute name="content">
         <div class="container">
-            <form method="post" class="stacked">
-                
+            <form method="post" class="stacked" onload="setCheckboxes();">
+
                 <%-- CSRF-Token --%>
                 <input type="hidden" name="csrf_token" value="${csrf_token}">
-            
+
                 <div class="column">
 
                     <%-- Eingabefelder --%>    
-                    
+
                     <!--: Admin: Alle Eingaben müssen sichtbar sein - nur Passwort nicht!-->
-                    
+
                     <c:if test="${admin}">
                         <label for="user_mitgliedsnummer">
                             Mitgliedsnummer:
@@ -51,7 +64,7 @@
                             <input type="number" name="user_mitlgiedsnummer" value="${user_form.values["user_mitgliedsnummer"][0]}">
                         </div>
                     </c:if>
-                    
+
                     <label for="user_nachname">
                         Nachname:
                         <span class="required">*</span>
@@ -59,7 +72,7 @@
                     <div class="side-by-side">
                         <input type="text" name="user_nachname" value="${user_form.values["user_nachname"][0]}">
                     </div>
-                    
+
                     <label for="user_vorname">
                         Vorname:
                         <span class="required">*</span>
@@ -67,21 +80,21 @@
                     <div class="side-by-side">
                         <input type="text" name="user_vorname" value="${user_form.values["user_vorname"][0]}">
                     </div>
-                   
+
                     <label for="user_telefonnummer">
                         Telefonnummer:
                     </label>
                     <div class="side-by-side">
                         <input type="tel" name="user_telefonnummer" value="${user_form.values["user_telefonnummer"][0]}">
                     </div>
-                    
+
                     <label for="user_email">
                         E-Mail:
                     </label>
                     <div class="side-by-side">
                         <input type="email" name="user_email" value="${user_form.values["user_email"][0]}">
                     </div>
-                    
+
                     <label for="user_strasse">
                         Strasse:
                         <span class="required">*</span>
@@ -89,7 +102,7 @@
                     <div class="side-by-side">
                         <input type="text" name="user_strasse" value="${user_form.values["user_strasse"][0]}">
                     </div>
-                    
+
                     <label for="user_hausnummer">
                         Hausnummer:
                         <span class="required">*</span>
@@ -97,7 +110,7 @@
                     <div class="side-by-side">
                         <input type="text" name="user_hausnummer" value="${user_form.values["user_hausnummer"][0]}">
                     </div>
-                    
+
                     <label for="user_plz">
                         PLZ:
                         <span class="required">*</span>
@@ -105,7 +118,7 @@
                     <div class="side-by-side">
                         <input type="number" name="user_plz" value="${user_form.values["user_plz"][0]}">
                     </div>
-                    
+
                     <label for="user_ort">
                         Ort:
                         <span class="required">*</span>
@@ -113,19 +126,19 @@
                     <div class="side-by-side">
                         <input type="text" name="user_ort" value="${user_form.values["user_ort"][0]}">
                     </div>
-                    
+
                     <c:if test="${admin}">
                         <label for="user_abteilung">
-                           Abteilung:
+                            Abteilung:
                             <span class="required">*</span>
                         </label>
                         <div class="side-by-side">
-                            <input type="checkbox" name="user_abteilung_jugend" value="${user_form.values["user_abteilung_jugend"][0]}">Jugend<br />
-                            <input type="checkbox" name="user_abteilung_bereitschaft" value="${user_form.values["user_abteilung_bereitschaft"][0]}">Bereitschaft<br />
+                            <input type="checkbox" id="user_abteilung_jugend" value="Jugend">Jugend<br />
+                            <input type="checkbox" id="user_abteilung_bereitschaft" value="Bereitschaft">Bereitschaft<br />
                         </div>
                     </c:if>
-                    
-                    
+
+
                     <label for="user_username">
                         Nutzername:
                         <span class="required">*</span>
@@ -158,11 +171,11 @@
                             Admin
                         </label>
                         <div class="side-by-side">
-                            <input type="checkbox" name="user_admin" value="${user_form.values["user_admin"][0]}">
+                            <input type="checkbox" name="user_admin">
                         </div>
                     </c:if>
-                    
-           
+
+
                     <%-- Button zum Speichern --%>
                     <div class="side-by-side">
                         <button class="icon-pencil" name="action" value="save">

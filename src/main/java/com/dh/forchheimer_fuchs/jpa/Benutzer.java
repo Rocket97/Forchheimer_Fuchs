@@ -33,6 +33,7 @@ public class Benutzer extends Person implements Serializable {
     
     @Id
     @Column(name = "BENUTZERNAME")
+    @Size(min = 6, max = 64, message = "Der Benutzername muss zwischen 6 und 64 Zeichen lang sein.")
     private String benutzername;
     
     public class Passwort {

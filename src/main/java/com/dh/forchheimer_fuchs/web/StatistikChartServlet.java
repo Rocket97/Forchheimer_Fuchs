@@ -60,7 +60,7 @@ public class StatistikChartServlet extends HttpServlet {
             
             // nur zur Fehlersuche
             response.setStatus(response.SC_BAD_REQUEST);
-            response.setContentType("text/plain");
+            response.setContentType("text/html");
             pw.println("Bitte alle Parameter eintragen.");
             return;
         }
@@ -84,7 +84,7 @@ public class StatistikChartServlet extends HttpServlet {
             
             // nur zur Fehlersuche
             response.setStatus(response.SC_BAD_REQUEST);
-            response.setContentType("text/plain");
+            response.setContentType("text/html");
             pw.println("Höhe und Breite des Diagramms müssen Integer-Werte sein.");
             return;
         }
@@ -96,13 +96,19 @@ public class StatistikChartServlet extends HttpServlet {
             beginn = formatter.parse(von);
             ende = formatter.parse(bis);
         } catch (ParseException ex) {
-            Logger.getLogger(NormalStundenServlet.class.getName()).log(Level.SEVERE, null, ex);
             
-            // nur zur Fehlersuche
-            response.setStatus(response.SC_BAD_REQUEST);
-            response.setContentType("text/plain");
-            pw.println("Beginn-/Endedatum wurde im falschen Format mitgegeben. Richtig wäre 'dd.MM.yyyy hh:mm'.");
-            return;
+            try {
+                beginn = formatter.parse(von + " 00:00");
+                ende = formatter.parse(bis + " 00:00");
+            } catch (ParseException pe){
+                Logger.getLogger(NormalStundenServlet.class.getName()).log(Level.SEVERE, null, pe);
+
+                // nur zur Fehlersuche
+                response.setStatus(response.SC_BAD_REQUEST);
+                response.setContentType("text/html");
+                pw.println("Beginn-/Endedatum wurde im falschen Format mitgegeben. Richtig wäre 'dd.MM.yyyy hh:mm'.");
+                return;
+            }
         } 
         
         // Benutzer herausfinden 

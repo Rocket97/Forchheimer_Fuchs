@@ -153,7 +153,7 @@ public class ArbeitszeitBean extends EntityBean<Arbeitszeit, Long> {
 
         for (int i = 0; i < kategorie.length; i++) {
             if (kategorie[i] > 0) {
-                dataset.addValue(kategorie[i], "Arbeitszeit", StundenKategorie.values()[i]);
+                dataset.addValue(kategorie[i], StundenKategorie.values()[i], StundenKategorie.values()[i]);
             }
         }
 
