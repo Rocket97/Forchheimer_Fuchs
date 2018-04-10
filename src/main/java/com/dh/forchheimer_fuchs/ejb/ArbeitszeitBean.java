@@ -13,12 +13,10 @@ import java.util.List;
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.Stateless;
 import org.jfree.chart.ChartFactory;
-import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.data.general.DefaultPieDataset;
-import org.jfree.ui.ApplicationFrame;
 
 /**
  *
@@ -129,7 +127,9 @@ public class ArbeitszeitBean extends EntityBean<Arbeitszeit, Long> {
 
         // Daten in das Dataset laden 
         for (int i = 0; i < kategorie.length; i++) {
-            pieDataset.setValue(StundenKategorie.values()[i], kategorie[i]);
+            if (kategorie[i] > 0) {
+                pieDataset.setValue(StundenKategorie.values()[i], kategorie[i]);
+            }
         }
 
         // ein Tortendiagramm mit den Daten aus dem Datenset erzeugen
@@ -152,7 +152,9 @@ public class ArbeitszeitBean extends EntityBean<Arbeitszeit, Long> {
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
 
         for (int i = 0; i < kategorie.length; i++) {
-            dataset.addValue(kategorie[i], "Arbeitszeit", StundenKategorie.values()[i]);
+            if (kategorie[i] > 0) {
+                dataset.addValue(kategorie[i], "Arbeitszeit", StundenKategorie.values()[i]);
+            }
         }
 
         JFreeChart chart = ChartFactory.createBarChart(titel, // Titel
@@ -185,7 +187,7 @@ public class ArbeitszeitBean extends EntityBean<Arbeitszeit, Long> {
     }
      */
     public int berechneZeitspanne(Date from, Date to) {
-        long difference = from.getTime() - to.getTime();
+        long difference = to.getTime() - from.getTime();
         return (int) (difference / 60000);
     }
 

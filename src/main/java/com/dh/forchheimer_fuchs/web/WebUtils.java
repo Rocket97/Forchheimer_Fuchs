@@ -24,7 +24,8 @@ import javax.servlet.http.HttpServletRequest;
 public class WebUtils {
 
     public static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd.MM.yyyy");
-    public static final SimpleDateFormat TIME_FORMAT = new SimpleDateFormat("HH:mm:ss");
+    public static final SimpleDateFormat TIME_FORMAT = new SimpleDateFormat("HH:mm");
+    public static final SimpleDateFormat TIMESTAMP_FORMAT = new SimpleDateFormat("dd.MM.yyyy HH:mm");
 
     /**
      * Stellt sicher, dass einer URL der Kontextpfad der Anwendung vorangestellt
@@ -47,6 +48,16 @@ public class WebUtils {
      */
     public static String formatDate(Date date) {
         return DATE_FORMAT.format(date);
+    }
+    
+    /**
+     * Formatiert ein Datum für die Ausgabe, z.B. 31.12.9999 18:00
+     *
+     * @param date Datum
+     * @return String für die Ausgabe
+     */
+    public static String formatTimestamp(Date date) {
+        return TIMESTAMP_FORMAT.format(date);
     }
 
     /**

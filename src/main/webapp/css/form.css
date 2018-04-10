@@ -4,7 +4,7 @@
 
 /* Jede Spalte max. 30em breit */
 form.stacked .column {
-    max-width: 30em;
+    max-width: 50em;
 }
 
 /* Formularelemente maximal breit gestapelt */

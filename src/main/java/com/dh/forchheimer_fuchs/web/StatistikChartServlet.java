@@ -10,6 +10,7 @@ import com.dh.forchheimer_fuchs.ejb.BenutzerBean;
 import com.dh.forchheimer_fuchs.jpa.Benutzer;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.io.PrintWriter;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -40,17 +41,51 @@ public class StatistikChartServlet extends HttpServlet {
     public void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
+        // Output-Stream definieren
+        OutputStream out = response.getOutputStream();
+        PrintWriter pw = new PrintWriter(out);
+        
         // Parameter auslesen und prüfen
         String benutzername = request.getParameter("benutzername");
         String von = request.getParameter("von");
         String bis = request.getParameter("bis");
         String type = request.getParameter("type");
+        String width = request.getParameter("width");
+        String height = request.getParameter("height");
         
         if (benutzername == null || benutzername.trim().isEmpty()
                 || von == null || von.trim().isEmpty()
                 || bis == null || bis.trim().isEmpty()
                 || type == null || type.trim().isEmpty()) {
+            
+            // nur zur Fehlersuche
             response.setStatus(response.SC_BAD_REQUEST);
+            response.setContentType("text/plain");
+            pw.println("Bitte alle Parameter eintragen.");
+            return;
+        }
+        
+        if(width == null || width.trim().isEmpty()){
+            width = "800";
+        }
+        
+        if(height == null || height.trim().isEmpty()){
+            height = "600";
+        }
+        
+        int intWidth = 0;
+        int intHeight = 0;
+        
+        try {
+            intWidth = Integer.parseInt(width);
+            intHeight = Integer.parseInt(height);
+        } catch (NumberFormatException ex){
+            Logger.getLogger(NormalStundenServlet.class.getName()).log(Level.SEVERE, null, ex);
+            
+            // nur zur Fehlersuche
+            response.setStatus(response.SC_BAD_REQUEST);
+            response.setContentType("text/plain");
+            pw.println("Höhe und Breite des Diagramms müssen Integer-Werte sein.");
             return;
         }
         
@@ -62,6 +97,12 @@ public class StatistikChartServlet extends HttpServlet {
             ende = formatter.parse(bis);
         } catch (ParseException ex) {
             Logger.getLogger(NormalStundenServlet.class.getName()).log(Level.SEVERE, null, ex);
+            
+            // nur zur Fehlersuche
+            response.setStatus(response.SC_BAD_REQUEST);
+            response.setContentType("text/plain");
+            pw.println("Beginn-/Endedatum wurde im falschen Format mitgegeben. Richtig wäre 'dd.MM.yyyy hh:mm'.");
+            return;
         } 
         
         // Benutzer herausfinden 
@@ -71,8 +112,8 @@ public class StatistikChartServlet extends HttpServlet {
         JFreeChart chart = arbeitszeitBean.stundenAuswertenEinzeln(benutzer, beginn, ende, type);
         
         // TODO: Binärdaten vom Chart zurückgeben
-        OutputStream out = response.getOutputStream();
+        
         response.setContentType("image/png");
-        ChartUtilities.writeChartAsPNG(out, chart, 400, 300);
+        ChartUtilities.writeChartAsPNG(out, chart, intWidth, intHeight);
     }
 }

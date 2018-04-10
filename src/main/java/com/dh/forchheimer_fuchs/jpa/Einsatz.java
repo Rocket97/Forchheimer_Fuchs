@@ -5,7 +5,6 @@
  */
 package com.dh.forchheimer_fuchs.jpa;
 
-import java.time.ZonedDateTime;
 import java.util.Date;
 import javax.persistence.*;
 

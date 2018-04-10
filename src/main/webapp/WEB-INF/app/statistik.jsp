@@ -22,29 +22,35 @@
                 // URL des <img>-Elements setzen
                 let von = document.getElementById("input-von").value;
                 let bis = document.getElementById("input-bis").value;
-                
-                let benutzername = "${admin ? '' : benutzername}";
+
+                let benutzername = "${admin ? 'admin' : benutzername}";
 
                 if (benutzername === "") {
                     benutzername = document.getElementById("input-benutzername").value;
                 }
 
-                let imgPie = document.getElementById("chartPie");
-                imgPie.src = "chart?benutzername=" + encodeURI(benutzername)
-                        + "&von=" + encodeURI(von)
-                        + "&bis=" + encodeURI(bis)
-                        + "&type=pie";
-                
-                let imgBar = document.getElementById("chartBar");
-                imgBar.src = "chart?benutzername=" + encodeURI(benutzername)
-                        + "&von=" + encodeURI(von)
-                        + "&bis=" + encodeURI(bis)
-                        + "&type=bar";
+                if (benutzername !== "" && von !== "" && bis !== "") {
+                    let imgPie = document.getElementById("chartPie");
+                    imgPie.src = "chart?benutzername=" + encodeURI(benutzername)
+                            + "&von=" + encodeURI(von)
+                            + "&bis=" + encodeURI(bis)
+                            + "&type=pie"
+                            + "&width=800"
+                            + "&height=600";
 
+                    let imgBar = document.getElementById("chartBar");
+                    imgBar.src = "chart?benutzername=" + encodeURI(benutzername)
+                            + "&von=" + encodeURI(von)
+                            + "&bis=" + encodeURI(bis)
+                            + "&type=bar"
+                            + "&width=800"
+                            + "&height=600";
+                    console.log(imgBar.src);
 
-                // <img>-Element sichtbar schalten
-                imgPie.classList.remove("invisible");
-                imgBar.classList.remove("invisible");
+                    // <img>-Element sichtbar schalten
+                    imgPie.classList.remove("invisible");
+                    imgBar.classList.remove("invisible");
+                }
             }
         </script>
     </jsp:attribute>
