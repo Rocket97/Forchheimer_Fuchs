@@ -18,7 +18,6 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -54,7 +53,7 @@ public class ExtraStundenServlet extends HttpServlet {
 
         // Verfügbare Arbeitszeiten und Stati für die Suchfelder ermitteln
         request.setAttribute("arbeitszeit", this.arbeitszeitBean.findAllSorted(this.benutzerBean.getCurrentUser()));
-        request.setAttribute("kategorie", StundenKategorie.values());
+        request.setAttribute("categories", StundenKategorie.values());
 
         // Zu bearbeitende Arbeitszeit einlesen
         HttpSession session = request.getSession();
@@ -62,16 +61,16 @@ public class ExtraStundenServlet extends HttpServlet {
         Arbeitszeit arbeitszeit = this.getRequestedTask(request);
         request.setAttribute("edit", arbeitszeit.getZeitId() != 0);
                                 
-        if (session.getAttribute("task_form") == null) {
+        if (session.getAttribute("effort_form") == null) {
             // Keine Formulardaten mit fehlerhaften Daten in der Session,
             // daher Formulardaten aus dem Datenbankobjekt übernehmen
-            request.setAttribute("task_form", this.createTaskForm(arbeitszeit));
+            request.setAttribute("effort_form", this.createTaskForm(arbeitszeit));
         }
 
         // Anfrage an die JSP weiterleiten
-        request.getRequestDispatcher("/WEB-INF/app/enter_efforts.jsp").forward(request, response);
+        request.getRequestDispatcher("/WEB-INF/app/enter_extra_efforts.jsp").forward(request, response);
 
-        session.removeAttribute("task_form");
+        session.removeAttribute("effort_form");
     }
 
     @Override
