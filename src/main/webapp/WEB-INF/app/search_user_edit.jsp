@@ -7,11 +7,20 @@
 <c:set var="base_url" value="<%=request.getContextPath()%>" />
 
 <template:base>
-    <jsp:attribute name="title">
-        Mitglied bearbeiten
-    </jsp:attribute>
-
-   <jsp:attribute name="head">
+    <c:choose>
+        <c:when test="${booEvent}">
+            <jsp:attribute name="title">
+                Helfer zuordnen
+            </jsp:attribute>
+        </c:when>
+        <c:otherwise>
+            <jsp:attribute name="title">
+                Mitglied bearbeiten
+            </jsp:attribute>
+        </c:otherwise>
+    </c:choose>
+                
+    <jsp:attribute name="head">
         <link rel="stylesheet" href="<c:url value="/css/user_list.css"/>" />
     </jsp:attribute>
 
@@ -24,35 +33,35 @@
     <jsp:attribute name="content">
         <div class="container">
             <form method="GET" class="stacked">
-                
+
                 <%-- CSRF-Token --%>
                 <input type="hidden" name="csrf_token" value="${csrf_token}">
-            
+
                 <div class="column">
 
                     <%-- Suchfelder --%>    
-              
+
                     <label for="search_mitgliedsnummer">
                         Mitgliedsnummer:
                     </label>
                     <div class="side-by-side">
                         <input type="number" name="search_mitgliedsnummer" value="${param.search_mitgliedsnr}}">
                     </div>
-                    
+
                     <label for="search_nachname">
                         Nachname:
                     </label>
                     <div class="side-by-side">
                         <input type="text" name="search_nachname" value="${param.search_nachname}">
                     </div>
-                    
+
                     <label for="search_vorname">
                         Vorname:
                     </label>
                     <div class="side-by-side">
                         <input type="text" name="search_vorname" value="${param.search_vorname}">
                     </div>
-                   
+
                     <label for="search_username">
                         Nutzername:
                     </label>
@@ -60,8 +69,8 @@
                         <input type="text" name="search_username" value="${param.search_username}">
                     </div>
 
-                    
-           
+
+
                     <%-- Button zur Suche --%>
                     <div class="side-by-side">
                         <button class="icon-search" type="submit">
@@ -69,7 +78,7 @@
                         </button>
                     </div>
                 </div>
-                
+
                 <c:choose>
                     <c:when test="${empty users}">
                         <p>
@@ -77,11 +86,12 @@
                         </p>
                     </c:when>
                     <c:otherwise>
-                       <jsp:useBean id="utils" class="com.dh.forchheimer_fuchs.web.WebUtils"/> <%-- eventuell funktioniert das nicht, ich bin mir nicht genau sicher, was es macht --%>
+                        <jsp:useBean id="utils" class="com.dh.forchheimer_fuchs.web.WebUtils"/> <%-- eventuell funktioniert das nicht, ich bin mir nicht genau sicher, was es macht --%>
 
                         <table>
                             <thead>
                                 <tr>
+                                    <th>Auswählen für eine Aktion</th>
                                     <th>Benutzername</th>
                                     <th>Vorname</th>
                                     <th>Nachname</th>
@@ -90,6 +100,9 @@
                             </thead>
                             <c:forEach items="${users}" var="user">
                                 <tr>
+                                    <td>
+                                        <input type="checkbox" name="effort" id="${'category-'.concat(user.benutzername)}" value="${user.benutzername}" />
+                                    </td>
                                     <td>
                                         <a href="<c:url value="/user/${user.benutzername}/"/>">
                                             <c:out value="${user.benutzername}"/>
@@ -109,11 +122,19 @@
                         </table>
                     </c:otherwise>
                 </c:choose>    
-                
+
+                <%-- Button zum Zuordnen von Helfern zu anderen Objekten --%>
+                <c:if test="${booEvent}">
+                    <div class="side-by-side">
+                        <button class="icon-pencil" name="action" value="saveHelferInEvent">
+                            Helfer zu Event zuordnen
+                        </button>
+                    </div>
+                </c:if>
                 <%-- Fehlermeldungen --%>
-                <c:if test="${!empty user_form.errors}">
+                <c:if test="${!empty errors}">
                     <ul class="errors">
-                        <c:forEach items="${user_form.errors}" var="error">
+                        <c:forEach items="${errors}" var="error">
                             <li>${error}</li>
                             </c:forEach>
                     </ul>

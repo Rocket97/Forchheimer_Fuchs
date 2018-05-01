@@ -49,7 +49,10 @@
                                 Protokolle eintragen
                             </button>
                             <button name="action" value="extra_effort_save">
-                                Zusätzliche Stunden eintragen und bearbeiten
+                                Zusätzliche Stunden eintragen
+                            </button>
+                            <button name="action" value="extra_effort_edit">
+                                Zusätzliche Stunden bearbeiten
                             </button>
                         </c:if>
                     </div>

@@ -14,7 +14,7 @@
 
 <template:base>
     <jsp:attribute name="title">
-        Zusätzliche Stunden eintragen
+        Zusätzliche Stunden
     </jsp:attribute>
 
     <jsp:attribute name="head">
@@ -35,26 +35,12 @@
                 <input type="hidden" name="csrf_token" value="${csrf_token}">
 
                 <div class="column">
-                    <%-- Buttons zum Weiterleiten auf die verschiedenen Seiten als Admin --%>
-                    <label for="special_effort_category">Kategorie:</label>
-                    <div class="side-by-side">
-                        <select name="special_effort_category">
-                            <option value="">Keine Kategorie</option>
-
-                            <c:forEach items="${categories}" var="category">
-                                <option value="${category.id}" ${effort_form.values["special_effort_category"][0] == category.id ? 'selected' : ''}>
-                                    <c:out value="${category.name}" />
-                                </option>
-                            </c:forEach>
-                        </select>
-                    </div>
-
                     <label for="special_efforts_titel">
                         Titel:
                         <span class="required">*</span>
                     </label>
                     <div class="side-by-side">
-                        <input type="text" name="titel">
+                        <input type="text" name="special_efforts_titel">
                     </div>
 
                     <label for="special_efforts_zeit_beginn">
@@ -71,6 +57,20 @@
                     </label>
                     <div class="side-by-side">
                         <input type="datetime-local" name="special_efforts_zeit_ende">
+                    </div>
+                    <label for="user_abteilung">
+                        Abteilung:
+                        <span class="required">*</span>
+                    </label>
+                    <div class="side-by-side">
+                        <input type="checkbox" id="user_abteilung_jugend" value="Jugend">Jugend<br />
+                        <input type="checkbox" id="user_abteilung_bereitschaft" value="Bereitschaft">Bereitschaft<br />
+                    </div>
+                    <%-- Button zum Speichern --%>
+                    <div class="side-by-side">
+                        <button class="icon-pencil" name="action" value="saveHelferInEvent">
+                            Helfer zuordnen
+                        </button>
                     </div>
                 </div>
                 <c:choose>
@@ -91,7 +91,7 @@
                                 </c:forEach>
                             </div>
 
-                            <button type="submit" name="action" value="delete" class="icon-trash">
+                            <button name="action" value="delete" class="icon-trash">
                                 Markierte Helfer löschen
                             </button>
                         </div>
@@ -101,10 +101,19 @@
 
                 <%-- Button zum Speichern --%>
                 <div class="side-by-side">
-                    <button class="icon-pencil" type="submit">
-                        Speichern
+                    <button class="icon-pencil" name="action" value="saveEvent">
+                        Alles speichern
                     </button>
                 </div>
+
+                <%-- Fehlermeldungen --%>
+                <c:if test="${!empty extra_effort_form.errors}">
+                    <ul class="errors">
+                        <c:forEach items="${extra_effort_form.errors}" var="error">
+                            <li>${error}</li>
+                            </c:forEach>
+                    </ul>
+                </c:if>
             </form>
         </div>
     </jsp:attribute>

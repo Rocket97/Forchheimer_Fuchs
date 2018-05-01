@@ -8,7 +8,7 @@
 
 <template:base>
     <jsp:attribute name="title">
-        Zusätzliche Stunden eintragen
+        Zusätzliche Stunden
     </jsp:attribute>
 
     <jsp:attribute name="head">
@@ -88,7 +88,7 @@
                                         <input type="checkbox" name="effort" id="${'category-'.concat(extra_effort.zeitId)}" value="${extra_effort.zeitId}" />
                                     </td>
                                     <td>
-                                        <a href="<c:url value="/app/extra_effort/${extra_effort.id}/"/>">
+                                        <a href="<c:url value="/app/extra_effort/${extra_effort.eventId}/"/>">
                                             <c:out value="${extra_effort.titel}"/>
                                         </a>
                                     </td>

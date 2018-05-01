@@ -20,7 +20,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Valerie
  */
-@WebServlet(urlPatterns = {"/members/"})
+@WebServlet(urlPatterns = {"/members/*"})
 public class MitgliedServlet extends HttpServlet {
     
     @EJB
@@ -51,5 +51,17 @@ public class MitgliedServlet extends HttpServlet {
         
         // Anfrage an die JSP weiterleiten
         request.getRequestDispatcher("/WEB-INF/app/search_user_edit.jsp").forward(request, response);
+    }
+    
+    @Override
+    public void doPost (HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        
+        // über die URL checken, ob man für ein Event Helfer sucht
+        boolean booEvent = false;
+        
+        request.setAttribute("booEvent", booEvent);
+        
+        // gewählte Helfer in Event-Objekt speichern
     }
 }
