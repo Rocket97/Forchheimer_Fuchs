@@ -24,18 +24,15 @@ public class EventBean extends EntityBean<Event, Long>{
         super(Event.class);
     }
     
-    
     /**
-     * Suche nach Aufgaben anhand ihrer Bezeichnung, Kategorie und Status.
+     * Suche nach Events anhand ihres Titels, Beginndatums und Endedatums.
      * 
-     * Anders als in der Vorlesung behandelt, wird die SELECT-Anfrage hier
-     * mit der CriteriaBuilder-API vollkommen dynamisch erzeugt.
-     * 
-     * @param suche
-     * @param suchdatum
+     * @param text
+     * @param beginn
+     * @param ende
      * @return Liste mit den gefundenen Events
      */
-    public List<Event> suche(String suche, Date suchdatum) {
+    public List<Event> search(String text, Date beginn, Date ende) {
         
         // Hilfsobjekt zum Bauen des Query
         CriteriaBuilder cb = this.em.getCriteriaBuilder();
@@ -46,18 +43,27 @@ public class EventBean extends EntityBean<Event, Long>{
         query.select(from);
 
         // ORDER BY datum
-        query.orderBy(cb.asc(from.get("datum")));
+        query.orderBy(cb.asc(from.get("beginn")));
         
-        // WHERE e.event_titel LIKE :suche
-        if (suche != null && !suche.trim().isEmpty()) {
-            query.where(cb.like(from.<String>get("etitel"), suche));
+        // WHERE e.eTitel LIKE :text
+        if (text != null && !text.trim().isEmpty()) {
+            query.where(cb.like(from.<String>get("eTitel"), text));
         }
         
-        // WHERE e.datum = :datum
-        if (suchdatum != null) {
-            query.where(cb.equal(from.get("DATUM"), suchdatum));
+        // WHERE e.beginn = :beginn
+        if (beginn != null) {
+            query.where(cb.equal(from.get("BEGINN"), beginn));
+        }
+        
+        // WHERE e.ende = :ende
+        if (ende != null) {
+            query.where(cb.equal(from.get("ENDE"), ende));
         }
         
         return em.createQuery(query).getResultList();
+    }
+    
+     public List<Event> findAllSorted() {
+        return em.createQuery("SELECT e FROM Event e ORDER BY e.eTitel").getResultList();
     }
 }

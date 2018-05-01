@@ -6,7 +6,6 @@
 package com.dh.forchheimer_fuchs.jpa;
 
 import java.io.Serializable;
-import java.time.ZonedDateTime;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.*;

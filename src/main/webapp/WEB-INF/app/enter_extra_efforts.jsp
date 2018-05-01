@@ -14,7 +14,7 @@
     <jsp:attribute name="head">
         <link rel="stylesheet" href="<c:url value="/css/login.css"/>" />
     </jsp:attribute>
-        
+
     <jsp:attribute name="menu">
         <div class="menuitem">
             <a href="<c:url value="/app/home/"/>" class="icon-homehome">Home</a>
@@ -24,122 +24,95 @@
     <jsp:attribute name="content">
         <div class="container">
             <form method="post" class="stacked">
-                
+
                 <%-- CSRF-Token --%>
                 <input type="hidden" name="csrf_token" value="${csrf_token}">
-            
-                <div class="column">
-                    <%-- Buttons zum Weiterleiten auf die verschiedenen Seiten als Admin --%>
-                    <label for="special_effort_category">Kategorie:</label>
-                    <div class="side-by-side">
-                    <select name="special_effort_category">
-                        <option value="">Keine Kategorie</option>
 
-                        <c:forEach items="${categories}" var="category">
-                            <option value="${category.id}" ${effort_form.values["special_effort_category"][0] == category.id ? 'selected' : ''}>
-                                <c:out value="${category.name}" />
-                            </option>
-                        </c:forEach>
-                    </select>
-                    </div>
-                    
-                    <label for="special_efforts_titel">
+                <div class="column">
+                    <label for="special_effort_titel">
                         Titel:
                         <span class="required">*</span>
                     </label>
                     <div class="side-by-side">
-                        <input type="text" name="titel">
+                        <input type="text" name="special_effort_titel">
                     </div>
-                    
-                    <label for="special_efforts_zeit_beginn">
-                        Beginn (Datum und Uhrzeit):
+
+                    <label for="special_effort_zeit_beginn">
+                        Beginn (Datum und Uhrzeit im Format 'dd.MM.yyyy hh:mm'):
                         <span class="required">*</span>
                     </label>
                     <div class="side-by-side">
-                        <input type="datetime-local" name="special_efforts_zeit_beginn">
+                        <input type="datetime-local" name="special_effort_zeit_beginn">
                     </div>
-                    
-                    <label for="special_efforts_zeit_ende">
-                        Ende (Datum und Uhrzeit):
+
+                    <label for="special_effort_zeit_ende">
+                        Ende (Datum und Uhrzeit im Format 'dd.MM.yyyy hh:mm'):
                         <span class="required">*</span>
                     </label>
                     <div class="side-by-side">
-                        <input type="datetime-local" name="special_efforts_zeit_ende">
+                        <input type="datetime-local" name="special_effort_zeit_ende">
                     </div>
-                    
-                    <c:choose>
-                    <c:when test="${empty helfer}">
+                </div>
+
+                <%-- Button zum Speichern --%>
+                <div class="side-by-side">
+                    <button class="icon-search" type="submit">
+                        Suchen
+                    </button>
+                </div>
+
+                <%-- Gefundene einegtragene Aufwände --%>
+                <c:choose>
+                    <c:when test="${empty extra_efforts}">
                         <p>
-                            Es sind noch keine Helfer hinterlegt. Bitte helfer hinterlegen!
+                            Keine eingetragenen Events.
                         </p>
                     </c:when>
                     <c:otherwise>
-                        <div>
-                            <div class="margin">
-                                <c:forEach items="${helfer}" var="helfer">
-                                    <input type="checkbox" name="helfer" id="${'helfer-'.concat(helfer.id)}" value="${helfer.id}" />
-                                    <label for="${'helfer-'.concat(helfer.id)}">
-                                        <c:out value="${helfer.name}"/>
-                                    </label>
-                                    <br />
-                                </c:forEach>
-                            </div>
+                        <jsp:useBean id="utils" class="com.dh.forchheimer_fuchs.web.WebUtils"/>
 
-                            <button type="submit" name="action" value="delete" class="icon-trash">
-                                Markierte Helfer löschen
-                            </button>
-                        </div>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th></th>   <%-- nur als Platzhalter für die Lösch-Knöpfe--%>
+                                    <th>Titel</th>
+                                    <th>Beginn</th>
+                                    <th>Ende</th>
+                                    <th>Abteilung</th>
+                                    <th>Helfer</th>
+                                </tr>
+                            </thead>
+                            <c:forEach items="${extra_efforts}" var="extra_effort">
+                                <tr>
+                                    <td>
+                                        <input type="checkbox" name="effort" id="${'category-'.concat(extra_effort.zeitId)}" value="${extra_effort.zeitId}" />
+                                    </td>
+                                    <td>
+                                        <a href="<c:url value="/app/extra_effort/${extra_effort.id}/"/>">
+                                            <c:out value="${extra_effort.titel}"/>
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <c:out value="${extra_effort.abteilung}"/>
+                                    </td>
+                                    <td>
+                                        <c:out value="${utils.formatTimestamp(extra_effort.beginn)}"/>
+                                    </td>
+                                    <td>
+                                        <c:forEach items="${extra_effort.helfer}" var="person">
+                                            <ol>
+                                                <li>
+                                                    <c:out value="${person.vorname}"/> 
+                                                    <c:out value="${person.nachname}"/>
+                                                </li>
+                                            </ol>
+                                        </c:forEach>
+                                    </td>
+                                </tr>
+                            </c:forEach>
+                        </table>
                     </c:otherwise>
                 </c:choose>
-                    
-                    
-                    <%-- Button zum Speichern --%>
-                    <div class="side-by-side">
-                        <button class="icon-pencil" type="submit">
-                            Speichern
-                        </button>
-                    </div>
-                    
-                    <%-- Gefundene einegtragene Aufwände --%>
-        <c:choose>
-            <c:when test="${empty efforts}">
-                <p>
-                    Keine eingetragenen Stunden.
-                </p>
-            </c:when>
-            <c:otherwise>
-                <jsp:useBean id="utils" class="com.dh.forchheimer_fuchs.web.WebUtils"/>
-                
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Datum</th>
-                            <th>Kategorie</th>
-                            <th>Zeit</th>
-                            <th>Helfer</th>
-                        </tr>
-                    </thead>
-                    <c:forEach items="${efforts}" var="effort">
-                        <tr>
-                            <td>
-                                <a href="<c:url value="/app/effort/${effort.id}/"/>">
-                                    <c:out value="${effort.date}"/>
-                                </a>
-                            </td>
-                            <td>
-                                <c:out value="${effort.category.name}"/>
-                            </td>
-                            <td>
-                                <c:out value="${utils.formatDate(effort.time)}"/>
-                            </td>
-                            <td>
-                                <c:out value="${effort.helfer}"/>
-                            </td>
-                        </tr>
-                    </c:forEach>
-                </table>
-            </c:otherwise>
-        </c:choose>
             </form>
         </div>
     </jsp:attribute>

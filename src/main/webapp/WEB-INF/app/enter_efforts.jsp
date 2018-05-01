@@ -46,7 +46,7 @@
 
 
                     <label for="efforts_zeit_beginn">
-                        Beginn (Datum und Uhrzeit):
+                        Beginn (Datum und Uhrzeit im Format 'dd.MM.yyyy hh:mm'):
                         <span class="required">*</span>
                     </label>
                     <div class="side-by-side">
@@ -54,7 +54,7 @@
                     </div>
 
                     <label for="efforts_zeit_ende">
-                        Ende (Datum und Uhrzeit):
+                        Ende (Datum und Uhrzeit im Format 'dd.MM.yyyy hh:mm'):
                         <span class="required">*</span>
                     </label>
                     <div class="side-by-side">

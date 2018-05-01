@@ -1,27 +1,14 @@
-/*
- * Copyright © 2018 Dennis Schulmeister-Zimolong
- * 
- * E-Mail: dhbw@windows3.de
- * Webseite: https://www.wpvs.de/
- * 
- * Dieser Quellcode ist lizenziert unter einer
- * Creative Commons Namensnennung 4.0 International Lizenz.
- */
 package com.dh.forchheimer_fuchs.web;
 
-import com.dh.forchheimer_fuchs.ejb.ArbeitszeitBean;
 import com.dh.forchheimer_fuchs.ejb.BenutzerBean;
+import com.dh.forchheimer_fuchs.ejb.EventBean;
 import com.dh.forchheimer_fuchs.ejb.ValidationBean;
-import com.dh.forchheimer_fuchs.jpa.Arbeitszeit;
-import com.dh.forchheimer_fuchs.jpa.StundenKategorie;
+import com.dh.forchheimer_fuchs.jpa.Event;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
@@ -30,7 +17,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 /**
  * Seite zum Anlegen oder Bearbeiten einer Aufgabe.
@@ -39,11 +25,11 @@ import javax.servlet.http.HttpSession;
 public class ExtraStundenServlet extends HttpServlet {
 
     @EJB
-    ArbeitszeitBean arbeitszeitBean;
+    EventBean eventBean;
 
     @EJB
     BenutzerBean benutzerBean;
-    
+
     @EJB
     ValidationBean validationBean;
 
@@ -52,233 +38,34 @@ public class ExtraStundenServlet extends HttpServlet {
             throws ServletException, IOException {
 
         // Verfügbare Arbeitszeiten und Stati für die Suchfelder ermitteln
-        request.setAttribute("arbeitszeit", this.arbeitszeitBean.findAllSorted(this.benutzerBean.getCurrentUser()));
-        request.setAttribute("categories", StundenKategorie.values());
+        request.setAttribute("extra_efforts", this.eventBean.findAllSorted());
 
-        // Zu bearbeitende Arbeitszeit einlesen
-        HttpSession session = request.getSession();
-
-        Arbeitszeit arbeitszeit = this.getRequestedTask(request);
-        request.setAttribute("edit", arbeitszeit.getZeitId() != 0);
-                                
-        if (session.getAttribute("effort_form") == null) {
-            // Keine Formulardaten mit fehlerhaften Daten in der Session,
-            // daher Formulardaten aus dem Datenbankobjekt übernehmen
-            request.setAttribute("effort_form", this.createTaskForm(arbeitszeit));
-        }
-
-        // Anfrage an die JSP weiterleiten
-        request.getRequestDispatcher("/WEB-INF/app/enter_extra_efforts.jsp").forward(request, response);
-
-        session.removeAttribute("effort_form");
-    }
-
-    @Override
-    public void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-
-        // Angeforderte Aktion ausführen
-        request.setCharacterEncoding("utf-8");
-
-        String action = request.getParameter("action");
-
-        if (action == null) {
-            action = "";
-        }
-
-        switch (action) {
-            case "save":
-                this.saveTask(request, response);
-                break;
-            case "delete":
-                this.deleteTask(request, response);
-                break;
-        }
-    }
-
-    /**
-     * Aufgerufen in doPost(): Neue oder vorhandene Aufgabe speichern
-     *
-     * @param request
-     * @param response
-     * @throws ServletException
-     * @throws IOException
-     */
-    private void saveTask(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-
-        // Formulareingaben prüfen
-        List<String> errors = new ArrayList<>();
-
-        String taskBeginn = request.getParameter("task_Beginn");
-        String taskEnde = request.getParameter("task_ende");
+        // Suchparameter aus der URL auslesen
+        String searchText = request.getParameter("special_effort_titel");
+        String datumVon = request.getParameter("special_effort_zeit_beginn");
+        String datumBis = request.getParameter("special_effort_zeit_ende");
         
-        if (taskBeginn == null) {
-            taskBeginn = "";
+        if (datumVon == null || datumVon.trim().isEmpty()) {
+            datumVon = "";
         }
-        
-        if (taskEnde == null) {
-            taskEnde = "";
+
+        if (datumBis == null || datumBis.trim().isEmpty()) {
+            datumBis = "";
         }
-        
-        StundenKategorie taskKategorie = StundenKategorie.valueOf(request.getParameter("task_kategorie"));
-      
-        //DateTimeFormatter f = DateTimeFormatter.ofPattern( "E MMM d HH:mm:ss z uuuu" );
-        //Date beginn = Date.parse( taskBeginn , f );
-        //Date ende = Date.parse( taskEnde , f );
+
         SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.yyyy hh:mm");
         Date beginn = null, ende = null;
         try {
-            beginn = formatter.parse(taskBeginn);
-            ende = formatter.parse(taskEnde);
+            beginn = formatter.parse(datumVon);
+            ende = formatter.parse(datumBis);
         } catch (ParseException ex) {
-            Logger.getLogger(ExtraStundenServlet.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(NormalStundenServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
+        // Anzuzeigende Aufgaben suchen
+        List<Event> events = this.eventBean.search(searchText, beginn, ende);
+        request.setAttribute("extra_efforts", events);
         
-        
-        Arbeitszeit arbeitszeit = this.getRequestedTask(request);
-
-        if (beginn != null && !taskBeginn.trim().isEmpty()) {
-            try {
-                arbeitszeit.setBeginn(beginn);
-            } catch (NumberFormatException ex) {
-                // Ungültige oder keine Zeit mitgegeben
-            }
-        }
-        if (ende != null && !taskEnde.trim().isEmpty()) {
-            try {
-                arbeitszeit.setEnde(ende);
-            } catch (NumberFormatException ex) {
-                // Ungültige oder keine Zeit mitgegeben
-            }
-        }
-         if (taskKategorie != null) {
-            try {
-                arbeitszeit.setKategorie(taskKategorie);
-            } catch (NumberFormatException ex) {
-                // Ungültige oder keine Kategorie mitgegeben
-            }
-        }
-        this.validationBean.validate(arbeitszeit, errors);
-
-        // Datensatz speichern
-        if (errors.isEmpty()) {
-            this.arbeitszeitBean.update(arbeitszeit);
-        }
-
-        // Weiter zur nächsten Seite
-        if (errors.isEmpty()) {
-            // Keine Fehler: Startseite aufrufen
-            response.sendRedirect(WebUtils.appUrl(request, "/app/home/"));
-        } else {
-            // Fehler: Formuler erneut anzeigen
-            FormValues formValues = new FormValues();
-            formValues.setValues(request.getParameterMap());
-            formValues.setErrors(errors);
-
-            HttpSession session = request.getSession();
-            session.setAttribute("task_form", formValues);
-
-            response.sendRedirect(request.getRequestURI());
-        }
+        // Anfrage an die JSP weiterleiten
+        request.getRequestDispatcher("/WEB-INF/app/enter_extra_efforts.jsp").forward(request, response);
     }
-
-    /**
-     * Aufgerufen in doPost: Vorhandene Aufgabe löschen
-     *
-     * @param request
-     * @param response
-     * @throws ServletException
-     * @throws IOException
-     */
-    private void deleteTask(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-
-        // Datensatz löschen
-        Arbeitszeit arbeitszeit = this.getRequestedTask(request);
-        this.arbeitszeitBean.delete(arbeitszeit);
-
-        // Zurück zur Übersicht
-        response.sendRedirect(WebUtils.appUrl(request, "/app/home/"));
-    }
-
-    /**
-     * Zu bearbeitende Aufgabe aus der URL ermitteln und zurückgeben. Gibt
-     * entweder einen vorhandenen Datensatz oder ein neues, leeres Objekt
-     * zurück.
-     *
-     * @param request HTTP-Anfrage
-     * @return Zu bearbeitende Aufgabe
-     */
-    private Arbeitszeit getRequestedTask(HttpServletRequest request) {
-        // Zunächst davon ausgehen, dass ein neuer Satz angelegt werden soll
-        Arbeitszeit arbeitszeit = new Arbeitszeit();
-        arbeitszeit.setHelfer(this.benutzerBean.getCurrentUser());
-        arbeitszeit.setBeginn(new Date(System.currentTimeMillis()));
-        arbeitszeit.setEnde(new Date(System.currentTimeMillis()));
-        arbeitszeit.setZeitspanne(this.arbeitszeitBean.berechneZeitspanne((Date)request.getAttribute("special_efforts_zeit_beginn"), (Date)request.getAttribute("special_efforts_zeit_ende")));
-        // ID aus der URL herausschneiden
-        String arbeitszeitId = request.getPathInfo();
-
-        if (arbeitszeitId == null) {
-            arbeitszeitId = "";
-        }
-
-        arbeitszeitId = arbeitszeitId.substring(1);
-
-        if (arbeitszeitId.endsWith("/")) {
-            arbeitszeitId = arbeitszeitId.substring(0, arbeitszeitId.length() - 1);
-        }
-
-        // Versuchen, den Datensatz mit der übergebenen ID zu finden
-        try {
-            arbeitszeit = this.arbeitszeitBean.findById(Long.parseLong(arbeitszeitId));
-        } catch (NumberFormatException ex) {
-            // Ungültige oder keine ID in der URL enthalten
-        }
-
-        return arbeitszeit;
-    }
-
-    /**
-     * Neues FormValues-Objekt erzeugen und mit den Daten eines aus der
-     * Datenbank eingelesenen Datensatzes füllen. Dadurch müssen in der JSP
-     * keine hässlichen Fallunterscheidungen gemacht werden, ob die Werte im
-     * Formular aus der Entity oder aus einer vorherigen Formulareingabe
-     * stammen.
-     *
-     * @param task Die zu bearbeitende Aufgabe
-     * @return Neues, gefülltes FormValues-Objekt
-     */
-    private FormValues createTaskForm(Arbeitszeit arbeitszeit) {
-        Map<String, String[]> values = new HashMap<>();
-
-        values.put("task_owner", new String[]{
-            arbeitszeit.getHelfer().getBenutzername()
-        });
-       
-
-        if (arbeitszeit.getKategorie()!= null) {
-            values.put("task_kategorie", new String[]{
-                arbeitszeit.getKategorie().toString()
-            });
-        }
-
-        values.put("task_due_date", new String[]{
-            WebUtils.formatDate(arbeitszeit.getBeginn())
-        });
-
-        values.put("task_due_time", new String[]{
-            WebUtils.formatDate(arbeitszeit.getEnde())
-        });
-
-        values.put("task_kategorie", new String[]{
-            arbeitszeit.getKategorie().toString()
-        });
-
-        FormValues formValues = new FormValues();
-        formValues.setValues(values);
-        return formValues;
-    }
-
 }
