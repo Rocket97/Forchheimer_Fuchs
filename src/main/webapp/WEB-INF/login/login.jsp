@@ -19,7 +19,7 @@
                 <div class="column">
                     <%-- Eingabefelder --%>
                     <label for="j_username">
-                        Nutzername:
+                        Benutzername:
                         <span class="required">*</span>
                     </label>
                     <input type="text" name="j_username">

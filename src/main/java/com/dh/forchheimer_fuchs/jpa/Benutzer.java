@@ -27,13 +27,12 @@ public class Benutzer extends Person implements Serializable {
     
     // Annotation unique oder so fehlt noch!!!
     @Column(name = "MITGLIEDSNUMMER", length = 64, unique=true)
-    //@Size(min = 5, max = 64, message = "Die Mitgliedsnummer muss zwischen fünf und 64 Zeichen lang sein.")
-    //@NotNull(message = "Die Mitgliedsnummer darf nicht leer sein.")
     private long mitgliedsnr;
     
     @Id
     @Column(name = "BENUTZERNAME")
     @Size(min = 6, max = 64, message = "Der Benutzername muss zwischen 6 und 64 Zeichen lang sein.")
+    @NotNull(message = "Der Benutzername darf nicht leer sein.")
     private String benutzername;
     
     public class Passwort {

@@ -115,7 +115,7 @@
                     </div>
                     
                     <label for="signup_benutzername">
-                        Nutzername:
+                        Benutzername:
                         <span class="required">*</span>
                     </label>
                     <div class="side-by-side">

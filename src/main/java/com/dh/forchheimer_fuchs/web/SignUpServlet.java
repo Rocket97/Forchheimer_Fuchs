@@ -57,11 +57,14 @@ public class SignUpServlet extends HttpServlet {
         
         // Formulareingaben auslesen
         request.setCharacterEncoding("utf-8");
-        
-        long mitgliedsnr = Long.parseLong(request.getParameter("signup_mitgliedsnr"));
+        long mitgliedsnr;
+        String mnr = request.getParameter("signup_mitgliedsnr");
+        if (mnr.equals("")){
+            mitgliedsnr = 0;
+        } else {
+            mitgliedsnr = Long.parseLong(mnr);
+        }
         String benutzername = request.getParameter("signup_benutzername");
-//        String passwort1 = request.getParameter("signup_passwort1"); --> brauchen wir eigentlich nicht, denn wir hatten beschlossen, 
-//        String passwort2 = request.getParameter("signup_passwort2");     dass wir beim Registrieren bzw. beim Passwort-Zurücksetzen den Benutzernamen als Passwort nehmen
         String nachname = request.getParameter("signup_nachname");
         String vorname = request.getParameter("signup_vorname");
         String strasse = request.getParameter("signup_strasse");
@@ -73,12 +76,55 @@ public class SignUpServlet extends HttpServlet {
         String abteilung = request.getParameter("signup_abteilung_jugend") + "," + request.getParameter("signup_abteilung_bereitschaft");                    // hier müssen wir nochmal schauen, wegen Auslesen des Wertes
         boolean admin = Boolean.parseBoolean(request.getParameter("signup_admin"));
         
+        // alle leeren Strings auf null setzen, sodass kein leerer String abgespeichert wird
+        if(benutzername.equals("")){
+            benutzername = null;
+        }
+        if(nachname.equals("")){
+            nachname = null;
+        }
+        if(vorname.equals("")){
+            vorname = null;
+        }
+        if(strasse.equals("")){
+            strasse = null;
+        }
+        if(hausnr.equals("")){
+            hausnr = null;
+        }
+        if(plz.equals("")){
+            plz = null;
+        }
+        if(ort.equals("")){
+            ort = null;
+        }
+        if(telefonnr.equals("")){
+            telefonnr = null;
+        }
+        if(email.equals("")){
+            email = null;
+        }
+        if(abteilung.equals("")){
+            abteilung = null;
+        }
+        
         // Eingaben prüfen
         Benutzer benutzer = new Benutzer(mitgliedsnr, benutzername, benutzername, nachname, vorname, strasse, hausnr, plz, ort, email, telefonnr, abteilung, admin);
         List<String> errors = this.validationBean.validate(benutzer);
         this.validationBean.validate(benutzer.getPasswort(), errors);
         
+        if (mitgliedsnr == 0){
+            errors.add("Die Mitgliedsnummer darf nicht leer sein und darf nicht 0 sein.");
+        }
         
+        if (abteilung.equals("null,null")){
+            errors.add("Der Nutzer muss mindestens einer Abteilung zugeordnet sein.");
+        }
+        
+        // Meldung, dass Passwort nicht gegeben wurde, weil kein Benutzername eingegeben wurde, aus errors rausnehmen
+        if(errors.contains("Der Benutzername muss zwischen 6 und 64 Zeichen lang sein.")){
+            errors.remove("Der Benutzername muss zwischen 6 und 64 Zeichen lang sein.");
+        }
         // Neuen Benutzer anlegen
         if (errors.isEmpty()) {
             try {

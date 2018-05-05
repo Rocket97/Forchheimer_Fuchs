@@ -19,22 +19,30 @@ public class Person implements Serializable {
     private static final long serialVersionUID = 1L;
     
     @Column(name = "NACHNAME")
+    @NotNull(message = "Der Nachname darf nicht leer sein.")
     private String nachname;
     
     @Column(name = "VORNAME")
+    @NotNull(message = "Der Vorname darf nicht leer sein.")
     private String vorname;
     
     @Column(name = "STRASSE")
+    @NotNull(message = "Die Straße darf nicht leer sein.")
     private String strasse;
     
     @Column(name = "HAUSNUMMER")
+    @NotNull(message = "Die Hausnummer darf nicht leer sein.")
+    @Pattern(regexp = "^[0-9]+[a-zA-Z]?$", message = "Die Hausnummer muss eine Zahl (mit eventuellem Buchstaben dahinter) sein.")
     private String hausnr;
     
     @Column(name = "PLZ")
-    @Size(min = 5, message = "Die PLZ muss 5 Zeichen haben.")
+    @Size(min = 5, max = 5, message = "Die PLZ muss 5 Zeichen haben.")
+    @NotNull(message = "Die PLZ darf nicht leer sein.")
+    @Pattern(regexp = "[0-9]+", message = "Die PLZ muss eine Zahl sein.")
     private String plz;
     
     @Column(name = "ORT")
+    @NotNull(message = "Der Ort darf nicht leer sein.")
     private String ort;
 
     //<editor-fold defaultstate="collapsed" desc="Konstruktoren">
