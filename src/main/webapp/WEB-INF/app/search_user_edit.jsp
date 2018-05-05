@@ -7,19 +7,10 @@
 <c:set var="base_url" value="<%=request.getContextPath()%>" />
 
 <template:base>
-    <c:choose>
-        <c:when test="${booEvent}">
-            <jsp:attribute name="title">
-                Helfer zuordnen
-            </jsp:attribute>
-        </c:when>
-        <c:otherwise>
-            <jsp:attribute name="title">
-                Mitglied bearbeiten
-            </jsp:attribute>
-        </c:otherwise>
-    </c:choose>
-                
+    <jsp:attribute name="title">
+        Mitglied bearbeiten
+    </jsp:attribute>
+
     <jsp:attribute name="head">
         <link rel="stylesheet" href="<c:url value="/css/user_list.css"/>" />
     </jsp:attribute>

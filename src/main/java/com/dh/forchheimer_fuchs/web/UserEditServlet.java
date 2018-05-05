@@ -54,8 +54,15 @@ public class UserEditServlet extends HttpServlet {
             request.setAttribute("user_form", this.createUserForm(user, request));
         }
 
-        // in der jsp die Variable "admin" setzen
+        // in der jsp die Variable "admin" und "berechtigt" setzen
         request.setAttribute("admin", benutzerBean.getCurrentUser().getAdmin());
+        
+        // man darf als angemeldeter Benutzer nur sein eigenes Passwort ändern dürfen
+        if (benutzerBean.getCurrentUser().getBenutzername().equals(user.getBenutzername())){
+            request.setAttribute("berechtigt", true);
+        } else {
+            request.setAttribute("berechtigt", false);
+        }
 
         // Anfrage an die JSP weiterleiten
         request.getRequestDispatcher("/WEB-INF/app/user_edit.jsp").forward(request, response);

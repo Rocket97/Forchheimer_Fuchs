@@ -146,7 +146,7 @@
                     <div class="side-by-side">
                         <input type="text" name="user_username" value="${user_form.values["user_username"][0]}">
                     </div>
-                    <c:if test="${!admin}">
+                    <c:if test="${berechtigt}">
                         <label for="user_passwordAlt">
                             Altes Passwort:
                         </label>
@@ -181,9 +181,11 @@
                         <button class="icon-pencil" name="action" value="save">
                             Speichern
                         </button>
-                        <button class="icon-pencil" name="action" value="passwort">
-                            Passwort zurücksetzen
-                        </button>
+                        <c:if test="${admin}">
+                            <button class="icon-pencil" name="action" value="passwort">
+                                Passwort zurücksetzen
+                            </button>
+                        </c:if>
                     </div>
                 </div>
 
