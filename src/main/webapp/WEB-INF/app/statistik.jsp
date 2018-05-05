@@ -23,7 +23,7 @@
                 let von = document.getElementById("input-von").value;
                 let bis = document.getElementById("input-bis").value;
 
-                let benutzername = "${admin ? 'admin' : benutzername}";
+                let benutzername = "${admin ? 'administrator' : benutzername}";
 
                 if (benutzername === "") {
                     benutzername = document.getElementById("input-benutzername").value;
@@ -70,7 +70,7 @@
 
                 <div class="column">
                     <label for="von">
-                        Von:
+                        Von (im Format "dd.MM.yyyy hh:mm" oder "dd.MM.yyyy"):
                         <span class="required">*</span>
                     </label>
                     <div class="side-by-side">
@@ -78,7 +78,7 @@
                     </div>
 
                     <label for="bis">
-                        Bis:
+                        Bis (im Format "dd.MM.yyyy hh:mm" oder "dd.MM.yyyy"):
                         <span class="required">*</span>
                     </label>
                     <div class="side-by-side">
@@ -86,45 +86,13 @@
                     </div>
 
                     <c:if test="${admin}">
-                        <%-- Suchfelder --%>    
-                        <label for="search_mitgliedsnummer">
-                            Mitgliedsnummer:
-                            <span class="required">*</span>
-                        </label>
-                        <div class="side-by-side">
-                            <input type="number" name="search_mitlgiedsnummer" value="${statistic_form.values["statistic_mitgliedsnummer"][0]}">
-                        </div>
-
-                        <label for="search_nachname">
-                            Nachname:
-                            <span class="required">*</span>
-                        </label>
-                        <div class="side-by-side">
-                            <input type="text" name="search_nachname" value="${statistic_form.values["statistic_nachname"][0]}">
-                        </div>
-
-                        <label for="search_vorname">
-                            Vorname:
-                            <span class="required">*</span>
-                        </label>
-                        <div class="side-by-side">
-                            <input type="text" name="search_vorname" value="${statistic_form.values["statistic_vorname"][0]}">
-                        </div>
-
                         <label for="search_username">
-                            Benutzername:
+                            Benutzername des Helfers:
                             <span class="required">*</span>
                         </label>
                         <div class="side-by-side">
                             <input id="input-benutzername" type="text" name="search_username" value="${statistic_form.values["statistic_username"][0]}">
                         </div> 
-
-                        <%-- Button zur Suche der Helfer --%>
-                        <div class="side-by-side">
-                            <button class="icon-search" type="submit">
-                                Helfer Suchen
-                            </button>
-                        </div>
                     </c:if>
 
                     <%-- Button zur Anzeige des Schaubilds --%>

@@ -117,8 +117,7 @@ public class StatistikChartServlet extends HttpServlet {
         // Daten einlesen und Schaubild erzeugen
         JFreeChart chart = arbeitszeitBean.stundenAuswertenEinzeln(benutzer, beginn, ende, type);
         
-        // TODO: Binärdaten vom Chart zurückgeben
-        
+        // Binärdaten vom Chart zurückgeben
         response.setContentType("image/png");
         ChartUtilities.writeChartAsPNG(out, chart, intWidth, intHeight);
     }
