@@ -14,6 +14,7 @@ import com.dh.forchheimer_fuchs.ejb.BenutzerBean;
 import com.dh.forchheimer_fuchs.ejb.ValidationBean;
 import com.dh.forchheimer_fuchs.jpa.Benutzer;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.servlet.RequestDispatcher;
@@ -55,8 +56,12 @@ public class SignUpServlet extends HttpServlet {
     public void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
+        // Fehlerliste
+        List<String> errors = new ArrayList<>();
+        
         // Formulareingaben auslesen
         request.setCharacterEncoding("utf-8");
+        
         long mitgliedsnr;
         String mnr = request.getParameter("signup_mitgliedsnr");
         if (mnr.equals("")){
@@ -104,21 +109,20 @@ public class SignUpServlet extends HttpServlet {
         if(email.equals("")){
             email = null;
         }
+        if (abteilung.equals("null,null")){
+            errors.add("Der Nutzer muss mindestens einer Abteilung zugeordnet sein.");
+        }
         if(abteilung.equals("")){
             abteilung = null;
         }
         
         // Eingaben prüfen
         Benutzer benutzer = new Benutzer(mitgliedsnr, benutzername, benutzername, nachname, vorname, strasse, hausnr, plz, ort, email, telefonnr, abteilung, admin);
-        List<String> errors = this.validationBean.validate(benutzer);
+        errors = this.validationBean.validate(benutzer);
         this.validationBean.validate(benutzer.getPasswort(), errors);
         
         if (mitgliedsnr == 0){
             errors.add("Die Mitgliedsnummer darf nicht leer sein und darf nicht 0 sein.");
-        }
-        
-        if (abteilung.equals("null,null")){
-            errors.add("Der Nutzer muss mindestens einer Abteilung zugeordnet sein.");
         }
         
         // Meldung, dass Passwort nicht gegeben wurde, weil kein Benutzername eingegeben wurde, aus errors rausnehmen
