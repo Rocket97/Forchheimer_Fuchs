@@ -82,7 +82,7 @@ public class ExtraStundenEditServlet extends HttpServlet {
 
         switch (action) {
             case "saveHelferInEvent":
-                //TODO: an MitgliedServlet weiterleiten
+                //TODO: an EventHelferSuchenServlet weiterleiten
                 
                 // TODO: irgendwie die Liste der ausgewählten Helfer vom MitgliedServlet übermitteln...
                 break;
@@ -95,7 +95,7 @@ public class ExtraStundenEditServlet extends HttpServlet {
     private void saveEvent (HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        List<String> errors = new ArrayList<String>();
+        List<String> errors = new ArrayList<>();
         String titel = request.getParameter("special_efforts_titel");
         String strBeginn = request.getParameter("special_efforts_zeit_beginn");
         String strEnde = request.getParameter("special_efforts_zeit_ende");
@@ -192,7 +192,7 @@ public class ExtraStundenEditServlet extends HttpServlet {
         });
 
         List<Benutzer> helfer = event.getHelfer();
-        request.setAttribute("helfer", helfer);
+        request.setAttribute("helfers", helfer);
         
         FormValues formValues = new FormValues();
         formValues.setValues(values);

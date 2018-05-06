@@ -44,8 +44,8 @@ public class ArbeitszeitBean extends EntityBean<Arbeitszeit, Long> {
             int i = 0;
 
             // von einem Benutzer alle Zeitspannen der gegebenen Kategorie raussuchen
-            List<Integer> zeitspannen = em.createQuery("SELECT a.zeitspanne FROM Arbeitszeit a WHERE a.helfer.mitgliedsnr = :mnr AND a.kategorie = :kategorie AND (a.beginn BETWEEN :von AND :bis)")
-                    .setParameter("mnr", helferlein.getMitgliedsnr())
+            List<Integer> zeitspannen = em.createQuery("SELECT a.zeitspanne FROM Arbeitszeit a WHERE a.helfer.benutzername = :benutzername AND a.kategorie = :kategorie AND (a.beginn BETWEEN :von AND :bis)")
+                    .setParameter("benutzername", helferlein.getBenutzername())
                     .setParameter("kategorie", kategorie)
                     .setParameter("von", von)
                     .setParameter("bis", bis)
@@ -82,15 +82,16 @@ public class ArbeitszeitBean extends EntityBean<Arbeitszeit, Long> {
         // eine Person, alle Kategorien
 //      Kategorien in dem Array sind wie folgt zugeordnet:
 //      ausWeiterbildung [0], hausinstandhaltung [1], verwaltungsarbeit [2], materialpflege [3], fahrzeugwartung [4], jrkVerwaltungsarbeit [5], notfalldarstellung [6],
-//      schulsanitätsdienst [7], bereitschaftsabend [8], jahreshauptversammlung [9], verwaltungssitzung [10], kameradschaftspflege[11], jugendbereitschaftsabend [12]
+//      schulsanitätsdienst [7], bereitschaftsabend [8], jahreshauptversammlung [9], verwaltungssitzung [10], kameradschaftspflege[11], jugendbereitschaftsabend [12], Events [13]
         // Array für die Zeitspannen, die im Diagramm im Verhältnis dargestellt werden sollen, erzeugen
-        int[] kategorie = new int[13];
+        int[] kategorie = new int[14];
         int endzahlJeKategorie = 0;
-
+        int endzahlEvents = 0;
+        
         // Zeitspannen je Arbeitszeit und Kategorie auslesen und addieren
         for (int i = 0; i < StundenKategorie.values().length; i++) {
-            List<Integer> zeitspannen = em.createQuery("SELECT a.zeitspanne FROM Arbeitszeit a WHERE a.helfer.mitgliedsnr = :mnr AND a.kategorie = :kategorie AND (a.beginn BETWEEN :von AND :bis)")
-                    .setParameter("mnr", benutzer.getMitgliedsnr())
+            List<Integer> zeitspannen = em.createQuery("SELECT a.zeitspanne FROM Arbeitszeit a WHERE a.helfer.benutzername = :benutzername AND a.kategorie = :kategorie AND (a.beginn BETWEEN :von AND :bis)")
+                    .setParameter("benutzername", benutzer.getBenutzername())
                     .setParameter("kategorie", StundenKategorie.values()[i])
                     .setParameter("von", von)
                     .setParameter("bis", bis)
@@ -105,7 +106,16 @@ public class ArbeitszeitBean extends EntityBean<Arbeitszeit, Long> {
             // wieder auf Null setzen, um für die nächste Kategorie wieder von vorne die Zeitspannen addieren zu können
             endzahlJeKategorie = 0;
         }
-
+        
+        // Zeitspanne von Events zusammenaddiert und in kategorie[14] speichern
+        List<Integer> eventZeitspannen = em.createQuery("SELECT e.zeitspanne FROM Event e WHERE e.helfer.benutzername = :benutzername")
+                .setParameter("benutzername", benutzer.getBenutzername())
+                .getResultList();
+        for (int z : eventZeitspannen) {
+                endzahlEvents = endzahlEvents + z;
+            }
+        kategorie[14] = endzahlEvents;
+        
         // Diagramm erstellen mit Hilfe von ChartBean
         switch (type.toLowerCase()) {
             case "pie":

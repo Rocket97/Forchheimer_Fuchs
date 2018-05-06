@@ -75,6 +75,9 @@ public class Benutzer extends Person implements Serializable {
     @OneToMany
     private ArrayList<Arbeitszeit> arbeitszeit = new ArrayList<>();
     
+    @ManyToMany
+    private ArrayList<Event> event = new ArrayList<>();
+    
     //<editor-fold defaultstate="collapsed" desc="Konstruktoren">
     public Benutzer() {    
         
@@ -82,7 +85,7 @@ public class Benutzer extends Person implements Serializable {
     
 
     
-    public Benutzer(long mitgliedsnr, String benutzername, String passwort, String nachname, String vorname, String strasse, String hausnr, String plz, String ort,  String email, String telefonnr, String abteilung, Boolean admin) {
+    public Benutzer(long mitgliedsnr, String benutzername, String passwort, String nachname, String vorname, String strasse, String hausnr, String plz, String ort, String email, String telefonnr, String abteilung, Boolean admin) {
         super(nachname, vorname, strasse, hausnr, plz, ort);
         this.mitgliedsnr = mitgliedsnr;
         this.benutzername = benutzername;
@@ -150,6 +153,14 @@ public class Benutzer extends Person implements Serializable {
 
     public void setArbeitszeit(ArrayList<Arbeitszeit> arbeitszeit) {
         this.arbeitszeit = arbeitszeit;
+    }
+    
+    public ArrayList<Event> getEvent() {
+        return event;
+    }
+
+    public void setEvent(ArrayList<Event> event) {
+        this.event = event;
     }
     //</editor-fold>
     

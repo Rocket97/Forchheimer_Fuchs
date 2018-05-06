@@ -73,8 +73,11 @@
                         </button>
                     </div>
                 </div>
+                <div>
+                    <label>zugeordnete Helfer:</label>
+                </div>
                 <c:choose>
-                    <c:when test="${empty helfer}">
+                    <c:when test="${empty helfers}">
                         <p>
                             Es sind noch keine Helfer hinterlegt. Bitte Helfer hinterlegen!
                         </p>
@@ -82,7 +85,7 @@
                     <c:otherwise>
                         <div>
                             <div class="margin">
-                                <c:forEach items="${helfer}" var="helfer">
+                                <c:forEach items="${helfers}" var="helfer">
                                     <input type="checkbox" name="helfer" id="${'helfer-'.concat(helfer.id)}" value="${helfer.id}" />
                                     <label for="${'helfer-'.concat(helfer.id)}">
                                         <c:out value="${helfer.name}"/>
