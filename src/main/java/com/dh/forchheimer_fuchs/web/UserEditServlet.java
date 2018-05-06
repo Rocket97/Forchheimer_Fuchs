@@ -13,7 +13,6 @@ import com.dh.forchheimer_fuchs.ejb.BenutzerBean;
 import com.dh.forchheimer_fuchs.ejb.ValidationBean;
 import com.dh.forchheimer_fuchs.jpa.Benutzer;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
