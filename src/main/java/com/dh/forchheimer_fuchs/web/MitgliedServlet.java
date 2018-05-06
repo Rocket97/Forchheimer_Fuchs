@@ -32,6 +32,9 @@ public class MitgliedServlet extends HttpServlet {
 
         request.setCharacterEncoding("utf-8");
         
+        // Button, um Helfer zu einem Event zuzuordnen hier verstecken
+        request.setAttribute("booEvent", false);
+        
         // Benutzer-Referenz aus den Suche-Parametern heraussuchen
         String mitgliedsnr = request.getParameter("search_mitgliedsnummer");
         String benutzername = request.getParameter("search_username");
@@ -51,17 +54,5 @@ public class MitgliedServlet extends HttpServlet {
         
         // Anfrage an die JSP weiterleiten
         request.getRequestDispatcher("/WEB-INF/app/search_user_edit.jsp").forward(request, response);
-    }
-    
-    @Override
-    public void doPost (HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        
-        // über die URL checken, ob man für ein Event Helfer sucht
-        boolean booEvent = false;
-        
-        request.setAttribute("booEvent", booEvent);
-        
-        // gewählte Helfer in Event-Objekt speichern
     }
 }

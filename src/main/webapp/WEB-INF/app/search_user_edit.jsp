@@ -82,7 +82,9 @@
                         <table>
                             <thead>
                                 <tr>
-                                    <th>Auswählen für eine Aktion</th>
+                                    <c:if test="${booEvent}">
+                                        <th>Auswählen für eine Aktion</th>
+                                    </c:if>
                                     <th>Benutzername</th>
                                     <th>Vorname</th>
                                     <th>Nachname</th>
@@ -91,9 +93,11 @@
                             </thead>
                             <c:forEach items="${users}" var="user">
                                 <tr>
-                                    <td>
-                                        <input type="checkbox" name="effort" id="${'category-'.concat(user.benutzername)}" value="${user.benutzername}" />
-                                    </td>
+                                    <c:if test="${booEvent}">
+                                        <td>
+                                            <input type="checkbox" name="effort" id="${'category-'.concat(user.benutzername)}" value="${user.benutzername}" />
+                                        </td>
+                                    </c:if>
                                     <td>
                                         <a href="<c:url value="/user/${user.benutzername}/"/>">
                                             <c:out value="${user.benutzername}"/>

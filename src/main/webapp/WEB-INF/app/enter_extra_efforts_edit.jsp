@@ -40,7 +40,7 @@
                         <span class="required">*</span>
                     </label>
                     <div class="side-by-side">
-                        <input type="text" name="special_efforts_titel">
+                        <input type="text" name="special_efforts_titel" value="${extra_effort_form.values["special_efforts_titel"][0]}">
                     </div>
 
                     <label for="special_efforts_zeit_beginn">
@@ -48,7 +48,7 @@
                         <span class="required">*</span>
                     </label>
                     <div class="side-by-side">
-                        <input type="datetime-local" name="special_efforts_zeit_beginn">
+                        <input type="datetime-local" name="special_efforts_zeit_beginn" value="${extra_effort_form.values["special_efforts_zeit_beginn"][0]}">
                     </div>
 
                     <label for="special_efforts_zeit_ende">
@@ -56,7 +56,7 @@
                         <span class="required">*</span>
                     </label>
                     <div class="side-by-side">
-                        <input type="datetime-local" name="special_efforts_zeit_ende">
+                        <input type="datetime-local" name="special_efforts_zeit_ende" value="${extra_effort_form.values["special_efforts_zeit_ende"][0]}">
                     </div>
                     <label for="user_abteilung">
                         Abteilung:
@@ -66,41 +66,45 @@
                         <input type="checkbox" id="user_abteilung_jugend" value="Jugend">Jugend<br />
                         <input type="checkbox" id="user_abteilung_bereitschaft" value="Bereitschaft">Bereitschaft<br />
                     </div>
-                    <%-- Button zum Speichern --%>
-                    <div class="side-by-side">
-                        <button class="icon-pencil" name="action" value="saveHelferInEvent">
-                            Helfer zuordnen
-                        </button>
-                    </div>
                 </div>
-                <div>
-                    <label>zugeordnete Helfer:</label>
-                </div>
-                <c:choose>
-                    <c:when test="${empty helfers}">
-                        <p>
-                            Es sind noch keine Helfer hinterlegt. Bitte Helfer hinterlegen!
-                        </p>
-                    </c:when>
-                    <c:otherwise>
-                        <div>
-                            <div class="margin">
-                                <c:forEach items="${helfers}" var="helfer">
-                                    <input type="checkbox" name="helfer" id="${'helfer-'.concat(helfer.id)}" value="${helfer.id}" />
-                                    <label for="${'helfer-'.concat(helfer.id)}">
-                                        <c:out value="${helfer.name}"/>
-                                    </label>
-                                    <br />
-                                </c:forEach>
-                            </div>
-
-                            <button name="action" value="delete" class="icon-trash">
-                                Markierte Helfer löschen
+                
+                <c:if test="${gespeichert}">
+                    <div>
+                        <%-- Button zum Helfer-Zuordnen --%>
+                        <div class="side-by-side">
+                            <button class="icon-pencil" name="action" value="saveHelferInEvent">
+                                Helfer zuordnen
                             </button>
                         </div>
-                    </c:otherwise>
-                </c:choose>
+                        <div>
+                            <label>zugeordnete Helfer:</label>
+                        </div>
+                        <c:choose>
+                            <c:when test="${empty helfers}">
+                                <p>
+                                    Es sind noch keine Helfer hinterlegt. Bitte Helfer hinterlegen!
+                                </p>
+                            </c:when>
+                            <c:otherwise>
+                                <div>
+                                    <div class="margin">
+                                        <c:forEach items="${helfers}" var="helfer">
+                                            <input type="checkbox" name="helfer" id="${'helfer-'.concat(helfer.benutzername)}" value="${helfer.benutzername}" />
+                                            <label for="${'helfer-'.concat(helfer.benutzername)}">
+                                                <c:out value="${helfer.benutzername}"/>
+                                            </label>
+                                            <br />
+                                        </c:forEach>
+                                    </div>
 
+                                    <button name="action" value="delete" class="icon-trash">
+                                        Markierte Helfer löschen
+                                    </button>
+                                </div>
+                            </c:otherwise>
+                        </c:choose>
+                    </div>
+                </c:if>
 
                 <%-- Button zum Speichern --%>
                 <div class="side-by-side">

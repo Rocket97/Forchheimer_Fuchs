@@ -3,6 +3,7 @@ package com.dh.forchheimer_fuchs.web;
 import com.dh.forchheimer_fuchs.ejb.BenutzerBean;
 import com.dh.forchheimer_fuchs.ejb.EventBean;
 import com.dh.forchheimer_fuchs.ejb.ValidationBean;
+import com.dh.forchheimer_fuchs.jpa.Arbeitszeit;
 import com.dh.forchheimer_fuchs.jpa.Event;
 import java.io.IOException;
 import java.text.ParseException;
@@ -67,5 +68,38 @@ public class ExtraStundenServlet extends HttpServlet {
         
         // Anfrage an die JSP weiterleiten
         request.getRequestDispatcher("/WEB-INF/app/enter_extra_efforts.jsp").forward(request, response);
+    }
+    
+    @Override
+    public void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        
+        // Markierte Events IDs auslesen
+        String[] eventIds = request.getParameterValues("extra_effort");
+
+        if (eventIds == null) {
+            eventIds = new String[0];
+        }
+
+        // Arbeitszeiten löschen
+        for (String eventId : eventIds) {
+            // Zu löschendes Event ermitteln
+            Event event;
+
+            try {
+                event = this.eventBean.findById(Long.parseLong(eventId));
+            } catch (NumberFormatException ex) {
+                continue;
+            }
+
+            if (event == null) {
+                continue;
+            }
+            // Und weg damit
+            this.eventBean.delete(event);
+        }
+
+        // Browser auffordern, die Seite neuzuladen
+        response.sendRedirect(request.getRequestURI());
     }
 }

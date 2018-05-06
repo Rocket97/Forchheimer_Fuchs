@@ -85,11 +85,11 @@
                             <c:forEach items="${extra_efforts}" var="extra_effort">
                                 <tr>
                                     <td>
-                                        <input type="checkbox" name="effort" id="${'category-'.concat(extra_effort.zeitId)}" value="${extra_effort.zeitId}" />
+                                        <input type="checkbox" name="effort" id="${'category-'.concat(extra_effort.eventId)}" value="${extra_effort.eventId}" />
                                     </td>
                                     <td>
-                                        <a href="<c:url value="/app/extra_effort/${extra_effort.eventId}/"/>">
-                                            <c:out value="${extra_effort.titel}"/>
+                                        <a href="<c:url value="/extra_effort/${extra_effort.eventId}/"/>">
+                                            <c:out value="${extra_effort.eTitel}"/>
                                         </a>
                                     </td>
                                     <td>
@@ -113,6 +113,11 @@
                         </table>
                     </c:otherwise>
                 </c:choose>
+                <div>
+                    <button name="action" value="delete" class="icon-trash">
+                        Löschen
+                    </button>
+                </div>
             </form>
         </div>
     </jsp:attribute>

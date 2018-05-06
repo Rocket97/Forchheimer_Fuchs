@@ -6,10 +6,10 @@
 package com.dh.forchheimer_fuchs.web;
 
 import com.dh.forchheimer_fuchs.ejb.ArbeitszeitBean;
+import com.dh.forchheimer_fuchs.ejb.BenutzerBean;
 import com.dh.forchheimer_fuchs.ejb.EventBean;
 import com.dh.forchheimer_fuchs.ejb.ValidationBean;
 import com.dh.forchheimer_fuchs.jpa.Benutzer;
-import static com.dh.forchheimer_fuchs.jpa.Benutzer_.arbeitszeit;
 import com.dh.forchheimer_fuchs.jpa.Event;
 import java.io.IOException;
 import java.text.ParseException;
@@ -43,6 +43,9 @@ public class ExtraStundenEditServlet extends HttpServlet {
     ArbeitszeitBean arbeitszeitBean;
     
     @EJB
+    BenutzerBean benutzerBean;
+    
+    @EJB
     ValidationBean validationBean;
     
     @Override
@@ -53,6 +56,12 @@ public class ExtraStundenEditServlet extends HttpServlet {
         HttpSession session = request.getSession();
         
         Event event = this.getRequestedEvent(request);
+        
+        if (event == null){
+            request.setAttribute("gespeichert", false);
+        } else {
+            request.setAttribute("gespeichert", true);
+        }
         
         // Events vorbelegen, wenn eines übergeben wurde
         if (session.getAttribute("extra_effort_form") == null && event != null) {
@@ -73,6 +82,8 @@ public class ExtraStundenEditServlet extends HttpServlet {
             throws ServletException, IOException {
         // Angeforderte Aktion ausführen
         request.setCharacterEncoding("utf-8");
+        
+        Event event = this.getRequestedEvent(request);
 
         String action = request.getParameter("action");
 
@@ -82,14 +93,53 @@ public class ExtraStundenEditServlet extends HttpServlet {
 
         switch (action) {
             case "saveHelferInEvent":
-                //TODO: an EventHelferSuchenServlet weiterleiten
-                
-                // TODO: irgendwie die Liste der ausgewählten Helfer vom MitgliedServlet übermitteln...
+                // an EventHelferSuchenServlet weiterleiten
+                response.sendRedirect(WebUtils.appUrl(request, "/searchHelperForEvent/" + event.getEventId()));
                 break;
             case "saveEvent":
                 this.saveEvent(request, response);
                 break;
+            case "delete":
+                this.deleteHelferFromEvent(request, response, event);
+                break;
         }
+    }
+    
+    private void deleteHelferFromEvent(HttpServletRequest request, HttpServletResponse response, Event event)
+            throws ServletException, IOException {
+
+        // Markierte Helfer IDs auslesen
+        String[] helferIds = request.getParameterValues("helfer");
+
+        if (helferIds == null) {
+            helferIds = new String[0];
+        }
+
+        // Kategorien löschen
+        for (String helferId : helferIds) {
+            // Zu löschende Helfer ermitteln
+            Benutzer helfer;
+
+            try {
+                helfer = this.benutzerBean.findById(helferId);
+            } catch (NumberFormatException ex) {
+                continue;
+            }
+
+            if (helfer == null) {
+                continue;
+            }
+            // Und weg damit
+            List<Benutzer> eventHelfer = event.getHelfer();
+            eventHelfer.remove(helfer);
+            event.setHelfer(eventHelfer);
+        }
+        
+        // Event updaten
+        this.eventBean.update(event);
+        
+        // Browser auffordern, die Seite neuzuladen
+        response.sendRedirect(request.getRequestURI());
     }
     
     private void saveEvent (HttpServletRequest request, HttpServletResponse response)
@@ -132,6 +182,7 @@ public class ExtraStundenEditServlet extends HttpServlet {
             // Neue Arbeitszeit anlegen
             if (errors.isEmpty()) {
                 this.eventBean.saveNew(event);
+                response.sendRedirect(WebUtils.appUrl(request, "/extra_effort/" + event.getEventId()));
             }
         }
         
@@ -143,9 +194,9 @@ public class ExtraStundenEditServlet extends HttpServlet {
 
             HttpSession session = request.getSession();
             session.setAttribute("effort_form", formValues);
-        }
-
-        response.sendRedirect(request.getRequestURI());
+            response.sendRedirect(request.getRequestURI());
+        } 
+        
     }
     
     private Event getRequestedEvent(HttpServletRequest request){

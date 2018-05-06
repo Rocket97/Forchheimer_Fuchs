@@ -165,16 +165,16 @@ public class NormalStundenServlet extends HttpServlet {
     private void deleteArbeitszeit(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        // Markierte Kategorie IDs auslesen
+        // Markierte Arbeitszeiten IDs auslesen
         String[] zeitIds = request.getParameterValues("effort");
 
         if (zeitIds == null) {
             zeitIds = new String[0];
         }
 
-        // Kategorien löschen
+        // Arbeitszeiten löschen
         for (String zeitId : zeitIds) {
-            // Zu löschende Kategorie ermitteln
+            // Zu löschende Arbeitszeit ermitteln
             Arbeitszeit arbeitszeit;
 
             try {

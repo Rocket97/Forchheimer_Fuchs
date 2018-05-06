@@ -15,7 +15,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -44,10 +43,6 @@ public class StatistikServlet extends HttpServlet {
         // Anfrage an dazugerhörige JSP weiterleiten
         RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/app/statistik.jsp");
         dispatcher.forward(request, response);
-        
-        // Alte Formulardaten aus der Session entfernen
-        HttpSession session = request.getSession();
-        /*session.removeAttribute("statistic_form");*/
     }
     
     /*
