@@ -24,9 +24,11 @@
                 let bis = document.getElementById("input-bis").value;
 
                 let benutzername = "${benutzername}";
-                let helfername = document.getElementById("input-benutzername").value;
-                if (helfername !== "") {
-                    benutzername = helfername;
+                if (${admin}){
+                    let helfername = document.getElementById("input-benutzername").value;
+                    if (helfername !== "") {
+                        benutzername = helfername;
+                    }
                 }
 
                 if (benutzername !== "" && von !== "" && bis !== "") {
