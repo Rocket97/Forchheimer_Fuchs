@@ -23,10 +23,10 @@
                 let von = document.getElementById("input-von").value;
                 let bis = document.getElementById("input-bis").value;
 
-                let benutzername = "${admin ? 'administrator' : benutzername}";
-
-                if (benutzername === "") {
-                    benutzername = document.getElementById("input-benutzername").value;
+                let benutzername = "${benutzername}";
+                let helfername = document.getElementById("input-benutzername").value;
+                if (helfername !== "") {
+                    benutzername = helfername;
                 }
 
                 if (benutzername !== "" && von !== "" && bis !== "") {
