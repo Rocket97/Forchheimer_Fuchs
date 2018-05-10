@@ -35,6 +35,18 @@ public class MitgliedServlet extends HttpServlet {
         // Button, um Helfer zu einem Event zuzuordnen hier verstecken
         request.setAttribute("booEvent", false);
         
+        List<Benutzer> users = this.benutzerBean.search(null, null, null, null);
+        
+        // Ergebnis-Benutzer aus dem Suchen an das UserEditServlet übergeben (nicht die user_edit.jsp, da in der doGet-Methode des UserEditServlets die jsp aufgerufen wird)
+        request.setAttribute("users", users);
+        
+        // Anfrage an die JSP weiterleiten
+        request.getRequestDispatcher("/WEB-INF/app/search_user_edit.jsp").forward(request, response);
+    }
+    
+    @Override
+    public void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
         // Benutzer-Referenz aus den Suche-Parametern heraussuchen
         String mitgliedsnr = request.getParameter("search_mitgliedsnummer");
         String benutzername = request.getParameter("search_username");
@@ -52,7 +64,7 @@ public class MitgliedServlet extends HttpServlet {
         // Ergebnis-Benutzer aus dem Suchen an das UserEditServlet übergeben (nicht die user_edit.jsp, da in der doGet-Methode des UserEditServlets die jsp aufgerufen wird)
         request.setAttribute("users", users);
         
-        // Anfrage an die JSP weiterleiten
+        // Seite neuladen
         request.getRequestDispatcher("/WEB-INF/app/search_user_edit.jsp").forward(request, response);
     }
 }

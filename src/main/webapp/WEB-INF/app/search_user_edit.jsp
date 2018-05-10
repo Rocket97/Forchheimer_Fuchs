@@ -23,7 +23,7 @@
 
     <jsp:attribute name="content">
         <div class="container">
-            <form method="GET" class="stacked">
+            <form method="POST" class="stacked">
 
                 <%-- CSRF-Token --%>
                 <input type="hidden" name="csrf_token" value="${csrf_token}">
@@ -64,7 +64,7 @@
 
                     <%-- Button zur Suche --%>
                     <div class="side-by-side">
-                        <button class="icon-search" type="submit">
+                        <button class="icon-search" name="action" value="search">
                             Suchen
                         </button>
                     </div>

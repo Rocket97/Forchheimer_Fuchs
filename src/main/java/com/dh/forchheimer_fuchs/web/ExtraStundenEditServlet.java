@@ -97,12 +97,24 @@ public class ExtraStundenEditServlet extends HttpServlet {
                 response.sendRedirect(WebUtils.appUrl(request, "/searchHelperForEvent/" + event.getEventId()));
                 break;
             case "saveEvent":
-                this.saveEvent(request, response);
+                this.saveEvent(request, response, event);
                 break;
-            case "delete":
+            case "deleteHelferFromEvent":
                 this.deleteHelferFromEvent(request, response, event);
                 break;
+            case "deleteEvent":
+                this.deleteEvent(request, response, event);
         }
+    }
+    
+    private void deleteEvent(HttpServletRequest request, HttpServletResponse response, Event event)
+            throws ServletException, IOException {
+        
+        // Und weg damit
+        this.eventBean.delete(event);
+        
+        // Browser auffordern, die zur Home-Seite zurückzugehen
+        response.sendRedirect(WebUtils.appUrl(request, "/app/home/"));
     }
     
     private void deleteHelferFromEvent(HttpServletRequest request, HttpServletResponse response, Event event)
@@ -142,7 +154,7 @@ public class ExtraStundenEditServlet extends HttpServlet {
         response.sendRedirect(request.getRequestURI());
     }
     
-    private void saveEvent (HttpServletRequest request, HttpServletResponse response)
+    private void saveEvent (HttpServletRequest request, HttpServletResponse response, Event event)
             throws ServletException, IOException {
         
         List<String> errors = new ArrayList<>();
@@ -176,13 +188,25 @@ public class ExtraStundenEditServlet extends HttpServlet {
                 errors.add("Das Beginndatum darf nicht später als das Endedatum sein.");
             }
 
-            Event event = new Event(beginn, ende, this.arbeitszeitBean.berechneZeitspanne(beginn, ende), titel, abteilung);
-            this.validationBean.validate(event, errors);
+            Event eventNeu = new Event(beginn, ende, this.arbeitszeitBean.berechneZeitspanne(beginn, ende), titel, abteilung);
+            this.validationBean.validate(eventNeu, errors);
 
             // Neue Arbeitszeit anlegen
             if (errors.isEmpty()) {
-                this.eventBean.saveNew(event);
-                response.sendRedirect(WebUtils.appUrl(request, "/extra_effort/" + event.getEventId()));
+                if (event == null){
+                    this.eventBean.saveNew(eventNeu);
+                    response.sendRedirect(WebUtils.appUrl(request, "/extra_effort/" + eventNeu.getEventId()));
+                } else {
+                    event.seteTitel(titel);
+                    event.setBeginn(beginn);
+                    event.setEnde(ende);
+                    event.setZeitspanne(this.arbeitszeitBean.berechneZeitspanne(beginn, ende));
+                    event.setAbteilung(abteilung);
+                    
+                    this.eventBean.update(event);
+                
+                    response.sendRedirect(WebUtils.appUrl(request, "/app/home/"));
+                }
             }
         }
         
@@ -240,6 +264,10 @@ public class ExtraStundenEditServlet extends HttpServlet {
 
         values.put("special_efforts_zeit_ende", new String[]{
             WebUtils.formatTimestamp(event.getEnde())
+        });
+        
+        values.put("special_efforts_abteilung", new String[]{
+            String.valueOf(event.getAbteilung())
         });
 
         List<Benutzer> helfer = event.getHelfer();

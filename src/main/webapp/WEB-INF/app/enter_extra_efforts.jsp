@@ -23,7 +23,7 @@
 
     <jsp:attribute name="content">
         <div class="container">
-            <form method="post" class="stacked">
+            <form method="get" class="stacked">
 
                 <%-- CSRF-Token --%>
                 <input type="hidden" name="csrf_token" value="${csrf_token}">
@@ -93,10 +93,13 @@
                                         </a>
                                     </td>
                                     <td>
-                                        <c:out value="${extra_effort.abteilung}"/>
+                                        <c:out value="${utils.formatTimestamp(extra_effort.beginn)}"/>
                                     </td>
                                     <td>
-                                        <c:out value="${utils.formatTimestamp(extra_effort.beginn)}"/>
+                                        <c:out value="${utils.formatTimestamp(extra_effort.ende)}"/>
+                                    </td>
+                                    <td>
+                                        <c:out value="${extra_effort.abteilung}"/>
                                     </td>
                                     <td>
                                         <c:forEach items="${extra_effort.helfer}" var="person">

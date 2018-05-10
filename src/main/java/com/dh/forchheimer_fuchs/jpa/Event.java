@@ -33,7 +33,7 @@ public class Event extends Einsatz implements Serializable {
     @OneToMany
     private List<Protokoll> protokoll;
     
-    @ManyToMany
+    @ManyToMany(mappedBy="event")
     private List<Benutzer> helfer;
     
     //<editor-fold defaultstate="collapsed" desc="Konstruktoren">

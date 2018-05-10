@@ -311,7 +311,7 @@ public class UserEditServlet extends HttpServlet {
             default:
                 break;
         }
-        request.setAttribute("jugend", jugend);
+        request.setAttribute("jugend", jugend); // vielleicht stimmt der String nicht
         request.setAttribute("bereitschaft", bereitschaft);
         
         boolean admin = false;
