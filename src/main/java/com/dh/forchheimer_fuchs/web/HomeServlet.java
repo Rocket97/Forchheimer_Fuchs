@@ -49,9 +49,6 @@ public class HomeServlet extends HttpServlet {
             case "user_edit": 
                 response.sendRedirect(WebUtils.appUrl(request, "/members/"));     //search_user_edit.jsp -> Suche des Mitglieds, um dann danach in user_edit.jsp die Daten des Mitglieds zu laden
                 break;
-            case "protocol_save":
-                response.sendRedirect(WebUtils.appUrl(request, "/protocol/")); // muss man da noch einen * hinter url packen?  -> enter_protocol.jsp
-                break;
             case "statistic_generate":
                 response.sendRedirect(WebUtils.appUrl(request, "/statistic/"));     //statistik.jsp
                 break;
