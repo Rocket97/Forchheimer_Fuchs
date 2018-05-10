@@ -73,7 +73,7 @@ public class EventHelferSuchenServlet extends HttpServlet {
                 Event event = this.getRequestedEvent(request);
 
                 // Markierte Helfer IDs auslesen
-                String[] helferIds = request.getParameterValues("helfer");
+                String[] helferIds = request.getParameterValues("user");
 
                 if (helferIds == null) {
                     helferIds = new String[0];

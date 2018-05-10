@@ -95,7 +95,7 @@
                                 <tr>
                                     <c:if test="${booEvent}">
                                         <td>
-                                            <input type="checkbox" name="effort" id="${'category-'.concat(user.benutzername)}" value="${user.benutzername}" />
+                                            <input type="checkbox" name="user" id="${'category-'.concat(user.benutzername)}" value="${user.benutzername}" />
                                         </td>
                                     </c:if>
                                     <td>
