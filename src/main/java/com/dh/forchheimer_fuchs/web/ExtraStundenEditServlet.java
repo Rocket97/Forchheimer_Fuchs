@@ -105,34 +105,6 @@ public class ExtraStundenEditServlet extends HttpServlet {
         }
     }
     
-    private Event getRequestedEvent(HttpServletRequest request){
-        // Zunächst davon ausgehen, dass ein neuer Satz angelegt werden soll
-
-        // ID aus der URL herausschneiden
-        String eventId = request.getPathInfo();
-
-        if (eventId == null) {
-            eventId = "";
-        }
-
-        eventId = eventId.substring(1);
-
-        if (eventId.endsWith("/")) {
-            eventId = eventId.substring(0, eventId.length() - 1);
-        }
-
-        // Versuchen, den Datensatz mit der übergebenen ID zu finden
-        Event event = null;
-        
-        try{
-            event = this.eventBean.findById(Long.parseLong(eventId));
-        } catch (NumberFormatException ex) {
-            // Ungültige oder keine ID in der URL enthalten
-        }
-       
-        return event;
-    }
-    
     private void deleteHelferFromEvent(HttpServletRequest request, HttpServletResponse response, Event event)
             throws ServletException, IOException {
 
@@ -178,7 +150,7 @@ public class ExtraStundenEditServlet extends HttpServlet {
         String strBeginn = request.getParameter("special_efforts_zeit_beginn");
         String strEnde = request.getParameter("special_efforts_zeit_ende");
         String abteilung = request.getParameter("special_efforts_abteilung");
-
+        
         if (strBeginn == null || strBeginn.trim().isEmpty()) {
             errors.add("Es wurde kein Beginndatum/-zeit eingegeben.");
             strBeginn = "";
@@ -225,6 +197,34 @@ public class ExtraStundenEditServlet extends HttpServlet {
             response.sendRedirect(request.getRequestURI());
         } 
         
+    }
+    
+    private Event getRequestedEvent(HttpServletRequest request){
+        // Zunächst davon ausgehen, dass ein neuer Satz angelegt werden soll
+
+        // ID aus der URL herausschneiden
+        String eventId = request.getPathInfo();
+
+        if (eventId == null) {
+            eventId = "";
+        }
+
+        eventId = eventId.substring(1);
+
+        if (eventId.endsWith("/")) {
+            eventId = eventId.substring(0, eventId.length() - 1);
+        }
+
+        // Versuchen, den Datensatz mit der übergebenen ID zu finden
+        Event event = null;
+        
+        try{
+            event = this.eventBean.findById(Long.parseLong(eventId));
+        } catch (NumberFormatException ex) {
+            // Ungültige oder keine ID in der URL enthalten
+        }
+       
+        return event;
     }
     
     private FormValues createExtraEffortForm(Event event, HttpServletRequest request) {

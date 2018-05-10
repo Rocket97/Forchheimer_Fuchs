@@ -58,13 +58,13 @@
                     <div class="side-by-side">
                         <input type="datetime-local" name="special_efforts_zeit_ende" value="${extra_effort_form.values["special_efforts_zeit_ende"][0]}">
                     </div>
-                    <label for="special_efforts_abteilung">
+                    <label for="user_abteilung">
                         Abteilung:
                         <span class="required">*</span>
                     </label>
                     <div class="side-by-side">
-                        <input type="checkbox" id="special_efforts_abteilung_jugend" value="Jugend">Jugend<br />
-                        <input type="checkbox" id="special_efforts_abteilung_bereitschaft" value="Bereitschaft">Bereitschaft<br />
+                        <input type="checkbox" id="user_abteilung_jugend" value="Jugend">Jugend<br />
+                        <input type="checkbox" id="user_abteilung_bereitschaft" value="Bereitschaft">Bereitschaft<br />
                     </div>
                 </div>
                 

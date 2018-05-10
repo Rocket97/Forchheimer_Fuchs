@@ -93,13 +93,10 @@
                                         </a>
                                     </td>
                                     <td>
-                                        <c:out value="${utils.formatTimestamp(extra_effort.ende)}"/>
+                                        <c:out value="${extra_effort.abteilung}"/>
                                     </td>
                                     <td>
                                         <c:out value="${utils.formatTimestamp(extra_effort.beginn)}"/>
-                                    </td>
-                                    <td>
-                                        <c:out value="${extra_effort.abteilung}"/>
                                     </td>
                                     <td>
                                         <c:forEach items="${extra_effort.helfer}" var="person">

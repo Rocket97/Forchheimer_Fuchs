@@ -45,6 +45,9 @@
                             <button name="action" value="user_edit">
                                 Mitglied bearbeiten
                             </button>
+                            <button name="action" value="protocol_save">
+                                Protokolle eintragen
+                            </button>
                             <button name="action" value="extra_effort_save">
                                 Zusätzliche Stunden eintragen
                             </button>

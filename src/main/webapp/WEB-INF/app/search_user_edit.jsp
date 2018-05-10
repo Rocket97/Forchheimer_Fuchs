@@ -8,7 +8,7 @@
 
 <template:base>
     <jsp:attribute name="title">
-        Mitglied auswählen
+        Mitglied bearbeiten
     </jsp:attribute>
 
     <jsp:attribute name="head">
@@ -64,7 +64,7 @@
 
                     <%-- Button zur Suche --%>
                     <div class="side-by-side">
-                        <button class="icon-search" name="action" value="search">
+                        <button class="icon-search" type="submit">
                             Suchen
                         </button>
                     </div>

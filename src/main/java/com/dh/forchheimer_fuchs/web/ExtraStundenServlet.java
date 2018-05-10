@@ -3,6 +3,7 @@ package com.dh.forchheimer_fuchs.web;
 import com.dh.forchheimer_fuchs.ejb.BenutzerBean;
 import com.dh.forchheimer_fuchs.ejb.EventBean;
 import com.dh.forchheimer_fuchs.ejb.ValidationBean;
+import com.dh.forchheimer_fuchs.jpa.Arbeitszeit;
 import com.dh.forchheimer_fuchs.jpa.Event;
 import java.io.IOException;
 import java.text.ParseException;
