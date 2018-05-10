@@ -74,7 +74,6 @@
                         <table>
                             <thead>
                                 <tr>
-                                    <th></th>   <%-- nur als Platzhalter für die Lösch-Knöpfe--%>
                                     <th>Titel</th>
                                     <th>Beginn</th>
                                     <th>Ende</th>
@@ -84,9 +83,6 @@
                             </thead>
                             <c:forEach items="${extra_efforts}" var="extra_effort">
                                 <tr>
-                                    <td>
-                                        <input type="checkbox" name="effort" id="${'category-'.concat(extra_effort.eventId)}" value="${extra_effort.eventId}" />
-                                    </td>
                                     <td>
                                         <a href="<c:url value="/extra_effort/${extra_effort.eventId}/"/>">
                                             <c:out value="${extra_effort.eTitel}"/>
@@ -116,11 +112,6 @@
                         </table>
                     </c:otherwise>
                 </c:choose>
-                <div>
-                    <button name="action" value="delete" class="icon-trash">
-                        Löschen
-                    </button>
-                </div>
             </form>
         </div>
     </jsp:attribute>
