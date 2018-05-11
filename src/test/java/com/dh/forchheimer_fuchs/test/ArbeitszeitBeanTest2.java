@@ -13,10 +13,7 @@ import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
-/**
- *
- * @author dennis
- */
+
 public class ArbeitszeitBeanTest2 {
 
     ArbeitszeitBean arbeitszeitBean;

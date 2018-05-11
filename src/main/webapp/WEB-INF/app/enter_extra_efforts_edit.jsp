@@ -1,8 +1,3 @@
-<%-- 
-    Document   : enter_extra_efforts_edit
-    Created on : 01.05.2018, 15:43:29
-    Author     : Valerie
---%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
