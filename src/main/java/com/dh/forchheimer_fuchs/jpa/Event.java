@@ -30,9 +30,6 @@ public class Event extends Einsatz implements Serializable {
     @Column(name = "abteilung")
     private String abteilung;
     
-    @OneToMany
-    private List<Protokoll> protokoll;
-    
     @ManyToMany(mappedBy="event")
     private List<Benutzer> helfer;
     
@@ -70,14 +67,6 @@ public class Event extends Einsatz implements Serializable {
     
     public void seteTitel(String eTitel) {
         this.eTitel = eTitel;
-    }
-    
-    public List<Protokoll> getProtokoll() {
-        return protokoll;
-    }
-    
-    public void setProtokoll(List<Protokoll> protokoll) {
-        this.protokoll = protokoll;
     }
     
     public List<Benutzer> getHelfer() {
