@@ -90,7 +90,6 @@
                     <c:if test="${admin}">
                         <label for="search_username">
                             Benutzername des Helfers:
-                            <span class="required">*</span>
                         </label>
                         <div class="side-by-side">
                             <input id="input-benutzername" type="text" name="search_username" value="${statistic_form.values["statistic_username"][0]}">
