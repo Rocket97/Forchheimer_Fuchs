@@ -53,6 +53,7 @@
                     <div class="side-by-side">
                         <input type="datetime-local" name="special_efforts_zeit_ende" value="${extra_effort_form.values["special_efforts_zeit_ende"][0]}">
                     </div>
+
                     <label for="special_efforts_abteilung">
                         Abteilung:
                         <span class="required">*</span>
@@ -61,56 +62,57 @@
                         <input type="checkbox" id="special_efforts_abteilung_jugend" value="Jugend">Jugend<br />
                         <input type="checkbox" id="special_efforts_abteilung_bereitschaft" value="Bereitschaft">Bereitschaft<br />
                     </div>
-                </div>
-                
-                <c:if test="${gespeichert}">
-                    <div>
-                        <%-- Button zum Helfer-Zuordnen --%>
-                        <div class="side-by-side">
-                            <button class="icon-pencil" name="action" value="saveHelferInEvent">
-                                Helfer zuordnen
-                            </button>
-                        </div>
+
+
+                    <c:if test="${gespeichert}">
                         <div>
-                            <label>zugeordnete Helfer:</label>
-                        </div>
-                        <c:choose>
-                            <c:when test="${empty helfers}">
-                                <p>
-                                    Es sind noch keine Helfer hinterlegt. Bitte Helfer hinterlegen!
-                                </p>
-                            </c:when>
-                            <c:otherwise>
-                                <div>
-                                    <div class="margin">
-                                        <c:forEach items="${helfers}" var="helfer">
-                                            <input type="checkbox" name="helfer" id="${'helfer-'.concat(helfer.benutzername)}" value="${helfer.benutzername}" />
-                                            <label for="${'helfer-'.concat(helfer.benutzername)}">
-                                                <c:out value="${helfer.benutzername}"/>
-                                            </label>
-                                            <br />
-                                        </c:forEach>
+                            <%-- Button zum Helfer-Zuordnen --%>
+                            <div class="side-by-side">
+                                <button class="icon-pencil" name="action" value="saveHelferInEvent">
+                                    Helfer zuordnen
+                                </button>
+                            </div>
+                            <div>
+                                <label>zugeordnete Helfer:</label>
+                            </div>
+                            <c:choose>
+                                <c:when test="${empty helfers}">
+                                    <p>
+                                        Es sind noch keine Helfer hinterlegt. Bitte Helfer hinterlegen!
+                                    </p>
+                                </c:when>
+                                <c:otherwise>
+                                    <div>
+                                        <div class="margin">
+                                            <c:forEach items="${helfers}" var="helfer">
+                                                <input type="checkbox" name="helfer" id="${'helfer-'.concat(helfer.benutzername)}" value="${helfer.benutzername}" />
+                                                <label for="${'helfer-'.concat(helfer.benutzername)}">
+                                                    <c:out value="${helfer.benutzername}"/>
+                                                </label>
+                                                <br />
+                                            </c:forEach>
+                                        </div>
+
+                                        <button name="action" value="deleteHelferFromEvent" class="icon-trash">
+                                            Markierte Helfer löschen
+                                        </button>
                                     </div>
+                                </c:otherwise>
+                            </c:choose>
+                        </div>
+                    </c:if>
 
-                                    <button name="action" value="deleteHelferFromEvent" class="icon-trash">
-                                        Markierte Helfer löschen
-                                    </button>
-                                </div>
-                            </c:otherwise>
-                        </c:choose>
+                    <%-- Button zum Speichern --%>
+                    <div class="side-by-side">
+                        <button class="icon-pencil" name="action" value="saveEvent">
+                            Event speichern
+                        </button>
+                        <button class="icon-pencil" name="action" value="deleteEvent">
+                            Event löschen
+                        </button>
                     </div>
-                </c:if>
-
-                <%-- Button zum Speichern --%>
-                <div class="side-by-side">
-                    <button class="icon-pencil" name="action" value="saveEvent">
-                        Event speichern
-                    </button>
-                    <button class="icon-pencil" name="action" value="deleteEvent">
-                        Event löschen
-                    </button>
                 </div>
-
+                    
                 <%-- Fehlermeldungen --%>
                 <c:if test="${!empty extra_effort_form.errors}">
                     <ul class="errors">

@@ -43,8 +43,8 @@
     </jsp:attribute>
 
     <jsp:attribute name="content">
-        <div class="container">
-            <form method="post" class="stacked" onload="setCheckboxes();">
+        <div class="container" onload="setCheckboxes();">
+            <form method="post" class="stacked">
 
                 <%-- CSRF-Token --%>
                 <input type="hidden" name="csrf_token" value="${csrf_token}">
